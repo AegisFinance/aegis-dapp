@@ -1,0 +1,28 @@
+{
+  "extends": ["development"],
+  "hints": {
+    "axe/parsing": "off",
+    "typescript-config/consistent-casing": "off",
+    "axe/structure": [
+      "default",
+      {
+        "list": "off"
+      }
+    ],
+    "compat-api/css": [
+      "default",
+      {
+        "ignore": ["@layer"]
+      }
+    ],
+    "axe/aria": [
+      "default",
+      {
+        "aria-valid-attr-value": "off"
+      }
+    ],
+    "button-type": "off",
+
+    "no-inline-styles": "off"
+  }
+}
