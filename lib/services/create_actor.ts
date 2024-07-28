@@ -1,5 +1,5 @@
 import { Actor, ActorSubclass, HttpAgent } from "@dfinity/agent";
-import { ACCOUNTS_PRINCIPAL_LOCAL } from "../constants/canisters";
+import { ACCOUNTS_PRINCIPAL } from "../constants/canisters";
 import { getIdentity } from "../auth";
 import { _SERVICE } from "@/declarations/accounts/accounts.did";
 import {
@@ -26,7 +26,7 @@ export function createActor(
     case CANISTERS_NAME.ACCOUNTS:
       return Actor.createActor(idlFactoryAccounts, {
         agent,
-        canisterId: ACCOUNTS_PRINCIPAL_LOCAL,
+        canisterId: ACCOUNTS_PRINCIPAL,
       });
 
     case CANISTERS_NAME.CKBTC_MINTER:

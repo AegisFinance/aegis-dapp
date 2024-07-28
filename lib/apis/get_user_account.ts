@@ -1,6 +1,6 @@
 import { IcrcLedgerCanister, TransferParams } from "@dfinity/ledger-icrc";
 import {
-  ACCOUNTS_PRINCIPAL_LOCAL,
+  ACCOUNTS_PRINCIPAL,
   asset_principal_map,
   ICP_LEDGER_PRINCIPAL,
 } from "../constants/canisters";
@@ -24,7 +24,7 @@ export async function desposit_to_account(
 
   const params: TransferParams = {
     to: {
-      owner: ACCOUNTS_PRINCIPAL_LOCAL,
+      owner: ACCOUNTS_PRINCIPAL,
       subaccount: [principalToSubAccount(getIdentityPrincipal())],
     },
     amount: amount,

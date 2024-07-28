@@ -61,7 +61,7 @@ export default AccountBtc;
 export function ShowBTCMenu({ switchMethod }: any) {
   return (
     <Center>
-      {" "}
+      {}
       <Box className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 ">
         <Box className="flex flex-wrap -mb-px">
           <Box className="mr-2">

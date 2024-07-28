@@ -11,7 +11,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { BsArrowDownCircle } from "react-icons/bs";
 import { formatEther } from "viem";
-import Spinners from "../spinners";
+import {Spinners} from "../spinners";
 import { IcpAccountDeposit } from "./account_deposit";
 import { IcpAccountWithdraw } from "./account_withdraw";
 
@@ -125,7 +125,7 @@ export default function ICRCs() {
             className="inline-block px-4 py-2  text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"
           >
             Deposit
-          </Button>{" "}
+          </Button>{}
           <Button
             onClick={handleWPopover}
             className="inline-block px-4 py-2 mr-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"

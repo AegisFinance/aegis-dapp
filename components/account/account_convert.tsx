@@ -18,7 +18,7 @@ import {
 } from "@/lib/apis/withdraw_eth";
 import QRCode from "react-qr-code";
 import { getCKBTCBalance } from "@/lib/apis/get_icrc_balance";
-import Spinners from "../spinners";
+import {Spinners} from "../spinners";
 import {
   getBitcoinAddress,
   updateBitcoinBalance,
@@ -194,14 +194,14 @@ export function BtcConvert() {
         </Center>
         <Box className="max-w-sm mx-auto">
           <Center>
-            {" "}
+            {}
             <Box as={"h3"}>{depositAddress}</Box>
-          </Center>{" "}
+          </Center>{}
           <br />
           <Center>
-            {" "}
+            {}
             <Box as={"h3"}>{balance} ckBTC</Box>
-          </Center>{" "}
+          </Center>{}
           {/* <label htmlFor="amount-number-input" className="sr-only">
             Enter Amount:
           </label>

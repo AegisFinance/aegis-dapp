@@ -1,5 +1,6 @@
 // 'use client';
 import { getIdentityPrincipal } from "@/lib/auth";
+import { Box } from "@chakra-ui/react";
 import {
   LineChart,
   Table,
@@ -12,7 +13,7 @@ import {
 import { useEffect, useState } from "react";
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join();
 }
 
 const data = [
@@ -407,24 +408,26 @@ export default function Overview() {
   }, []);
   return (
     <>
-      <h1 className="font-bold text-2xl text-tremor-default text-tremor-content dark:text-dark-tremor-content">
-        Wallet Balance
-      </h1>
-      {/* <p className="mt-1 text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
+      <Box className="max-w-screen-xl mx-auto px-4 md:px-8">
+        <h1 className="font-bold text-2xl text-tremor-default text-tremor-content dark:text-dark-tremor-content">
+          Wallet Balance
+        </h1>
+        {/* <p className="mt-1 text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
         $32,227.40
       </p>
       <p className="mt-1 text-tremor-default font-medium">
         <span className="text-emerald-700 dark:text-emerald-500">
           +$430.90 (4.1%)
-        </span>{" "}
+        </span>{}
         <span className="font-normal text-tremor-content dark:text-dark-tremor-content">
           Past 24 hours
         </span>
       </p> */}
-      <p className="mt-1 text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
-        {principal}{" "}
-      </p>
-      {/* <LineChart
+        <p className="mt-1 text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
+          {principal}
+          {}
+        </p>
+        {/* <LineChart
         data={data}
         index="date"
         categories={["ICP", "ckBTC", "ckETH"]}
@@ -445,72 +448,75 @@ export default function Overview() {
         startEndOnly={true}
         className="mt-6 h-72 sm:hidden"
       /> */}
-      <Table className="mt-8">
-        <TableHead>
-          <TableRow className="border-b border-tremor-border dark:border-dark-tremor-border">
-            <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
-              Name
-            </TableHeaderCell>
-            <TableHeaderCell className="text-right text-tremor-content-strong dark:text-dark-tremor-content-strong">
-              Amount
-            </TableHeaderCell>
-            <TableHeaderCell className="text-right text-tremor-content-strong dark:text-dark-tremor-content-strong">
-              Value
-            </TableHeaderCell>
-            {/* <TableHeaderCell className="text-right text-tremor-content-strong dark:text-dark-tremor-content-strong">
+        <Table className="mt-8">
+          <TableHead>
+            <TableRow className="border-b border-tremor-border dark:border-dark-tremor-border">
+              <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
+                Name
+              </TableHeaderCell>
+              <TableHeaderCell className="text-right text-tremor-content-strong dark:text-dark-tremor-content-strong">
+                Amount
+              </TableHeaderCell>
+              <TableHeaderCell className="text-right text-tremor-content-strong dark:text-dark-tremor-content-strong">
+                Value
+              </TableHeaderCell>
+              {/* <TableHeaderCell className="text-right text-tremor-content-strong dark:text-dark-tremor-content-strong">
               Cashflow
             </TableHeaderCell> */}
-            <TableHeaderCell className="text-right text-tremor-content-strong dark:text-dark-tremor-content-strong">
-              Gain
-            </TableHeaderCell>
-            <TableHeaderCell className="text-right text-tremor-content-strong dark:text-dark-tremor-content-strong">
-              Realized
-            </TableHeaderCell>
-            {/* <TableHeaderCell className="text-right text-tremor-content-strong dark:text-dark-tremor-content-strong">
+              <TableHeaderCell className="text-right text-tremor-content-strong dark:text-dark-tremor-content-strong">
+                Gain
+              </TableHeaderCell>
+              <TableHeaderCell className="text-right text-tremor-content-strong dark:text-dark-tremor-content-strong">
+                Realized
+              </TableHeaderCell>
+              {/* <TableHeaderCell className="text-right text-tremor-content-strong dark:text-dark-tremor-content-strong">
               Net
             </TableHeaderCell> */}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {summary.map((item) => (
-            <TableRow key={item.name}>
-              <TableCell className="font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
-                <div className="flex space-x-3">
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {summary.map((item) => (
+              <TableRow key={item.name}>
+                <TableCell className="font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
+                  <div className="flex space-x-3">
+                    <span
+                      className={classNames(
+                        item.bgColor,
+                        "w-1 shrink-0 rounded"
+                      )}
+                      aria-hidden={true}
+                    />
+                    <span>{item.name}</span>
+                  </div>
+                </TableCell>
+                <TableCell className="text-right">{item.invested}</TableCell>
+                {
+                  <TableCell className="text-right">{item.value}</TableCell>
+                  /*  <TableCell className="text-right">{item.cashflow}</TableCell> */
+                }
+                <TableCell className="text-right">
                   <span
-                    className={classNames(item.bgColor, "w-1 shrink-0 rounded")}
-                    aria-hidden={true}
-                  />
-                  <span>{item.name}</span>
-                </div>
-              </TableCell>
-              <TableCell className="text-right">{item.invested}</TableCell>
-              {
-                <TableCell className="text-right">{item.value}</TableCell>
-                /*  <TableCell className="text-right">{item.cashflow}</TableCell> */
-              }
-              <TableCell className="text-right">
-                <span
-                  className={classNames(
-                    item.changeType === "positive"
-                      ? "text-emerald-700 dark:text-emerald-500"
-                      : "text-red-700 dark:text-red-500"
-                  )}
-                >
-                  {item.gain}
-                </span>
-              </TableCell>
-              <TableCell className="text-right">
-                <span
-                  className={classNames(
-                    item.changeType === "positive"
-                      ? "text-emerald-700 dark:text-emerald-500"
-                      : "text-red-700 dark:text-red-500"
-                  )}
-                >
-                  {item.realized}
-                </span>
-              </TableCell>
-              {/* <TableCell className="text-right">
+                    className={classNames(
+                      item.changeType === "positive"
+                        ? "text-emerald-700 dark:text-emerald-500"
+                        : "text-red-700 dark:text-red-500"
+                    )}
+                  >
+                    {item.gain}
+                  </span>
+                </TableCell>
+                <TableCell className="text-right">
+                  <span
+                    className={classNames(
+                      item.changeType === "positive"
+                        ? "text-emerald-700 dark:text-emerald-500"
+                        : "text-red-700 dark:text-red-500"
+                    )}
+                  >
+                    {item.realized}
+                  </span>
+                </TableCell>
+                {/* <TableCell className="text-right">
                 <span
                   className={classNames(
                     item.changeType === "positive"
@@ -521,10 +527,11 @@ export default function Overview() {
                   {item.dividends}
                 </span>
               </TableCell> */}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Box>
     </>
   );
 }
