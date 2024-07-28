@@ -1,11 +1,16 @@
+import { Provider, SignInParams } from "./interface";
+import { useAtom } from "jotai";
+import { ProviderAtom } from "../states/jotai";
+import { isAuthenticatedWiithII, signOutWithII } from "./providers/ii";
+import { Plug } from "./providers/plug";
+import { createAgent } from "@dfinity/utils";
 import { HttpAgent, Identity } from "@dfinity/agent";
 import { Ed25519KeyIdentity } from "@dfinity/identity";
+
 export const getIdentityPrincipal = () =>
   Ed25519KeyIdentity.generate(
     Uint8Array.from(getSubAccountArray(2))
   ).getPrincipal();
-
-import { createAgent } from "@dfinity/utils";
 
 export function getIdentity(): Identity {
   return Ed25519KeyIdentity.generate(Uint8Array.from(getSubAccountArray(2)));
@@ -35,6 +40,69 @@ export async function getLocalAgent(): Promise<HttpAgent> {
     identity: getIdentity(),
     host: "http://localhost:8080",
   });
-  agent.fetchRootKey()
+  agent.fetchRootKey();
   return agent;
+}
+
+export type SignInRes = { Ok: boolean } | { Err: string };
+
+export async function signIn(params: SignInParams): Promise<SignInRes> {
+   switch (params.provider) {
+    case Provider.II:
+    // return await signInWithII(params);
+    return {
+      Err:"II Not Supported"
+    }
+    case Provider.Nfid:
+      return {
+        Err:"NFID Not Supported"
+      }
+    case Provider.Plug:
+       let plug = new Plug();
+      return await plug.signIn();
+
+    default:
+      console.log(`Provider ${params.provider} Not supported For SignIn`);
+      return { Err: `Provider ${params.provider} Not supported` };
+  }
+}
+
+export async function isAuthenticated(provider: Provider): Promise<boolean> {
+  switch (provider) {
+    case Provider.II:
+      return await isAuthenticatedWiithII();
+
+    case Provider.Nfid:
+      return false;
+
+    case Provider.Plug:
+      let plug = new Plug();
+      return await plug.isAuthenticated();
+
+    default:
+      console.log(`Provider ${provider} Not supported for Authentiation`);
+
+      return false;
+  }
+}
+
+export async function signOut() {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [provider] = useAtom(ProviderAtom);
+
+  switch (provider) {
+    case Provider.II:
+      await signOutWithII();
+
+    case Provider.Nfid:
+      return false;
+
+    case Provider.Plug:
+      return false;
+
+    default:
+      console.log(`Provider ${provider} Not supported to SignOut`);
+
+      return false;
+  }
 }

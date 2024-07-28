@@ -1,7 +1,7 @@
 import { Principal } from "@dfinity/principal";
 import { getAgent, getIdentityPrincipal, getLocalAgent } from "../auth";
 import {
-  ACCOUNTS_PRINCIPAL_LOCAL,
+  ACCOUNTS_PRINCIPAL,
   CKBTC_LEDGER_PRINCIPAL,
   CKSEPOLIA_LEDGER_PRINCIPAL,
   ICP_LEDGER_PRINCIPAL,
@@ -58,7 +58,7 @@ export async function getIcrcBalance(
     if (isAccount) {
       let icpBalance, ckEthBalance, ckBTCBalance;
       const balanceParams: IcrcAccount = {
-        owner: ACCOUNTS_PRINCIPAL_LOCAL,
+        owner: ACCOUNTS_PRINCIPAL,
         subaccount: principalToSubAccount(principal!),
       };
 
@@ -94,7 +94,7 @@ export async function getIcrcBalance(
 
 export async function get_icrc_address(): Promise<string> {
   const address = encodeIcrcAccount({
-    owner: ACCOUNTS_PRINCIPAL_LOCAL,
+    owner: ACCOUNTS_PRINCIPAL,
     subaccount: principalToSubAccount(getIdentityPrincipal()),
   });
   return address;

@@ -10,7 +10,6 @@ import { mainnet, sepolia } from "wagmi/chains";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { metaMaskWallet } from "@rainbow-me/rainbowkit/wallets";
 
-
 const config = getDefaultConfig({
   wallets: [
     {

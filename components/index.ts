@@ -8,7 +8,7 @@ import Footer from "./layout/footer";
 import Header from "./layout/header";
 import HeroSection from "./layout/hero-section";
 import Home from "./layout/home";
-import Spinners from "./spinners";
+import {Spinners} from "./spinners";
 
 export {
   ConnectMetamask,

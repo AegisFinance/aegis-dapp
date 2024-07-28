@@ -28,7 +28,7 @@ function AccountEth() {
 
   return (
     <>
-      <ConnectMetamask />
+      {/* <ConnectMetamask /> */}
       {isConnected ? (
         <ShowEthMenu switchMethod={setSwitchEthMethod} />
       ) : (
@@ -67,7 +67,7 @@ export default AccountEth;
 export function ShowEthMenu({ switchMethod }: any) {
   return (
     <Center>
-      {" "}
+      {}
       <Box className="text-sm font-medium text-center mb-10 text-gray-500 border-b border-gray-200 ">
         <Box className="flex flex-wrap -mb-px">
           <Box className="mr-2">

@@ -45,7 +45,7 @@ export async function approveCkEth(amount: string) {
 }
 
 export async function approveCkBtc(amount: number) {
-console.log("🚀 ~ approveCkBtc ~ amount:", amount)
+  console.log("🚀 ~ approveCkBtc ~ amount:", amount);
 
   const { approve } = IcrcLedgerCanister.create({
     agent: await getLocalAgent(),

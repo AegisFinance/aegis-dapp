@@ -1,7 +1,7 @@
 import { AbsoluteCenter, Box, Spinner } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
-function Spinners({ size }: any) {
+export function Spinners({ size }: any) {
   return (
     <>
       <Box minH="100vh">
@@ -13,4 +13,10 @@ function Spinners({ size }: any) {
   );
 }
 
-export default Spinners;
+export function SpinnerDoubleBorder() {
+  return (
+    <div>
+      <div className="w-16 h-16 border-4 border-red-400 border-double rounded-full animate-spin border-t-transparent"></div>
+    </div>
+  );
+}

@@ -1,7 +1,7 @@
 import { Button } from "@chakra-ui/react";
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { ButtonShared } from "../shared/button";
 
 interface HeadProps {
   signOut(): void;
@@ -26,20 +26,17 @@ function NavBar({ signOut }: HeadProps) {
   ];
 
   return (
-    <nav className="bg-white w-full border-b md:border-0 md:static">
+    <nav className="  w-full border-b md:border-0 md:static">
       <div className="items-center px-4 max-w-screen-xl mx-auto md:flex md:px-8">
         <div className="flex items-center justify-between py-3 md:py-5 md:block">
           <Link href="/">
-            <h1 className="text-white font-bold text-3xl xl:text-2xl">
+            <h1 className="  font-bold text-3xl xl:text-4xl">
               {/* One page Template for */}
-              <span className="text-indigo-600 italic"> Aegis Finance</span>
+              <span className="text-indigo-600  font-sans underline underline-offset-8 ">
+                {}
+                Aegis Finance
+              </span>
             </h1>
-            {/* <Image
-              src="https://www.floatui.com/logo.svg"
-              width={120}
-              height={50}
-              alt="Float UI logo"
-            /> */}
           </Link>
           <div className="md:hidden">
             <Button
@@ -94,7 +91,7 @@ function NavBar({ signOut }: HeadProps) {
             <div className="md:hidden">
               <Link
                 href="/"
-                className="text-gray-600 hover:text-indigo-600"
+                className="text-gray-600 hover:text-indigo-600 font-semibold"
                 onClick={signOut}
               >
                 Logout
@@ -103,13 +100,13 @@ function NavBar({ signOut }: HeadProps) {
           </ul>
         </div>
         <div className="hidden md:inline-block">
-          <Link
-            href="/"
-            className="py-3 px-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow"
-            onClick={signOut}
-          >
-            Logout
-          </Link>
+        <ButtonShared
+             
+             className="font-light dark:bg-white  dark:text-black border-transparent font-sans"
+             onClick={signOut}
+           >
+             Signout
+           </ButtonShared>
         </div>
       </div>
     </nav>

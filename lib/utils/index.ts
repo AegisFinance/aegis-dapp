@@ -1,15 +1,20 @@
 import { Principal } from "@dfinity/principal";
 
 export function checkTimeOutExpiry(time: number): boolean {
+  if (time == 0) {
+    return false;
+  }
+
+  const oneMinuteInMilliseconds = 60 * 1000; // 60 seconds * 1000 milliseconds/second
+
   const currentTimestamp = Date.now();
 
   // Calculate the difference in milliseconds
   const timeDifference = currentTimestamp - time;
 
   // Check if the difference is less than 30 minutes (1800 seconds)
-  return timeDifference < 1800 * 1000;
+  return timeDifference < oneMinuteInMilliseconds * 60;
 }
-
 
 export enum CANISTERS_NAME {
   ACCOUNTS,

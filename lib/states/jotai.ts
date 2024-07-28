@@ -1,12 +1,19 @@
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { MyAccountNav } from "./types";
+import { Provider } from "../auth/interface";
 
 // storage
-export const isAuthenticatedAtom = atomWithStorage("isAuthenticated", false);
-export const sessionTimeoutAtom = atomWithStorage<null | number>(
-  "sessionTimeout",
-  null
+export const sessionTimeoutAtom = atomWithStorage<number>("sessionTimeout", 0);
+
+export const ProviderAtom = atomWithStorage<Provider | undefined>(
+  "provider",
+  undefined
+);
+
+export const isAuthenticatedAtom = atomWithStorage<boolean>(
+  "isAuthenticatedAtom",
+  false
 );
 
 // states

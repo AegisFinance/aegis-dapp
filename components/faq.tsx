@@ -53,7 +53,7 @@ export default function FAQs() {
             </h3>
             <div className="mt-3 text-black dark:text-black">
               <p>
-                Cant find the answer youre looking for? feel free to{" "}
+                Cant find the answer youre looking for? feel free to{}
                 <a
                   className="text-indigo-600 font-semibold whitespace-nowrap"
                   href="support@floatui.com"
