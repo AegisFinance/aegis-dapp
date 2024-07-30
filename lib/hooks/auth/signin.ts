@@ -33,10 +33,10 @@ export function useSignIn(): [
     try {
       setProvider(provider);
       let time = Date.now();
-      console.log("🚀 ~ signInWith ~ time:", time)
+      console.log("🚀 ~ signInWith ~ time:", time);
 
       setSessionTime(time);
-      
+
       let res = await signIn({ provider });
       if ("Ok" in res && res.Ok) {
         simpleToast({ title: "SignIn Suceesfull" });

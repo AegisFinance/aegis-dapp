@@ -1,40 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+body {
+  @apply leading-[normal] m-0;
+}
+*,
+::before,
+::after {
+  border-width: 0;
+}
 
-/* styles.module.css */
-.container {
+
+.container-hero-mobile {
   display: flex;
   min-height: 100vh; /* Ensures the container takes up the full viewport height */
   flex-direction: column;
-}
-
-.main {
-  flex: 1; /* Allows main content to fill remaining space */
-}
-
-.footer {
-  /* background-color: #f0f0f0; Footer background color */
-  border: 0;
-  padding: 0rem;
-  text-align: center;
-  bottom: 0;
-  position: sticky;
-  width: 100%;
-  z-index: 10;
-}
-
-.header {
-  position: sticky;
-  top: 0;
-  left: 0;
-  width: 100%;
-  /* Add other styling for your header here */
-  /* background-color: #fff; */
-  padding: 1rem;
-  z-index: 10;
-}
-
-.herosection {
   background-color: black;
 }
