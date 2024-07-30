@@ -1,13 +1,14 @@
 "use client";
 
-import { Button } from "@chakra-ui/react";
+import { Button, ButtonProps } from "@chakra-ui/react";
 import { useEffect, type ReactNode } from "react";
 
-interface ButtonProps {
+interface SharedButtonProps {
   children: ReactNode;
   onClick: (() => Promise<void>) | (() => void);
   disabled?: boolean;
   className?: string;
+  [key: string]: any; // Allow additional props
 }
 
 export const ButtonShared = ({
@@ -15,13 +16,12 @@ export const ButtonShared = ({
   onClick,
   disabled = false,
   className,
-}: ButtonProps) => {
-
-  useEffect(()=>{
-
-  })
+  ...rest
+}: SharedButtonProps) => {
+  useEffect(() => {});
   return (
     <Button
+      {...rest}
       onClick={onClick}
       disabled={disabled}
       className={`flex items-center gap-2 border-black dark:border-lavender-blue-500 border-[3px] transition-all rounded-sm py-1 px-8 my-2 font-semibold text-white bg-lavender-blue-500 dark:bg-black shadow-[5px_5px_0px_rgba(0,0,0,1)] dark:shadow-[5px_5px_0px_#7888ff] ${

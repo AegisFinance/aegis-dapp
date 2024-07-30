@@ -6,7 +6,7 @@ import ConnectMetamask from "./account/connect_metamask";
 import FAQs from "./faq";
 import Footer from "./layout/footer";
 import Header from "./layout/header";
-import HeroSection from "./layout/hero-section";
+import HeroSection from "./layout/hero/hero-mobile";
 import Home from "./layout/home";
 import {Spinners} from "./spinners";
 

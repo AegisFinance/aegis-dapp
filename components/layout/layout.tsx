@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { isAuthenticatedAtom } from "@/lib/states/jotai";
-import HeroSection from "./hero-section";
 import { useSignOut } from "@/lib/hooks/auth/signout";
 import { Spinners, Home } from "@/components/index";
 import { useAtom } from "jotai";
 import { useState } from "react";
 import { useSignIn } from "@/lib/hooks/auth/signin";
 import { Provider } from "@/lib/auth/interface";
+import HeroComponent from "./hero";
 
 const Layout = (children: { children: React.ReactNode }) => {
   const [isAuthenticated, setAuthenticated] = useAtom(isAuthenticatedAtom);
@@ -48,7 +48,11 @@ const Layout = (children: { children: React.ReactNode }) => {
       {isAuthenticated ? (
         <Home {...children} signOut={singOutWallet} />
       ) : (
-        <HeroSection signIn={signInWallet} isSiginLoading={isSiginLoading} />
+        <HeroComponent
+          signIn={signInWallet}
+          isSiginLoading={isSiginLoading}
+          className=""
+        />
       )}
     </>
   );
