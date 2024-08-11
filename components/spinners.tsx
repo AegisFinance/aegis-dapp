@@ -1,5 +1,4 @@
-import { AbsoluteCenter, Box, Spinner } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { AbsoluteCenter, Box, Spinner } from '@chakra-ui/react';
 
 export function Spinners({ size }: any) {
   return (

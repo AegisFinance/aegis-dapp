@@ -45,6 +45,9 @@ MAIN_CANISTER_ID_LOCAL="23633-jiaaa-aaaar-qadzq-cai"
 INSURANCE_CANISTER_ID_LOCAL="suaf3-hqaaa-aaaaf-bfyoa-cai"
 ACCOUNTS_CANISTER_ID_LOCAL="222qi-2qaaa-aaaao-anesa-cai"
 
+CKBTC_KYT_ID_MAINNET="pjihx-aaaaa-aaaar-qaaka-cai"
+CKTEST_BTC_KYT_ID_TESTNET="pvm5g-xaaaa-aaaar-qaaia-cai"
+
 function setUpLocalEnvs() {
 
     {
@@ -81,7 +84,11 @@ function setUpLocalEnvs() {
         echo "NEXT_PUBLIC_MAIN_CANISTER_ID=$MAIN_CANISTER_ID_LOCAL"
         echo "NEXT_PUBLIC_INSURANCE_CANISTER_ID=$INSURANCE_CANISTER_ID_LOCAL"
         echo "NEXT_PUBLIC_ACCOUNTS_CANISTER_ID_LOCAL=$ACCOUNTS_CANISTER_ID_LOCAL"
-
+        # 
+        # 
+        # 
+        echo "NEXT_PUBLIC_CKBTC_KYT_CANISTER_ID=$CKBTC_KYT_ID_MAINNET"
+        echo "NEXT_PUBLIC_CKTEST_BTC_KYT_CANISTER_ID=$CKTEST_BTC_KYT_ID_TESTNET"
     } >>.env
 }
 
@@ -122,6 +129,11 @@ function setUpICEnvs() {
         echo "NEXT_PUBLIC_MAIN_CANISTER_ID=$MAIN_CANISTER_ID_MAINNET"
         echo "NEXT_PUBLIC_INSURANCE_CANISTER_ID=$INSURANCE_CANISTER_ID_MAINNET"
         echo "NEXT_PUBLIC_ACCOUNTS_CANISTER_ID=$ACCOUNTS_CANISTER_ID_MAINNET"
+        # 
+        # 
+        # 
+        echo "NEXT_PUBLIC_CKBTC_KYT_CANISTER_ID=$CKBTC_KYT_ID_MAINNET"
+        echo "NEXT_PUBLIC_CKTEST_BTC_KYT_CANISTER_ID=$CKTEST_BTC_KYT_ID_TESTNET"
 
     } >>.env
 }

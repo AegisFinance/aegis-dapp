@@ -1,7 +1,7 @@
+"use client"
 export default function FAQs() {
     
-    console.log("FAQs")
-    
+     
     const faqsList = [
       {
         label: "Payment",
@@ -45,6 +45,7 @@ export default function FAQs() {
     ];
   
     return (
+
       <section className="py-14">
         <div className="max-w-screen-xl mx-auto px-4 md:px-8">
           <div className="max-w-lg">
@@ -88,6 +89,6 @@ export default function FAQs() {
           </div>
         </div>
       </section>
-    );
+     );
   }
   

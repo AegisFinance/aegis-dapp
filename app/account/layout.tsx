@@ -1,19 +1,21 @@
 "use client";
-import { AccountNav } from "@/components";
-// import  from "@components/Portfolio/Portfolio/PortfolioNav";
+
 import dynamic from "next/dynamic";
 import React from "react";
 
-// const AccountNav = dynamic(() => import("@/components/myProfile/AccountNav"), {
-//   Do not import in server side
-//   ssr: false,
-// });
+const AccountNav = dynamic(() => import("@/components/account/account_nav"), {
+  ssr: false,
+});
+
 function AccountRootLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <AccountNav>
-      {children}
-      </AccountNav>
+      <main className="w-full flex flex-col min-h-screen ">
+        <AccountNav />
+        <div className=" flex-1 overflow-y-auto border-2 border-blue-700 ">
+          {children}
+        </div>
+      </main>
     </>
   );
 }

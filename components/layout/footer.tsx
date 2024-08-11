@@ -1,8 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
-
-export default function Footer() {
+ export default function Footer() {
   const footerNavs = [
     {
       href: "javascript:void()",
