@@ -1,12 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { isAuthenticatedAtom } from "@/lib/states/jotai";
-import HeroSection from "./hero-section";
-import { useSignOut } from "@/lib/hooks/auth/signout";
-import { Spinners, Home } from "@/components/index";
-import { useAtom } from "jotai";
-import { useState } from "react";
-import { useSignIn } from "@/lib/hooks/auth/signin";
-import { Provider } from "@/lib/auth/interface";
+import { Spinners } from '@/components/spinners';
+import { Provider } from '@/lib/auth/interface';
+import { useSignIn } from '@/lib/hooks/auth/signin';
+import { useSignOut } from '@/lib/hooks/auth/signout';
+import { isAuthenticatedAtom } from '@/lib/states/jotai';
+import { useAtom } from 'jotai';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import HeroComponent from './hero';
+import Home from './home/';
 
 const Layout = (children: { children: React.ReactNode }) => {
   const [isAuthenticated, setAuthenticated] = useAtom(isAuthenticatedAtom);
@@ -14,6 +16,7 @@ const Layout = (children: { children: React.ReactNode }) => {
   const [isSiginLoading, setSiginLoading] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
+  const router = useRouter();
   const [clearStates] = useSignOut();
   const [signInWith] = useSignIn();
 
@@ -21,22 +24,25 @@ const Layout = (children: { children: React.ReactNode }) => {
     setSiginLoading(true);
 
     let res = await signInWith(provider);
-    console.log("🚀 ~ signInWallet ~ res:", res);
 
     setAuthenticated(res);
 
     setSiginLoading(false);
+
+    router.push('/');
   };
 
   const singOutWallet = async () => {
-    console.log("Signing Out......");
+    console.log('Signing Out......');
 
     setLoading(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     clearStates();
     setLoading(false);
+
+    router.push('/');
   };
 
   if (loading) {
@@ -48,7 +54,11 @@ const Layout = (children: { children: React.ReactNode }) => {
       {isAuthenticated ? (
         <Home {...children} signOut={singOutWallet} />
       ) : (
-        <HeroSection signIn={signInWallet} isSiginLoading={isSiginLoading} />
+        <HeroComponent
+          signIn={signInWallet}
+          isSiginLoading={isSiginLoading}
+          className=""
+        />
       )}
     </>
   );

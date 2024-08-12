@@ -1,12 +1,38 @@
-"use client";
+'use client';
 
-import { AccountEth, ICRCs, Overview } from "@/components";
-import AccountBtc from "@/components/account/account_btc";
-import AccountTransactions from "@/components/account/account_transactions";
-import { accountNav } from "@/lib/states/jotai";
-import { MyAccountNav } from "@/lib/states/types";
-import { useAtom } from "jotai";
-import React from "react";
+import { accountNav } from '@/lib/states/jotai';
+import { MyAccountNav } from '@/lib/states/types';
+import { useAtom } from 'jotai';
+import dynamic from 'next/dynamic';
+import React from 'react';
+
+const AccountEth = dynamic(() => import('@/components/account/account_eth'), {
+  // Do not import in server side
+  ssr: false,
+});
+const ICRCs = dynamic(() => import('@/components/account/account_icrc'), {
+  // Do not import in server side
+  ssr: false,
+});
+const Overview = dynamic(
+  () => import('@/components/account/account_overview'),
+  {
+    // Do not import in server side
+    ssr: false,
+  }
+);
+const AccountBtc = dynamic(() => import('@/components/account/account_btc'), {
+  // Do not import in server side
+  ssr: false,
+});
+
+const AccountTransactions = dynamic(
+  () => import('@/components/account/account_transactions'),
+  {
+    // Do not import in server side
+    ssr: false,
+  }
+);
 
 function Account() {
   const [getAccountNav, setAccountNav] = useAtom(accountNav);
@@ -42,7 +68,7 @@ function Account() {
       </>
     );
   } else {
-    return <>Overview</>;
+    return <>{<ICRCs />}</>;
   }
 }
 

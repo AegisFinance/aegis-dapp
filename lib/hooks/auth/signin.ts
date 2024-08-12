@@ -1,21 +1,20 @@
-import { useAtom } from "jotai";
-import { Provider, SignInParamsCallBack } from "../../auth/interface";
+import { useAtom } from 'jotai';
+import { Provider } from '../../auth/interface';
 import {
   isAuthenticatedAtom,
   ProviderAtom,
   sessionTimeoutAtom,
-} from "../../states/jotai";
-import { isAuthenticated, signIn } from "../../auth";
-import { useEffect, useState } from "react";
-import React from "react";
-import { useSimpleToast } from "../utils/toast/toast";
-import { ToastStatus } from "../utils/toast/interface";
-import { useSignOut } from "./signout";
+} from '../../states/jotai';
+import { useState } from 'react';
+import { useSimpleToast } from '../utils/toast/toast';
+import { ToastStatus } from '../utils/toast/interface';
+import { useSignOut } from './signout';
+import { signIn } from '@/lib/auth';
 
 export function useSignIn(): [
   (p: Provider) => Promise<boolean>,
   boolean,
-  string | undefined
+  string | undefined,
 ] {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [isAuth, setAuthenticated] = useAtom(isAuthenticatedAtom);
@@ -33,27 +32,25 @@ export function useSignIn(): [
     try {
       setProvider(provider);
       let time = Date.now();
-      console.log("🚀 ~ signInWith ~ time:", time)
+      console.log('🚀 ~ signInWith ~ time:', time);
 
       setSessionTime(time);
-      
-      let res = await signIn({ provider });
-      if ("Ok" in res && res.Ok) {
-        simpleToast({ title: "SignIn Suceesfull" });
 
-        // setAuthenticated(res.Ok);
+      let res = await signIn({ provider });
+      if ('Ok' in res && res.Ok) {
+        simpleToast({ title: 'SignIn Suceesfull' });
+
         return res.Ok;
       } else {
-        setError("Err" in res ? res.Err : "-");
+        setError('Err' in res ? res.Err : '-');
 
         simpleToast({
-          title: "Error Occured in SignIn",
+          title: 'Error Occured in SignIn',
           status: ToastStatus.error,
         });
         setSessionTime(0);
 
         return false;
-        // setAuthenticated(false);
       }
     } catch (error: unknown) {
       setError(error as unknown as string);

@@ -1,19 +1,20 @@
+import { e8sToHuman } from '@/lib/apis/utils';
+import { Button, Table, Thead } from '@chakra-ui/react';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { BsArrowDownCircle } from 'react-icons/bs';
+import { formatEther } from 'viem';
+import { Spinners } from '../spinners';
+import { IcpAccountDeposit } from './account_deposit';
+import { IcpAccountWithdraw } from './account_withdraw';
+import { getPrincipal } from '@/lib/auth';
+import { useAtom } from 'jotai';
+import { ProviderAtom } from '@/lib/states/jotai';
+import { Principal } from '@dfinity/principal';
 import {
-  getCKETHBalance,
+  getIcrcBalances,
   GetIcrcBalance,
-  getIcrcBalance,
-} from "@/lib/apis/get_icrc_balance";
-import { e8sToHuman } from "@/lib/apis/utils";
-import { getIdentityPrincipal } from "@/lib/auth";
-import { Box, Button, Table, Thead } from "@chakra-ui/react";
-import { IcrcAccount } from "@dfinity/ledger-icrc";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import { BsArrowDownCircle } from "react-icons/bs";
-import { formatEther } from "viem";
-import {Spinners} from "../spinners";
-import { IcpAccountDeposit } from "./account_deposit";
-import { IcpAccountWithdraw } from "./account_withdraw";
+} from '@/lib/apis/canisters/accounts/get_accounts_balance';
 
 type AccountBalances = {
   avatar: string;
@@ -27,6 +28,8 @@ type AccountBalances = {
 };
 
 export default function ICRCs() {
+  const [provider] = useAtom(ProviderAtom);
+
   const [isLoading, setLoading] = useState<boolean>(false);
   const [refresh, setRefresh] = useState<boolean>(false);
   const [wPopover, setWPopover] = useState<boolean>(false);
@@ -54,31 +57,43 @@ export default function ICRCs() {
   const getBalances = async () => {
     setLoading(true);
     let balances: AccountBalances[] = [];
-    const principal = getIdentityPrincipal();
+    const principal: Principal = (await getPrincipal(provider!))!;
+    console.log(': -------------------------------------');
+    console.log(': getBalances -> principal', principal);
+    console.log(': -------------------------------------');
 
-    const icrcAccBalances: GetIcrcBalance = (await getIcrcBalance(
+    const icrcAccBalances: GetIcrcBalance = (await getIcrcBalances(
       true,
-      principal
+      principal,
+      provider!
     )) as GetIcrcBalance;
-    const icrcWalletBalances: GetIcrcBalance = (await getIcrcBalance(
+    console.log(': -------------------------------------------------');
+    console.log(': getBalances -> icrcAccBalances', icrcAccBalances);
+    console.log(': -------------------------------------------------');
+
+    const icrcWalletBalances: GetIcrcBalance = (await getIcrcBalances(
       false,
-      principal
+      principal,
+      provider!
     )) as GetIcrcBalance;
+    console.log(': -------------------------------------------------------');
+    console.log(': getBalances -> icrcWalletBalances', icrcWalletBalances);
+    console.log(': -------------------------------------------------------');
 
     let icpBalance: AccountBalances = {
       avatar:
-        "https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ",
-      tokenName: "Internet Computer",
-      ticker: "ICP",
+        'https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
+      tokenName: 'Internet Computer',
+      ticker: 'ICP',
       inAccount: e8sToHuman(icrcAccBalances.ICP)!,
       inWallet: e8sToHuman(icrcWalletBalances.ICP)!,
     };
     balances.push(icpBalance);
     let ckBTCBalances: AccountBalances = {
       avatar:
-        "https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ",
-      tokenName: "Chain-Key Bitcoin ",
-      ticker: "ckBTC",
+        'https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
+      tokenName: 'Chain-Key Bitcoin ',
+      ticker: 'ckBTC',
       inAccount: e8sToHuman(icrcAccBalances.ckBTC)!,
       inWallet: e8sToHuman(icrcWalletBalances.ckBTC)!,
     };
@@ -86,9 +101,9 @@ export default function ICRCs() {
 
     let ckEthBalances: AccountBalances = {
       avatar:
-        "https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ",
-      tokenName: "Chain-Key Ethereum ",
-      ticker: "ckETH",
+        'https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
+      tokenName: 'Chain-Key Ethereum ',
+      ticker: 'ckETH',
       inAccount: parseFloat(formatEther(icrcAccBalances.ckETH)),
       inWallet: parseFloat(formatEther(icrcWalletBalances.ckETH)),
     };
@@ -125,7 +140,8 @@ export default function ICRCs() {
             className="inline-block px-4 py-2  text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"
           >
             Deposit
-          </Button>{}
+          </Button>
+          {}
           <Button
             onClick={handleWPopover}
             className="inline-block px-4 py-2 mr-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"
@@ -164,7 +180,7 @@ export default function ICRCs() {
                 </Thead>
                 <tbody className="text-gray-600 divide-y">
                   {isLoading ? (
-                    <Spinners sizes={"xl"} />
+                    <Spinners sizes={'xl'} />
                   ) : (
                     <>
                       {accountBalances?.map((item, idx) => (
@@ -173,7 +189,7 @@ export default function ICRCs() {
                             <Image
                               src={item.avatar}
                               className="rounded-full"
-                              alt={""}
+                              alt={''}
                               width={10}
                               height={10}
                             />

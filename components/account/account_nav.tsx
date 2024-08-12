@@ -4,11 +4,7 @@ import * as Tabs from "@radix-ui/react-tabs";
 import { useAtom } from "jotai";
 import React from "react";
 
-export default function AccountNav({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export  default function AccountNav() {
   const [getAccountNav, setAccountNav] = useAtom(accountNav);
 
   const setAccountNavHandle = (nav: MyAccountNav) => {
@@ -116,37 +112,52 @@ export default function AccountNav({
   ];
 
   return (
-    <Tabs.Root
-      className="max-w-screen-xl mx-auto px-4 md:px-8"
-      defaultValue="Overview"
-    >
-      <Tabs.List
-        className="w-full border-b flex items-center gap-x-3 overflow-x-auto text-sm"
-        aria-label="Manage your account"
+    <>
+      <Tabs.Root
+        className=" max-w-screen-xl lg:mx-auto md:px-4 lg:pt-8 pt-2 "
+        defaultValue="Overview"
       >
-        {tabItems.map((item, idx) => (
-          <Tabs.Trigger
-            key={idx}
-            className="group outline-none py-1.5 border-b-2 border-white text-gray-500 data-[state=active]:border-indigo-600 data-[state=active]:text-indigo-600"
-            value={item.name}
-          >
-            <div
-              onClick={() => {
-                setAccountNavHandle(item.name);
-              }}
-              className="flex items-center gap-x-2 py-1.5 px-3 rounded-lg duration-150 group-hover:text-indigo-600 group-hover:bg-gray-50 group-active:bg-gray-100 font-medium"
+        <Tabs.List
+          className="w-full border-b flex items-center gap-x-3 overflow-x-auto text-sm"
+          aria-label="Manage your account"
+        >
+          {tabItems.map((item, idx) => (
+            <Tabs.Trigger
+              key={idx}
+              className="group outline-none py-1.5 border-b-2 border-white text-gray-500 data-[state=active]:border-indigo-600 data-[state=active]:text-indigo-600"
+              value={item.name}
             >
-              {item.icon}
-              {item.name}
-            </div>
-          </Tabs.Trigger>
+              <div
+                onClick={() => {
+                  setAccountNavHandle(item.name);
+                }}
+                className="flex items-center gap-x-2 py-1.5 px-3 rounded-lg duration-150 group-hover:text-indigo-600 group-hover:bg-gray-50 group-active:bg-gray-100 font-medium"
+              >
+                {item.icon}
+                {item.name}
+              </div>
+            </Tabs.Trigger>
+          ))}
+        </Tabs.List>
+        {tabItems.map((item, idx) => (
+          <Tabs.Content
+            key={idx}
+            className="py-6"
+            value={item.name}
+          ></Tabs.Content>
         ))}
-      </Tabs.List>
-      {tabItems.map((item, idx) => (
-        <Tabs.Content key={idx} className="py-6" value={item.name}>
-          {children}
-        </Tabs.Content>
-      ))}
-    </Tabs.Root>
+      </Tabs.Root>
+    </>
+  );
+}
+ 
+export   function AccountRoot({ children }: { children: React.ReactNode }) {
+  return (
+    <main className="w-full flex flex-col min-h-screen ">
+      <AccountNav />
+      <div className=" flex-1 overflow-y-auto border-2 border-blue-700 ">
+        {children}
+      </div>
+    </main>
   );
 }

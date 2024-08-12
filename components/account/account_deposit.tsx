@@ -1,16 +1,20 @@
-import { get_icrc_address } from "@/lib/apis/get_icrc_balance";
-import React, { useEffect, useState } from "react";
-import QRCode from "react-qr-code";
-import {Spinners} from "../spinners";
-import Image from "next/image";
-import Link from "next/link";
-import { Box, Button, Center, Input, useToast } from "@chakra-ui/react";
-import { desposit_to_account } from "@/lib/apis/get_user_account";
-import { fallback, parseEther } from "viem";
-import { ASSETS } from "@/lib/constants";
-import { humanToE8s } from "@/lib/apis/utils";
+import React, { useEffect, useState } from 'react';
+import QRCode from 'react-qr-code';
+import { Spinners } from '../spinners';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Box, Button, Center, Input, useToast } from '@chakra-ui/react';
+import { desposit_to_account } from '@/lib/apis/get_user_account';
+import { fallback, parseEther } from 'viem';
+import { ASSETS } from '@/lib/constants';
+import { humanToE8s } from '@/lib/apis/utils';
+import { get_icrc_address } from '@/lib/apis/canisters/accounts/get_accounts_balance';
+import { useAtomValue } from 'jotai';
+import { ProviderAtom } from '@/lib/states/jotai';
 
 export function CkEthAccountDeposit() {
+  const provider = useAtomValue(ProviderAtom);
+
   const [depositAddress, setDespositAddress] = useState<string | undefined>();
   const [isLoading, setLoading] = useState<boolean>(false);
   const [manualDeposit, setManualDesposit] = useState<boolean>(false);
@@ -34,25 +38,26 @@ export function CkEthAccountDeposit() {
       setPressed(true);
       const index = await desposit_to_account(
         parseEther(amount),
-        ASSETS.CKETH_SEPOLIA
+        ASSETS.CKETH_SEPOLIA,
+        provider!
       );
       if (index) {
         setBlockInddex(index.toString());
         toast({
-          title: "ckETH Deposited",
-          status: "success",
+          title: 'ckETH Deposited',
+          status: 'success',
           duration: 3000,
           isClosable: true,
-          position: "top",
+          position: 'top',
           description: `${index}`,
         });
       } else {
         toast({
-          title: "Error Occured",
-          status: "error",
+          title: 'Error Occured',
+          status: 'error',
           duration: 3000,
           isClosable: true,
-          position: "top",
+          position: 'top',
           description: `${Object.keys(index)}`,
         });
       }
@@ -62,14 +67,14 @@ export function CkEthAccountDeposit() {
   useEffect(() => {
     const getAddress = async () => {
       setLoading(true);
-      setDespositAddress(await get_icrc_address());
+      setDespositAddress(await get_icrc_address(provider!));
       setLoading(false);
     };
     getAddress();
   }, []);
 
   if (isLoading) {
-    return <Spinners sizes={"xl"} />;
+    return <Spinners sizes={'xl'} />;
   }
 
   return (
@@ -80,15 +85,15 @@ export function CkEthAccountDeposit() {
             <Box
               style={{
                 height: 200,
-                margin: "0 auto",
+                margin: '0 auto',
                 maxWidth: 200,
-                width: "200%",
+                width: '200%',
               }}
             >
               {depositAddress ? (
                 <QRCode
                   size={512}
-                  style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                  style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
                   value={depositAddress!}
                   viewBox={`0 0 256 256`}
                   level="L"
@@ -111,17 +116,18 @@ export function CkEthAccountDeposit() {
             <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
               Manual Deposit{}
             </span>
-          </Button>{}
+          </Button>
+          {}
         </Center>
       ) : (
         <>
           <Center>
             {}
-            <Box as={"p"} className="max-w-sm mx-auto  font-extrabold">
+            <Box as={'p'} className="max-w-sm mx-auto  font-extrabold">
               Enter Amount
             </Box>
           </Center>
-          <Box as={"p"} className="max-w-sm mx-auto relative mb-2 ">
+          <Box as={'p'} className="max-w-sm mx-auto relative mb-2 ">
             <Input
               onChange={handleAmountChange}
               type="text"
@@ -149,6 +155,8 @@ export function CkEthAccountDeposit() {
 }
 
 export function CkBtcAccountDeposit() {
+  const provider = useAtomValue(ProviderAtom);
+
   const [depositAddress, setDespositAddress] = useState<string | undefined>();
   const [isLoading, setLoading] = useState<boolean>(false);
   const [manualDeposit, setManualDesposit] = useState<boolean>(false);
@@ -172,25 +180,26 @@ export function CkBtcAccountDeposit() {
       setPressed(true);
       const index = await desposit_to_account(
         humanToE8s(amount)!,
-        ASSETS.CKBTC
+        ASSETS.CKBTC,
+        provider!
       );
       if (index) {
         setBlockInddex(index.toString());
         toast({
-          title: "ckBTC Deposited",
-          status: "success",
+          title: 'ckBTC Deposited',
+          status: 'success',
           duration: 3000,
           isClosable: true,
-          position: "top",
+          position: 'top',
           description: `${index}`,
         });
       } else {
         toast({
-          title: "Error Occured",
-          status: "error",
+          title: 'Error Occured',
+          status: 'error',
           duration: 3000,
           isClosable: true,
-          position: "top",
+          position: 'top',
           description: `${Object.keys(index)}`,
         });
       }
@@ -200,14 +209,14 @@ export function CkBtcAccountDeposit() {
   useEffect(() => {
     const getAddress = async () => {
       setLoading(true);
-      setDespositAddress(await get_icrc_address());
+      setDespositAddress(await get_icrc_address(provider!));
       setLoading(false);
     };
     getAddress();
   }, []);
 
   if (isLoading) {
-    return <Spinners sizes={"xl"} />;
+    return <Spinners sizes={'xl'} />;
   }
 
   return (
@@ -218,15 +227,15 @@ export function CkBtcAccountDeposit() {
             <Box
               style={{
                 height: 200,
-                margin: "0 auto",
+                margin: '0 auto',
                 maxWidth: 200,
-                width: "200%",
+                width: '200%',
               }}
             >
               {depositAddress ? (
                 <QRCode
                   size={512}
-                  style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                  style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
                   value={depositAddress!}
                   viewBox={`0 0 256 256`}
                   level="L"
@@ -249,17 +258,18 @@ export function CkBtcAccountDeposit() {
             <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
               Manual Deposit{}
             </span>
-          </Button>{}
+          </Button>
+          {}
         </Center>
       ) : (
         <>
           <Center>
             {}
-            <Box as={"p"} className="max-w-sm mx-auto  font-extrabold">
+            <Box as={'p'} className="max-w-sm mx-auto  font-extrabold">
               Enter Amount
             </Box>
           </Center>
-          <Box as={"p"} className="max-w-sm mx-auto relative mb-2 ">
+          <Box as={'p'} className="max-w-sm mx-auto relative mb-2 ">
             <Input
               onChange={handleAmountChange}
               type="text"
@@ -287,6 +297,8 @@ export function CkBtcAccountDeposit() {
 }
 
 export function IcpAccountDeposit() {
+  const provider = useAtomValue(ProviderAtom);
+
   const [depositAddress, setDespositAddress] = useState<string | undefined>();
   const [isLoading, setLoading] = useState<boolean>(false);
   const [manualDeposit, setManualDesposit] = useState<boolean>(false);
@@ -310,25 +322,26 @@ export function IcpAccountDeposit() {
       setPressed(true);
       const index = await desposit_to_account(
         humanToE8s(amount)!,
-        ASSETS.ICP
+        ASSETS.ICP,
+        provider!
       );
       if (index) {
         setBlockInddex(index.toString());
         toast({
-          title: "ICP Deposited",
-          status: "success",
+          title: 'ICP Deposited',
+          status: 'success',
           duration: 3000,
           isClosable: true,
-          position: "top",
+          position: 'top',
           description: `${index}`,
         });
       } else {
         toast({
-          title: "Error Occured",
-          status: "error",
+          title: 'Error Occured',
+          status: 'error',
           duration: 3000,
           isClosable: true,
-          position: "top",
+          position: 'top',
           description: `${Object.keys(index)}`,
         });
       }
@@ -338,14 +351,14 @@ export function IcpAccountDeposit() {
   useEffect(() => {
     const getAddress = async () => {
       setLoading(true);
-      setDespositAddress(await get_icrc_address());
+      setDespositAddress(await get_icrc_address(provider!));
       setLoading(false);
     };
     getAddress();
   }, []);
 
   if (isLoading) {
-    return <Spinners sizes={"xl"} />;
+    return <Spinners sizes={'xl'} />;
   }
 
   return (
@@ -356,15 +369,15 @@ export function IcpAccountDeposit() {
             <Box
               style={{
                 height: 200,
-                margin: "0 auto",
+                margin: '0 auto',
                 maxWidth: 200,
-                width: "200%",
+                width: '200%',
               }}
             >
               {depositAddress ? (
                 <QRCode
                   size={512}
-                  style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                  style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
                   value={depositAddress!}
                   viewBox={`0 0 256 256`}
                   level="L"
@@ -387,17 +400,18 @@ export function IcpAccountDeposit() {
             <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
               Manual Deposit{}
             </span>
-          </Button>{}
+          </Button>
+          {}
         </Center>
       ) : (
         <>
           <Center>
             {}
-            <Box as={"p"} className="max-w-sm mx-auto  font-extrabold">
+            <Box as={'p'} className="max-w-sm mx-auto  font-extrabold">
               Enter Amount
             </Box>
           </Center>
-          <Box as={"p"} className="max-w-sm mx-auto relative mb-2 ">
+          <Box as={'p'} className="max-w-sm mx-auto relative mb-2 ">
             <Input
               onChange={handleAmountChange}
               type="text"

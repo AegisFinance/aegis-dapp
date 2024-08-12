@@ -1,5 +1,5 @@
-import { Principal } from "@dfinity/principal";
-import { ASSETS } from ".";
+import { Principal } from '@dfinity/principal';
+import { ASSETS } from '.';
 
 export const AEGIS_LEDGER_PRINCIPAL: Principal = Principal.fromText(
   process.env.NEXT_PUBLIC_AEGIS_LEDGER_ID!
@@ -55,6 +55,13 @@ export const MAIN_PRINCIPAL: Principal = Principal.fromText(
   process.env.NEXT_PUBLIC_MAIN_CANISTER_ID!
 );
 
+export const CKBTC_KYT_PRINCIPAL = Principal.fromText(
+  process.env.NEXT_PUBLIC_CKBTC_KYT_CANISTER_ID!
+);
+export const CKTEST_BTC_KYT_PRINCIPAL = Principal.fromText(
+  process.env.NEXT_PUBLIC_CKTEST_BTC_KYT_CANISTER_ID!
+);
+
 type ASSETS_PRINCIPAL_MAP = Map<ASSETS, Principal>;
 
 let asset_principal_map_details = [
@@ -86,4 +93,7 @@ export const CANISTER_WHITE_LIST: string[] = [
   CKSEPOLIA_MINTER_PRINCIPAL.toText(),
 
   ICP_LEDGER_PRINCIPAL.toText(),
+
+  CKTEST_BTC_KYT_PRINCIPAL.toText(),
+  CKBTC_KYT_PRINCIPAL.toText(),
 ];

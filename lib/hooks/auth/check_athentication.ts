@@ -28,7 +28,7 @@ export function useCheckAuthentication(): [
   const checkAuthentication = async (): Promise<boolean> => {
     setLoading(true);
     try {
-      // let auth = await isAuthenticated(provider!);
+      let auth = await isAuthenticated(provider!);
       let session = checkTimeOutExpiry(sessionTime);
       console.log("🚀 ~ checkAuthentication ~ session:", session)
 

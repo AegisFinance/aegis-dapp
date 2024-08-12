@@ -1,8 +1,11 @@
 "use client";
 
-import { FAQs } from "@/components";
+import dynamic from "next/dynamic";
+
+const FAQs = dynamic(() => import("@/components/faq"), {
+  ssr: false,
+});
 
 export default function About() {
-  console.log("Hello");
   return <FAQs />;
 }
