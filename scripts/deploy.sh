@@ -86,7 +86,7 @@ function setUpLocalEnvs() {
         #
         echo "NEXT_PUBLIC_MAIN_CANISTER_ID=$MAIN_CANISTER_ID_LOCAL"
         echo "NEXT_PUBLIC_INSURANCE_CANISTER_ID=$INSURANCE_CANISTER_ID_LOCAL"
-        echo "NEXT_PUBLIC_ACCOUNTS_CANISTER_ID_LOCAL=$ACCOUNTS_CANISTER_ID_LOCAL"
+        echo "NEXT_PUBLIC_ACCOUNTS_CANISTER_ID=$ACCOUNTS_CANISTER_ID_LOCAL"
         # 
         # 
         # 
@@ -166,6 +166,8 @@ function main() {
 
     elif [[ $NETWORK == "ic" ]]; then
 
+        dfx identity use deployer
+
         setUpICEnvs
 
     else
@@ -177,6 +179,7 @@ function main() {
 
     dfx deploy  --network="$NETWORK"  aegis_dapp
 
+    dfx identity use default
 }
 
 main "$1"

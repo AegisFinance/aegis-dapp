@@ -44,7 +44,7 @@ export const ICP_LEDGER_PRINCIPAL: Principal = Principal.fromText(
 );
 
 export const ACCOUNTS_PRINCIPAL: Principal = Principal.fromText(
-  process.env.NEXT_PUBLIC_ACCOUNTS_CANISTER_ID_LOCAL!
+  process.env.NEXT_PUBLIC_ACCOUNTS_CANISTER_ID!
 );
 
 export const INSURANCE_PRINCIPAL: Principal = Principal.fromText(
