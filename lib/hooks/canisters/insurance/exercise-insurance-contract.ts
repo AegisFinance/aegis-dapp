@@ -1,14 +1,10 @@
-import {
-  BuyInsuranceArgs,
-  ExecuteInsuranceContractRes,
-} from '@/declarations/insurance/insurance.did';
+import { exerciseInsuranceContract } from '@/lib/apis/canisters/insurance/exercise-insurance-contract';
 import { ProviderAtom } from '@/lib/states/jotai';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { ToastStatus } from '../../utils/toast/interface';
 import { useSimpleToast } from '../../utils/toast/toast';
-import { exerciseInsuranceContract } from '@/lib/apis/canisters/insurance/exercise-insurance-contract';
 
 export function useExerciseInsuranceContract(): [
   (args: number) => Promise<void>,

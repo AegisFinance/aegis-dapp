@@ -1,16 +1,13 @@
-import { SellInsuranceArgs } from '@/declarations/insurance/insurance.did';
-import { sellInsuranceContract } from '@/lib/apis/canisters/insurance/sell-insurance';
+import { IcrcAsset, UnStakeIcrcArgs } from '@/declarations/main/main.did';
+import { unStakeIcrcTokensManual } from '@/lib/apis/canisters/main/stake/unstake-icrc-tokens-manual';
+import { ToastStatus } from '@/lib/hooks/utils/toast/interface';
+import { useSimpleToast } from '@/lib/hooks/utils/toast/toast';
 import { ProviderAtom } from '@/lib/states/jotai';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { ToastStatus } from '../../utils/toast/interface';
-import { useSimpleToast } from '../../utils/toast/toast';
 
-export function useSellInsuranceContract(): [
-  (args: SellInsuranceArgs) => Promise<void>,
-  boolean,
-] {
+export function useUnStakeIcrcTokensManual() {
   const [provider] = useAtom(ProviderAtom);
 
   const [error, setError] = useState<string | undefined>(undefined);
@@ -20,22 +17,23 @@ export function useSellInsuranceContract(): [
   const router = useRouter();
   const [simpleToast] = useSimpleToast();
 
-  const sellContractApi = async (args: SellInsuranceArgs) => {
+  const unStakeIcrcTokensManualApi = async (asset: IcrcAsset) => {
     setLoading(true);
 
     try {
-      let res = await sellInsuranceContract(args, provider!);
+      let res = await unStakeIcrcTokensManual(asset, provider!);
       console.log(': ------------------------------');
-      console.log(': sellContractApi -> res', res);
+      console.log(': unStakeIcrcTokensManualApi -> res', res);
       console.log(': ------------------------------');
 
       if ('Ok' in res) {
         setMessage(``);
         simpleToast({
-          title: 'Insurance Purchased',
+          title: 'Amount unStaked Successfully',
           //   description: `${res.Ok}`,
           status: ToastStatus.success,
         });
+
         router.back();
       } else {
         setError(res.Err);
@@ -48,7 +46,7 @@ export function useSellInsuranceContract(): [
       }
     } catch (err: unknown) {
       console.log(': ------------------------------');
-      console.log(': sellContractApi -> err', err);
+      console.log(': unStakeIcrcTokensManualApi -> err', err);
       console.log(': ------------------------------');
       setError(JSON.stringify(err) || ' error');
 
@@ -61,5 +59,5 @@ export function useSellInsuranceContract(): [
     }
   };
 
-  return [sellContractApi, isLoading] as const;
+  return [unStakeIcrcTokensManualApi, isLoading] as const;
 }

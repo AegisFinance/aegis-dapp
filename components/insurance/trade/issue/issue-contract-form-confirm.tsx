@@ -1,16 +1,16 @@
-import { InsuranceContractInitArgs } from '@/declarations/insurance/insurance.did';
-import { Box } from '@chakra-ui/react';
-import {
-  formatDateTimeInput,
-  InsuranceContractInitArgsInput,
-} from './issue-contract-form';
-import { convertInsuranceAmountToBigInt } from '@/lib/utils/convert-inputs';
 import { Spinners } from '@/components/spinners';
-import { useIcrcApprove } from '@/lib/hooks/ledgers/icrc/approve';
-import { convertInsuranceAssetToCanisterName } from '@/lib/utils';
-import { ApproveParams } from '@dfinity/ledger-icrc';
+import { InsuranceContractInitArgs } from '@/declarations/insurance/insurance.did';
 import { INSURANCE_PRINCIPAL } from '@/lib/constants/canisters';
 import { useIssueInsuranceContract } from '@/lib/hooks/canisters/insurance/issue-Insurance-contract';
+import { useIcrcApprove } from '@/lib/hooks/ledgers/icrc/approve';
+import { convertInsuranceAssetToCanisterName } from '@/lib/utils';
+import { convertInsuranceAmountToBigInt } from '@/lib/utils/convert-inputs';
+import { Box } from '@chakra-ui/react';
+import { ApproveParams } from '@dfinity/ledger-icrc';
+import {
+  formatDateInput,
+  InsuranceContractInitArgsInput,
+} from './issue-contract-form';
 
 interface IssueContractConfirmProps {
   setConfirm: (args: boolean | undefined) => void;
@@ -192,7 +192,7 @@ export default function IssueContractConfirm({
               </label>
 
               <Box className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                {formatDateTimeInput(
+                {formatDateInput(
                   BigInt(
                     formData.category.InflationBasedInsurance.target_expiry
                   )

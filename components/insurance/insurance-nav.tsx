@@ -40,13 +40,13 @@ function InsuranceNav() {
         defaultValue="Overview"
       >
         <Tabs.List
-          className="w-full border-b flex items-center gap-x-3 overflow-x-auto text-sm"
+          className="w-full   flex items-center gap-x-3 overflow-x-auto text-sm"
           aria-label="Manage your account"
         >
           {tabItems.map((item, idx) => (
             <Tabs.Trigger
                key={idx}
-              className="group outline-none py-1.5 border-b-2 border-white text-gray-500 data-[state=active]:border-indigo-600 data-[state=active]:text-indigo-600"
+              className="group outline-none py-1.5   border-white text-gray-500 data-[state=active]:border-indigo-600 data-[state=active]:text-indigo-600"
               value={item.name}
             >
               <Link

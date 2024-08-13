@@ -289,7 +289,7 @@ export function EthConvert() {
   useEffect(() => {
     const config = async () => {
       const getPrincipalText = (await getPrincipal(provider!))!.toText();
-      setPrincipal(getPrincipal.toString());
+      setPrincipal(getPrincipalText.toString());
       // const bytes32Conversion = uint8ArrayToHexString(principal?.toUint8Array()!);
       setEthAddress(
         '0x1d0186e12248ea2deae7af519e347d5c219aa86f3789fdd55bfd7aa6d4020000'
@@ -315,7 +315,7 @@ export function EthConvert() {
         <Center>Principal</Center>
       </Box>
       <Box as={'p'} className="max-w-sm mx-auto">
-        <Center>{truncatePrincipal(getPrincipalText)}</Center>
+        <Center>{truncatePrincipal(getPrincipalText,6)}</Center>
       </Box>
       <Box as={'p'} className="max-w-sm mx-auto  font-extrabold">
         <Center>Ethereum Address </Center>

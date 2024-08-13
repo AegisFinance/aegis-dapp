@@ -1,20 +1,19 @@
+import {
+  GetIcrcBalance,
+  getIcrcBalances,
+} from '@/lib/apis/canisters/accounts/get_accounts_balance';
 import { e8sToHuman } from '@/lib/apis/utils';
+import { getPrincipal } from '@/lib/auth';
+import { ProviderAtom } from '@/lib/states/jotai';
 import { Button, Table, Thead } from '@chakra-ui/react';
+import { Principal } from '@dfinity/principal';
+import { useAtom } from 'jotai';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { BsArrowDownCircle } from 'react-icons/bs';
 import { formatEther } from 'viem';
 import { Spinners } from '../spinners';
 import { IcpAccountDeposit } from './account_deposit';
 import { IcpAccountWithdraw } from './account_withdraw';
-import { getPrincipal } from '@/lib/auth';
-import { useAtom } from 'jotai';
-import { ProviderAtom } from '@/lib/states/jotai';
-import { Principal } from '@dfinity/principal';
-import {
-  getIcrcBalances,
-  GetIcrcBalance,
-} from '@/lib/apis/canisters/accounts/get_accounts_balance';
 
 type AccountBalances = {
   avatar: string;
@@ -55,67 +54,79 @@ export default function ICRCs() {
   };
 
   const getBalances = async () => {
-    setLoading(true);
-    let balances: AccountBalances[] = [];
-    const principal: Principal = (await getPrincipal(provider!))!;
-    console.log(': -------------------------------------');
-    console.log(': getBalances -> principal', principal);
-    console.log(': -------------------------------------');
+    try {
+      setLoading(true);
+      let balances: AccountBalances[] = [];
+      const principal: Principal = (await getPrincipal(provider!))!;
+      console.log(': -------------------------------------');
+      console.log(': getBalances -> principal', principal);
+      console.log(': -------------------------------------');
 
-    const icrcAccBalances: GetIcrcBalance = (await getIcrcBalances(
-      true,
-      principal,
-      provider!
-    )) as GetIcrcBalance;
-    console.log(': -------------------------------------------------');
-    console.log(': getBalances -> icrcAccBalances', icrcAccBalances);
-    console.log(': -------------------------------------------------');
+      const icrcAccBalances: GetIcrcBalance = (await getIcrcBalances(
+        true,
+        principal,
+        provider!
+      )) as GetIcrcBalance;
+      console.log(': -------------------------------------------------');
+      console.log(': getBalances -> icrcAccBalances', icrcAccBalances);
+      console.log(': -------------------------------------------------');
 
-    const icrcWalletBalances: GetIcrcBalance = (await getIcrcBalances(
-      false,
-      principal,
-      provider!
-    )) as GetIcrcBalance;
-    console.log(': -------------------------------------------------------');
-    console.log(': getBalances -> icrcWalletBalances', icrcWalletBalances);
-    console.log(': -------------------------------------------------------');
+      const icrcWalletBalances: GetIcrcBalance = (await getIcrcBalances(
+        false,
+        principal,
+        provider!
+      )) as GetIcrcBalance;
+      console.log(': -------------------------------------------------------');
+      console.log(': getBalances -> icrcWalletBalances', icrcWalletBalances);
+      console.log(': -------------------------------------------------------');
 
-    let icpBalance: AccountBalances = {
-      avatar:
-        'https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
-      tokenName: 'Internet Computer',
-      ticker: 'ICP',
-      inAccount: e8sToHuman(icrcAccBalances.ICP)!,
-      inWallet: e8sToHuman(icrcWalletBalances.ICP)!,
-    };
-    balances.push(icpBalance);
-    let ckBTCBalances: AccountBalances = {
-      avatar:
-        'https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
-      tokenName: 'Chain-Key Bitcoin ',
-      ticker: 'ckBTC',
-      inAccount: e8sToHuman(icrcAccBalances.ckBTC)!,
-      inWallet: e8sToHuman(icrcWalletBalances.ckBTC)!,
-    };
-    balances.push(ckBTCBalances);
+      let icpBalance: AccountBalances = {
+        avatar:
+          'https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
+        tokenName: 'Internet Computer',
+        ticker: 'ICP',
+        inAccount: e8sToHuman(icrcAccBalances.ICP)! || 0,
+        inWallet: e8sToHuman(icrcWalletBalances.ICP)! || 0,
+      };
+      balances.push(icpBalance);
+      let ckBTCBalances: AccountBalances = {
+        avatar:
+          'https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
+        tokenName: 'Chain-Key Bitcoin ',
+        ticker: 'ckBTC',
+        inAccount: e8sToHuman(icrcAccBalances.ckBTC)! || 0,
+        inWallet: e8sToHuman(icrcWalletBalances.ckBTC)! || 0,
+      };
+      balances.push(ckBTCBalances);
 
-    let ckEthBalances: AccountBalances = {
-      avatar:
-        'https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
-      tokenName: 'Chain-Key Ethereum ',
-      ticker: 'ckETH',
-      inAccount: parseFloat(formatEther(icrcAccBalances.ckETH)),
-      inWallet: parseFloat(formatEther(icrcWalletBalances.ckETH)),
-    };
-    balances.push(ckEthBalances);
+      let ckEthBalances: AccountBalances = {
+        avatar:
+          'https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
+        tokenName: 'Chain-Key Ethereum ',
+        ticker: 'ckETH',
+        inAccount: parseFloat(formatEther(icrcAccBalances.ckETH)) || 0,
+        inWallet: parseFloat(formatEther(icrcWalletBalances.ckETH)) || 0,
+      };
+      balances.push(ckEthBalances);
 
-    setAccountBalances(balances);
-    setLoading(false);
-    setRefresh(false);
+      setAccountBalances(balances);
+      setLoading(false);
+      setRefresh(false);
+    } catch (error) {
+      console.log(': -----------------------------');
+      console.log(': getBalances -> error', error);
+      console.log(': -----------------------------');
+    }
   };
 
   useEffect(() => {
-    getBalances();
+    try {
+      getBalances();
+    } catch (error) {
+      console.log(': -----------------------');
+      console.log(': ICRCs -> error', error);
+      console.log(': -----------------------');
+    }
   }, []);
 
   // if (isLoading) {
@@ -137,7 +148,7 @@ export default function ICRCs() {
         <div className="mt-3 md:mt-0">
           <Button
             onClick={handleDPopover}
-            className="inline-block px-4 py-2  text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"
+            className="inline-block px-4 py-2 mr-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"
           >
             Deposit
           </Button>
@@ -171,9 +182,9 @@ export default function ICRCs() {
               <Table className="w-full table-auto text-sm text-left">
                 <Thead className="bg-gray-50 text-gray-600 font-medium border-b">
                   <tr>
-                    <th className="py-3 px-6">Token Name</th>
-                    <th className="py-3 px-6">in Account</th>
-                    <th className="py-3 px-6">in Wallet</th>
+                    <th className="py-3 px-6">Token(s)</th>
+                    <th className="py-3 px-6"> Account Balance</th>
+                    <th className="py-3 px-6"> Wallet Balance</th>
                     {/* <th className="py-3 px-6">Price</th>
               <th className="py-3 px-6">Deposit</th> */}
                   </tr>

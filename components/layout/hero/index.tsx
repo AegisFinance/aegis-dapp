@@ -1,7 +1,8 @@
-import { Box } from "@chakra-ui/react";
-import HeroSectionDesktop from "./hero-desktop";
-import HeroSectionSmall from "./hero-mobile";
-import { Provider } from "@/lib/auth/interface";
+import { Box } from '@chakra-ui/react';
+import HeroSectionDesktop from './hero-desktop';
+import HeroSectionSmall from './hero-mobile';
+import { Provider } from '@/lib/auth/interface';
+import { Disclaimer } from '../disclaimer';
 
 export interface HeroComponentProps {
   signIn: (provider: Provider) => Promise<void>;
@@ -12,7 +13,7 @@ export interface HeroComponentProps {
 export default function HeroComponent({
   signIn,
   isSiginLoading,
-  className = "",
+  className = '',
 }: HeroComponentProps) {
   return (
     <>
@@ -22,7 +23,7 @@ export default function HeroComponent({
           signIn={signIn}
           isSiginLoading={isSiginLoading}
         />
-      </Box>{" "}
+      </Box>{' '}
       <Box className="hidden lg:block ">
         <HeroSectionDesktop
           className=""
@@ -30,6 +31,7 @@ export default function HeroComponent({
           isSiginLoading={isSiginLoading}
         />
       </Box>
+      <Disclaimer />
     </>
   );
 }

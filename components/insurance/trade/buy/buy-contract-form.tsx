@@ -25,6 +25,7 @@ import {
 import { ApproveParams } from '@dfinity/ledger-icrc';
 import { useState } from 'react';
 import { formatDateInput } from '../issue/issue-contract-form';
+import { convertMilliSecondsToDateTime } from '@/lib/apis/utils';
 
 export function BuyInsuranceContractForm({
   insuranceId,
@@ -146,7 +147,9 @@ export function BuyInsuranceContractForm({
               </Box>
               <Spacer />
               <Box className="  block   text-gray-700  font-mono ">
-                {formatDateInput(insurance?.expiry_date! / 1_000_000n) || '-'}
+                {convertMilliSecondsToDateTime(
+                  insurance?.expiry_date! / 1_000_000n
+                ) || '-'}
               </Box>
             </Box>
             {/*  */}
@@ -249,6 +252,7 @@ export function BuyInsuranceContractForm({
                 <Button
                   isLoading={loadingBuyInsuranceApi || loadingApproveApi}
                   disabled={premiumAmount == 0 ? true : false}
+                  isDisabled={premiumAmount == undefined}
                   onClick={buyInsurance}
                   type="button"
                   className="font-sans text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

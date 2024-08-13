@@ -1,5 +1,7 @@
 import { Account } from '@/declarations/cketh_ledger/cketh_ledger.did';
-import { convertNumberToSubAccount } from '@/lib/apis/utils';
+import { StakeAsset } from '@/declarations/main/main.did';
+import { getTotalValueStaked } from '@/lib/apis/canisters/main/stake/get-total-value-staked';
+import { convertNumberToSubAccount, e8sToHuman } from '@/lib/apis/utils';
 import { getPrincipal } from '@/lib/auth';
 import { MAIN_PRINCIPAL } from '@/lib/constants/canisters';
 import { useIcrcBalance } from '@/lib/hooks/ledgers/icrc/balance';
@@ -11,19 +13,23 @@ import { useAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 
 export default function StakeDashboard({ refresh }: { refresh: boolean }) {
-  const [totalStakedAmount, setTotalStakedAmount] = useState<bigint>(0n);
-  const [totalUserStakedAmount, setTotalUserStakedAmount] =
-    useState<bigint>(0n);
-  const [poolBalance, setPoolBalance] = useState<bigint>(0n);
+  const [totalStakedAmount, setTotalStakedAmount] = useState<
+    number | undefined
+  >(undefined);
+  const [totalUserStakedAmount, setTotalUserStakedAmount] = useState<
+    number | undefined
+  >(undefined);
+  const [poolBalance, setPoolBalance] = useState<number | undefined>(undefined);
 
   const [getIcrcBalance, loadingGetIcrcBalance] = useIcrcBalance();
   const [provider] = useAtom(ProviderAtom);
 
   useEffect(() => {
     const refreshBalances = async () => {
-      let totalValueStakedBalanceArgs: Account = {
-        owner: MAIN_PRINCIPAL,
-        subaccount: [await convertNumberToSubAccount(0, provider!)],
+      let totalValueStakedBalanceArgs: StakeAsset = {
+        ICRC: {
+          AEGIS: null,
+        },
       };
       let poolBalanceArgs: Account = {
         owner: MAIN_PRINCIPAL,
@@ -38,17 +44,25 @@ export default function StakeDashboard({ refresh }: { refresh: boolean }) {
       };
 
       setPoolBalance(
-        await getIcrcBalance(CANISTERS_NAME.AEGIS_LEDGER, poolBalanceArgs)
-      );
-      setTotalStakedAmount(
-        await getIcrcBalance(
-          CANISTERS_NAME.AEGIS_LEDGER,
-          totalValueStakedBalanceArgs
+        e8sToHuman(
+          await getIcrcBalance(CANISTERS_NAME.AEGIS_LEDGER, poolBalanceArgs)
         )
       );
-      setTotalUserStakedAmount(
-        await getIcrcBalance(CANISTERS_NAME.AEGIS_LEDGER, userStakedBalanceArgs)
+      setTotalStakedAmount(
+        await getTotalValueStaked(totalValueStakedBalanceArgs, provider!)
       );
+      setTotalUserStakedAmount(
+        e8sToHuman(
+          await getIcrcBalance(
+            CANISTERS_NAME.AEGIS_LEDGER,
+            userStakedBalanceArgs
+          )
+        )
+      );
+
+      console.log('totalStakedAmount', totalStakedAmount);
+      console.log('totalUserStakedAmount', totalUserStakedAmount);
+      console.log('poolBalance', poolBalance);
     };
 
     refreshBalances();
@@ -91,7 +105,7 @@ export default function StakeDashboard({ refresh }: { refresh: boolean }) {
                 <div className="text-base text-gray-400 ">Your Stake</div>
                 <div className="flex items-start pt-1">
                   <div className="text-2xl font-bold text-gray-900 ">
-                    {totalUserStakedAmount || '0'}{' '}
+                    {totalUserStakedAmount || '0'}
                   </div>
                   <span className="flex items-start px-2 py-0.5 mx-2 text-sm text-red-600 bg-red-100 rounded-full">
                     <svg

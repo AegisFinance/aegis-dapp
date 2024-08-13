@@ -8,7 +8,7 @@ export default function StakeOverview() {
 
   return (
     <>
-      <section className="border-2 border-blue-700  ">
+      <section className="  ">
         <Center>
           <Heading
             size="lg"

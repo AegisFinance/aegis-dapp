@@ -1,16 +1,19 @@
-import { withdrawFromAccount } from "@/lib/apis/accounts";
-import { humanToE8s } from "@/lib/apis/utils";
-import { ASSETS } from "@/lib/constants";
-import { Box, Button, Center, Input, useToast } from "@chakra-ui/react";
-import React, { useState } from "react";
-import { parseEther } from "viem";
+import { withdrawFromAccount } from '@/lib/apis/accounts';
+import { humanToE8s } from '@/lib/apis/utils';
+import { ASSETS } from '@/lib/constants';
+import { ProviderAtom } from '@/lib/states/jotai';
+import { Box, Button, Center, Input, useToast } from '@chakra-ui/react';
+import { useAtom } from 'jotai';
+import React, { useState } from 'react';
+import { parseEther } from 'viem';
 
 export function CkEthAccountWithdraw() {
-  const toast = useToast();
-
   const [amount, setAmount] = useState<string | undefined>();
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isPressed, setPressed] = useState<boolean>(false);
+
+  const [provider] = useAtom(ProviderAtom);
+  const toast = useToast();
 
   const handleAmountChange = (event: any) => {
     const amount = event.target.value;
@@ -20,27 +23,31 @@ export function CkEthAccountWithdraw() {
   const withdraw = async () => {
     if (amount) {
       setPressed(true);
-      const res = await withdrawFromAccount(parseEther(amount), {
-        CKETH: null,
-      });
+      const res = await withdrawFromAccount(
+        parseEther(amount),
+        {
+          CKETH: null,
+        },
+        provider!
+      );
       setPressed(false);
       setAmount(undefined);
-      if ("Ok" in res) {
+      if ('Ok' in res) {
         toast({
-          title: "Amount Withdraw Successfully",
-          status: "success",
+          title: 'Amount Withdraw Successfully',
+          status: 'success',
           duration: 3000,
           isClosable: true,
-          position: "top",
+          position: 'top',
         });
       } else {
         toast({
-          title: "Error Occured",
-          status: "error",
+          title: 'Error Occured',
+          status: 'error',
           duration: 3000,
           isClosable: true,
-          position: "top",
-          description: `${Object.keys(res.Err)}`,
+          position: 'top',
+          description: `${Object.keys(res)}`,
         });
       }
     }
@@ -48,10 +55,10 @@ export function CkEthAccountWithdraw() {
 
   return (
     <Box>
-      <Box as={"p"} className="max-w-sm mx-auto  font-extrabold">
+      <Box as={'p'} className="max-w-sm mx-auto  font-extrabold">
         <Center>Enter Amount</Center>
       </Box>
-      <Box as={"p"} className="max-w-sm mx-auto relative  ">
+      <Box as={'p'} className="max-w-sm mx-auto relative  ">
         <Input
           onChange={handleAmountChange}
           type="text"
@@ -79,6 +86,7 @@ export function CkEthAccountWithdraw() {
 
 export function CkBtcAccountWithdraw() {
   const toast = useToast();
+  const [provider] = useAtom(ProviderAtom);
 
   const [amount, setAmount] = useState<number | undefined>();
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -92,27 +100,31 @@ export function CkBtcAccountWithdraw() {
   const withdraw = async () => {
     if (amount) {
       setPressed(true);
-      const res = await withdrawFromAccount(humanToE8s(amount)!, {
-        CKBTC: null,
-      });
+      const res = await withdrawFromAccount(
+        humanToE8s(amount)!,
+        {
+          CKBTC: null,
+        },
+        provider!
+      );
       setPressed(false);
       setAmount(undefined);
-      if ("Ok" in res) {
+      if ('Ok' in res) {
         toast({
-          title: "Amount Withdraw Successfully",
-          status: "success",
+          title: 'Amount Withdraw Successfully',
+          status: 'success',
           duration: 3000,
           isClosable: true,
-          position: "top",
+          position: 'top',
         });
       } else {
         toast({
-          title: "Error Occured",
-          status: "error",
+          title: 'Error Occured',
+          status: 'error',
           duration: 3000,
           isClosable: true,
-          position: "top",
-          description: `${Object.keys(res.Err)}`,
+          position: 'top',
+          description: `${Object.keys(res)}`,
         });
       }
     }
@@ -120,10 +132,10 @@ export function CkBtcAccountWithdraw() {
 
   return (
     <Box>
-      <Box as={"p"} className="max-w-sm mx-auto  font-extrabold">
+      <Box as={'p'} className="max-w-sm mx-auto  font-extrabold">
         <Center>Enter Amount</Center>
       </Box>
-      <Box as={"p"} className="max-w-sm mx-auto relative  ">
+      <Box as={'p'} className="max-w-sm mx-auto relative  ">
         <Input
           onChange={handleAmountChange}
           type="text"
@@ -151,6 +163,7 @@ export function CkBtcAccountWithdraw() {
 
 export function IcpAccountWithdraw() {
   const toast = useToast();
+  const [provider] = useAtom(ProviderAtom);
 
   const [amount, setAmount] = useState<number | undefined>();
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -164,27 +177,31 @@ export function IcpAccountWithdraw() {
   const withdraw = async () => {
     if (amount) {
       setPressed(true);
-      const res = await withdrawFromAccount(humanToE8s(amount)!, {
-        ICP: null,
-      });
+      const res = await withdrawFromAccount(
+        humanToE8s(amount)!,
+        {
+          ICP: null,
+        },
+        provider!
+      );
       setPressed(false);
       setAmount(undefined);
-      if ("Ok" in res) {
+      if ('Ok' in res) {
         toast({
-          title: "Amount Withdraw Successfully",
-          status: "success",
+          title: 'Amount Withdraw Successfully',
+          status: 'success',
           duration: 3000,
           isClosable: true,
-          position: "top",
+          position: 'top',
         });
       } else {
         toast({
-          title: "Error Occured",
-          status: "error",
+          title: 'Error Occured',
+          status: 'error',
           duration: 3000,
           isClosable: true,
-          position: "top",
-          description: `${Object.keys(res.Err)}`,
+          position: 'top',
+          description: `${Object.keys(res)}`,
         });
       }
     }
@@ -192,10 +209,10 @@ export function IcpAccountWithdraw() {
 
   return (
     <Box>
-      <Box as={"p"} className="max-w-sm mx-auto  font-extrabold">
+      <Box as={'p'} className="max-w-sm mx-auto  font-extrabold">
         <Center>Enter Amount</Center>
       </Box>
-      <Box as={"p"} className="max-w-sm mx-auto relative  ">
+      <Box as={'p'} className="max-w-sm mx-auto relative  ">
         <Input
           onChange={handleAmountChange}
           type="text"

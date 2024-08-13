@@ -3,9 +3,9 @@ import {
   InsuranceInitRes,
 } from '@/declarations/insurance/insurance.did';
 import { Provider } from '@/lib/auth/interface';
-import { extractTransferErrorMessage } from '@/lib/utils/extract-enum-strings';
 import { createCanisterActor } from '@/lib/services/create_actor';
 import { CANISTERS_NAME, Result } from '@/lib/utils';
+import { extractTransferErrorMessage } from '@/lib/utils/extract-enum-strings';
 import { _INSURANCE } from '@/lib/utils/helper_contract';
 import { ActorSubclass } from '@dfinity/agent';
 
@@ -20,26 +20,38 @@ export async function issueInsuranceContract(
 
   //
   //
-  //
-  // 1. Get the current time in milliseconds
-  const milliseconds = Date.now();
- 
-  // 2. Convert minutes to milliseconds (1 minute = 60 seconds * 1000 milliseconds/second)
-  const fiveMinutesInMilliseconds = 5 * 60 * 1000;
+  // //
+  // // 1. Get the current time in milliseconds
+  // const milliseconds = Date.now();
 
-  // 3. Add 5 minutes to the current time
-  const futureTimeInMilliseconds = milliseconds + fiveMinutesInMilliseconds;
+  // // 2. Convert minutes to milliseconds (1 minute = 60 seconds * 1000 milliseconds/second)
+  // const fiveMinutesInMilliseconds = 5 * 60 * 1000;
 
-  // 4. Convert milliseconds to nanoseconds (1 millisecond = 1,000,000 nanoseconds)
-  const futureTimeInNanoseconds = futureTimeInMilliseconds * 1000000;
+  // // 3. Add 5 minutes to the current time
+  // const futureTimeInMilliseconds = milliseconds + fiveMinutesInMilliseconds;
 
-  args.expiry_date = BigInt(futureTimeInNanoseconds);
-  args.category.InflationBasedInsurance.target_expiry = BigInt(
-    futureTimeInNanoseconds
-  );
+  // // 4. Convert milliseconds to nanoseconds (1 millisecond = 1,000,000 nanoseconds)
+  // const futureTimeInNanoseconds = futureTimeInMilliseconds * 1000000;
+
+  // args.expiry_date = BigInt(futureTimeInNanoseconds);
+  // args.category.InflationBasedInsurance.target_expiry = BigInt(
+  //   futureTimeInNanoseconds
+  // );
   //
   //
   //
+  const fiveMinutesInNanoseconds = 5 * 60 * 1000 * 1000000;
+  console.log('Expiry Date Curr', args.expiry_date);
+  let expiryPlusAddFiveMinutes =
+    args.expiry_date + BigInt(fiveMinutesInNanoseconds);
+
+  console.log(': ----------------------------------------------------');
+  console.log(': expiryPlusAddFiveMinutes', expiryPlusAddFiveMinutes);
+  console.log(': ----------------------------------------------------');
+
+  args.expiry_date = expiryPlusAddFiveMinutes;
+  args.category.InflationBasedInsurance.target_expiry =
+    expiryPlusAddFiveMinutes;
 
   let res: InsuranceInitRes =
     await insuranceActor.create_insurance_contract(args);

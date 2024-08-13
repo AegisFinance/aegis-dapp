@@ -3,7 +3,10 @@ import InsuranceListActiveBuyNav from './list-active-buy-nav';
 import { useListInsurancesKey } from '@/lib/hooks/canisters/insurance/list-insurances';
 import { Box, Button, Center, Spacer } from '@chakra-ui/react';
 import { Spinners } from '../../../spinners';
-import { convertMilliSecondsToDateTime, truncatePrincipal } from '@/lib/apis/utils';
+import {
+  convertMilliSecondsToDateTime,
+  truncatePrincipal,
+} from '@/lib/apis/utils';
 import { useRouter } from 'next/navigation';
 import { BsDatabaseX } from 'react-icons/bs';
 import { useListActiveBuyInsuranceListByPrincipal } from '@/lib/hooks/canisters/insurance/list-active-insurances-by-principal';
@@ -38,9 +41,9 @@ export function ListActiveBuyContracts() {
 
   return (
     <>
-      <section className="border-2 border-blue-700  ">
+      <section className="   ">
         <div className="mx-auto max-w-screen-xl px-4 lg:px-2">
-          <div className=" dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+          <div className=" dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden ">
             <InsuranceListActiveBuyNav />
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-center text-gray-500 dark:text-gray-400">

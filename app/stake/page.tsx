@@ -1,7 +1,9 @@
 'use client';
 
-import StakeOverview from '@/components/stake';
- 
+import dynamic from 'next/dynamic';
+const StakeOverview = dynamic(() => import('@/components/stake'), {
+  ssr: false,
+});
 function Stake() {
   return (
     <>

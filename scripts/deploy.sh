@@ -7,14 +7,14 @@
 ICP_LEDGER_ID_MAINNET="ryjl3-tyaaa-aaaaa-aaaba-cai"
 CKBTC_LEDGER_ID_MAINNET="mxzaz-hqaaa-aaaar-qaada-cai"
 CKETH_LEDGER_ID_MAINNET="ss2fx-dyaaa-aaaar-qacoq-cai"
-AEGIS_LEDGER_ID_MAINNET=""
+AEGIS_LEDGER_ID_MAINNET="rovwv-uqaaa-aaaam-ac73a-cai"
 
-TEST_ICP_LEDER_ID_TESTNET=""
+TEST_ICP_LEDER_ID_TESTNET="ryjl3-tyaaa-aaaaa-aaaba-cai" # Add the mainnet id for time being
 CKTEST_BTC_LEDGER_TESTNET="mc6ru-gyaaa-aaaar-qaaaq-cai"
 CKSEPOLIA_ETH_LEDGER_ID_TESTNET="apia6-jaaaa-aaaar-qabma-cai"
 
 # Index Ledgers
-AEGIS_LEDGER_INDEX_ID_MAINNET=""
+AEGIS_LEDGER_INDEX_ID_MAINNET="rjuqb-ziaaa-aaaam-ac73q-cai"
 
 # Minters
 CKBTC_MINTER_ID_MAINNET="mqygn-kiaaa-aaaar-qaadq-cai"
@@ -24,9 +24,9 @@ CKTEST_BTC_MINTER_ID_TESTNET="ml52i-qqaaa-aaaar-qaaba-cai"
 CKSEPOPLIA_ETH_MINTER_ID_TESTNET="jzenf-aiaaa-aaaar-qaa7q-cai"
 
 # Aegis Finance Canisters
-MAIN_CANISTER_ID_MAINNET=""
-INSURANCE_CANISTER_ID_MAINNET=""
-ACCOUNTS_CANISTER_ID_MAINNET=""
+MAIN_CANISTER_ID_MAINNET="rax35-paaaa-aaaam-ac72a-cai"
+INSURANCE_CANISTER_ID_MAINNET="rvqkq-oiaaa-aaaam-ac7zq-cai"
+ACCOUNTS_CANISTER_ID_MAINNET="rsrme-dqaaa-aaaam-ac7za-cai"
 
 #
 #local Ids
@@ -47,6 +47,9 @@ ACCOUNTS_CANISTER_ID_LOCAL="222qi-2qaaa-aaaao-anesa-cai"
 
 CKBTC_KYT_ID_MAINNET="pjihx-aaaaa-aaaar-qaaka-cai"
 CKTEST_BTC_KYT_ID_TESTNET="pvm5g-xaaaa-aaaar-qaaia-cai"
+
+
+
 
 function setUpLocalEnvs() {
 
@@ -102,8 +105,8 @@ function setUpICEnvs() {
         #
         #
         echo "NEXT_PUBLIC_ICP_LEDGER_ID=$ICP_LEDGER_ID_MAINNET"
-        echo "NEXT_PUBLIC_CKBTC_LEDGER_ID=$CKBTC_LEDGER_ID_MAINNET"
-        echo "NEXT_PUBLIC_CKETH_LEDGER_ID=$CKETH_LEDGER_ID_MAINNET"
+        echo "NEXT_PUBLIC_CKBTC_LEDGER_ID=$CKTEST_BTC_LEDGER_TESTNET"
+        echo "NEXT_PUBLIC_CKETH_LEDGER_ID=$CKSEPOLIA_ETH_LEDGER_ID_TESTNET"
         echo "NEXT_PUBLIC_AEGIS_LEDGER_ID=$AEGIS_LEDGER_ID_MAINNET"
         #
         #
@@ -118,8 +121,8 @@ function setUpICEnvs() {
         #
         #
         #
-        echo "NEXT_PUBLIC_CKBTC_MINTER_ID=$CKBTC_MINTER_ID_MAINNET"
-        echo "NEXT_PUBLIC_CKETH_MINTER_ID=$CKETH_MINTER_ID_MAINNET"
+        echo "NEXT_PUBLIC_CKBTC_MINTER_ID=$CKTEST_BTC_MINTER_ID_TESTNET"
+        echo "NEXT_PUBLIC_CKETH_MINTER_ID=$CKSEPOPLIA_ETH_MINTER_ID_TESTNET"
 
         echo "NEXT_PUBLIC_CKTEST_BTC_MINTER_ID=$CKTEST_BTC_MINTER_ID_TESTNET"
         echo "NEXT_PUBLIC_CKSEPOPLIA_ETH_MINTER_ID=$CKSEPOPLIA_ETH_MINTER_ID_TESTNET"
@@ -132,7 +135,7 @@ function setUpICEnvs() {
         # 
         # 
         # 
-        echo "NEXT_PUBLIC_CKBTC_KYT_CANISTER_ID=$CKBTC_KYT_ID_MAINNET"
+        echo "NEXT_PUBLIC_CKBTC_KYT_CANISTER_ID=$CKTEST_BTC_KYT_ID_TESTNET"
         echo "NEXT_PUBLIC_CKTEST_BTC_KYT_CANISTER_ID=$CKTEST_BTC_KYT_ID_TESTNET"
 
     } >>.env
@@ -172,7 +175,7 @@ function main() {
         pnpm run dev
     fi
 
-    dfx deploy aegis_dapp --network="$NETWORK"
+    dfx deploy  --network="$NETWORK"  aegis_dapp
 
 }
 

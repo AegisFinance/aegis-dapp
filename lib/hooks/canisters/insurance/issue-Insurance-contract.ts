@@ -1,13 +1,12 @@
 import {
-  InsuranceContractInitArgs,
-  InsuranceInitRes,
+  InsuranceContractInitArgs
 } from '@/declarations/insurance/insurance.did';
 import { issueInsuranceContract } from '@/lib/apis/canisters/insurance/issue-insurance';
 import { isAuthenticatedAtom, ProviderAtom } from '@/lib/states/jotai';
 import { useAtom } from 'jotai';
 import { useState } from 'react';
-import { useSimpleToast } from '../../utils/toast/toast';
 import { ToastStatus } from '../../utils/toast/interface';
+import { useSimpleToast } from '../../utils/toast/toast';
 
 export function useIssueInsuranceContract(): [
   (args: InsuranceContractInitArgs) => Promise<void>,

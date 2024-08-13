@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { useSimpleToast } from '../../utils/toast/toast';
-import { ToastStatus } from '../../utils/toast/interface';
-import { listInsurances } from '@/lib/apis/canisters/insurance/list_insurances';
-import { useAtom } from 'jotai';
-import { insuranceKeyListAtom, ProviderAtom } from '@/lib/states/jotai';
 import { InsuranceActiveListKey } from '@/declarations/insurance/insurance.did';
+import { listInsurances } from '@/lib/apis/canisters/insurance/list_insurances';
+import { insuranceKeyListAtom, ProviderAtom } from '@/lib/states/jotai';
+import { useAtom } from 'jotai';
+import { useState } from 'react';
+import { ToastStatus } from '../../utils/toast/interface';
+import { useSimpleToast } from '../../utils/toast/toast';
 
 export function useListInsurancesKey(): [
   () => Promise<void>,
