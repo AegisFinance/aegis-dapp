@@ -19,12 +19,16 @@ import { ButtonShared } from '../shared/button';
 import { useIcrcApprove } from '@/lib/hooks/ledgers/icrc/approve';
 import { CANISTER_IDS_MAP, CANISTERS_NAME } from '@/lib/utils';
 import { MAIN_PRINCIPAL } from '@/lib/constants/canisters';
+import { useUnStakeIcrcTokensManual } from '@/lib/hooks/canisters/main/stake/unstake-icrc-tokens-manual';
 
 export default function StakeTokens() {
   const [stakeAmount, setStakeAmount] = useState<number | undefined>(undefined);
 
   const [stakeIcrcTokensApi, loadingStakeIcrcApi] = useStakeIcrcTokens();
   const [unStakeIcrcTokensApi, loadingUnStakeIcrcApi] = useUnStakeIcrcTokens();
+  const [unStakeIcrcTokensManualApi, loadingUnStakeIcrcManualApi] =
+    useUnStakeIcrcTokensManual();
+
   const [approve, loadingGetApproveApi] = useIcrcApprove();
 
   const handleInputChange = (event: any) => {
@@ -71,6 +75,12 @@ export default function StakeTokens() {
     };
     await unStakeIcrcTokensApi(asset, args);
   };
+
+  const unStakeIcrcAssetManual = async () => {
+    let asset: IcrcAsset = { AEGIS: null };
+
+    await unStakeIcrcTokensManualApi(asset);
+  };
   return (
     <>
       <Box className="grid gap-4 grid-col-1 grid-row-3 items-center  ">
@@ -87,7 +97,7 @@ export default function StakeTokens() {
           </NumberInput>
           <ButtonShared
             className="font-light dark:bg-white  dark:text-black border-transparent font-sans"
-            isLoading={loadingStakeIcrcApi}
+            isLoading={loadingStakeIcrcApi || loadingGetApproveApi}
             onClick={stakeIcrcAsset}
           >
             Stake AEGIS
@@ -98,6 +108,13 @@ export default function StakeTokens() {
             onClick={unStakeIcrcAsset}
           >
             UnStake AEGIS
+          </ButtonShared>
+          <ButtonShared
+            className="font-thin dark:bg-white  dark:text-black border-transparent font-sans"
+            isLoading={loadingUnStakeIcrcManualApi}
+            onClick={unStakeIcrcAssetManual}
+          >
+            Check Status
           </ButtonShared>
         </Box>
       </Box>

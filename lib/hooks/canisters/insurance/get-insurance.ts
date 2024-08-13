@@ -1,11 +1,10 @@
-import {   ProviderAtom } from '@/lib/states/jotai';
-import { useSimpleToast } from '../../utils/toast/toast';
-import { useState } from 'react';
-import { useAtom } from 'jotai';
-import { ToastStatus } from '../../utils/toast/interface';
-import { getInsuranceById } from '@/lib/apis/canisters/insurance/get-insurance-by-id';
 import { Insurance } from '@/declarations/insurance/insurance.did';
-import { Provider } from '@/lib/auth/interface';
+import { getInsuranceById } from '@/lib/apis/canisters/insurance/get-insurance-by-id';
+import { ProviderAtom } from '@/lib/states/jotai';
+import { useAtom } from 'jotai';
+import { useState } from 'react';
+import { ToastStatus } from '../../utils/toast/interface';
+import { useSimpleToast } from '../../utils/toast/toast';
 
 export function useGetInsurance(): [
   (id: number) => Promise<[Insurance] | []>,

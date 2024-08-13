@@ -34,7 +34,7 @@ function ListTradeHistory() {
 
   return (
     <>
-      <section className="border-2 border-blue-700  ">
+      <section className="   ">
         <div className="mx-auto max-w-screen-xl px-4 lg:px-2">
           <div className=" dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
             <ListInsuranceContractsNav />

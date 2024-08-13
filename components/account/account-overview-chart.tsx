@@ -26,7 +26,7 @@ let series = [
 const AccountOverviewChart = () => {
   return (
     <div
-      className="border-red-700 border-8 flex-1 w-full h-full overflow-x-auto 
+      className=" flex-1 w-full h-full overflow-x-auto 
     container max-w-6xl px-5 mx-auto mt-10  p-5 "
     >
       <Chart options={options} series={series} type="area" />

@@ -1,5 +1,6 @@
 {
-    "local":{
-        
-    }
+  "aegis_dapp": {
+    "ic": "qy6o6-baaaa-aaaam-ac76a-cai"
+  },
+  "local": {}
 }

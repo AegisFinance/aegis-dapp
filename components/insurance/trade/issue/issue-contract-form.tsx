@@ -60,7 +60,7 @@ export type InsuranceContractInitArgsInput = z.infer<
 >;
 
 export const formatDateTimeInput = (timestamp: bigint): string => {
-  // console.log('TimeStamp from  formatDateTimeInput', timestamp);
+  console.log('TimeStamp from  formatDateTimeInput', timestamp);
   const date = new Date(Number(timestamp));
 
   // Adjust date to UTC for date input
@@ -71,9 +71,9 @@ export const formatDateTimeInput = (timestamp: bigint): string => {
   const minutes = String(date.getUTCMinutes()).padStart(2, '0');
   const seconds = String(date.getUTCSeconds()).padStart(2, '0');
 
-  // console.log(
-  //   `Formatted DateTime: ${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`
-  // );
+  console.log(
+    `Formatted DateTime: ${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`
+  );
 
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
 };
@@ -150,7 +150,7 @@ export default function IssueContractForm() {
       min_premium_amount: 0,
       description: '',
       is_muliple_seller_allowed: false,
-      expiry_date: 0,
+      expiry_date: Date.now(),
       category: {
         InflationBasedInsurance: {
           country: { US: null },
@@ -158,7 +158,7 @@ export default function IssueContractForm() {
           inflation_target: 0,
         },
       },
-      insurance_asset: { ICP: null },
+      insurance_asset: { CKBTC: null },
       amount: 0,
       min_share_amount: 0,
     },
@@ -250,12 +250,12 @@ export default function IssueContractForm() {
                       <option value="" disabled>
                         Select Insurance Asset
                       </option>
-                      <option value="ICP">ICP</option>
+                      <option disabled value="ICP">ICP</option>
                       <option value="CKBTC">CKBTC</option>
                       <option value="CKETH">CKETH</option>
-                      <option value="ICP">TESTICP</option>
+                      {/* <option value="ICP">TESTICP</option>
                       <option value="CKBTC">CKTEST_BTC</option>
-                      <option value="CKETH">CKSEPOLIA_ETH</option>
+                      <option value="CKETH">CKSEPOLIA_ETH</option> */}
                     </select>
                   )}
                 />
@@ -449,11 +449,12 @@ export default function IssueContractForm() {
                 render={({ field }) => (
                   <input
                     type="date"
-                    value={formatDateInput(
-                      field.value.toString() === '0'
-                        ? Date.now()
-                        : field.value.toString()
-                    )}
+                    // value={formatDateInput(
+                    //   field.value ?? Date.now().toLocaleString()
+                    //   // field.value.toString() === '0'
+                    //   //   ? Date.now().toString()
+                    //   //   : field.value.toString()
+                    // )}
                     name={field.name}
                     onChange={e =>
                       field.onChange(parseDateInput(e.target.value))

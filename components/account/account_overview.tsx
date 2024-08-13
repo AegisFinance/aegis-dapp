@@ -1,13 +1,23 @@
-import React from "react";
-import AccountOverviewChart from "./account-overview-chart";
+import { Account } from '@/declarations/cketh_ledger/cketh_ledger.did';
+import { e8sToHuman } from '@/lib/apis/utils';
+import { getPrincipal } from '@/lib/auth';
+import { MAIN_PRINCIPAL } from '@/lib/constants/canisters';
+import { useIcrcBalance } from '@/lib/hooks/ledgers/icrc/balance';
+import { ProviderAtom } from '@/lib/states/jotai';
+import { CANISTERS_NAME } from '@/lib/utils';
+import { Principal } from '@dfinity/principal';
+import { principalToSubAccount } from '@dfinity/utils';
+import { useAtom } from 'jotai';
+import { useEffect, useState } from 'react';
+import AccountOverviewChart from './account-overview-chart';
 
 const metricsData = [
   {
-    title: "Total Balance",
-    value: "$9850",
-    nt: "1.8%",
+    title: 'Total AEGIS Balance',
+    value: 0,
+    nt: '1.8%',
 
-    icon_style: "bg-fuchsia-50 text-fuchsia-400",
+    icon_style: 'bg-fuchsia-50 text-fuchsia-400',
     icon: (
       <svg
         width="32"
@@ -27,10 +37,10 @@ const metricsData = [
     ),
   },
   {
-    title: "Total Staked Amount",
-    value: "$7520",
+    title: 'Total Staked Amount',
+    value: 0,
     upward: false,
-    icon_style: "bg-cyan-50 text-cyan-400",
+    icon_style: 'bg-cyan-50 text-cyan-400',
     icon: (
       <svg
         width="32"
@@ -57,9 +67,9 @@ const metricsData = [
     ),
   },
   {
-    title: "Traded Amount",
-    value: "$1375",
-    icon_style: "bg-amber-50 text-amber-400",
+    title: 'Traded Amount',
+    value: 0,
+    icon_style: 'bg-amber-50 text-amber-400',
     icon: (
       <svg
         width="32"
@@ -79,9 +89,9 @@ const metricsData = [
     ),
   },
   {
-    title: "Rewards",
-    value: "- -",
-    icon_style: "bg-emerald-50 text-emerald-400",
+    title: 'Rewards',
+    value: 0.0,
+    icon_style: 'bg-emerald-50 text-emerald-400',
     icon: (
       <svg
         width="32"
@@ -103,9 +113,76 @@ const metricsData = [
 ];
 
 export default function AccountOverview() {
+  const [totalUserStakedAmount, setTotalUserStakedAmount] = useState<number>();
+  const [userBalance, setUserBalance] = useState<number>();
+
+  const [getIcrcBalance, loadingGetIcrcBalance] = useIcrcBalance();
+  const [provider] = useAtom(ProviderAtom);
+
+  useEffect(() => {
+    const refreshBalances = async () => {
+      try {
+        const principal: Principal = (await getPrincipal(provider!))!;
+
+        let userStakedBalanceArgs: Account = {
+          owner: MAIN_PRINCIPAL,
+          subaccount: [principalToSubAccount(principal)],
+        };
+
+        let userBalanceArgs: Account = {
+          owner: principal,
+          subaccount: [],
+        };
+
+        let amount1 = e8sToHuman(
+          await getIcrcBalance(
+            CANISTERS_NAME.AEGIS_LEDGER,
+            userStakedBalanceArgs
+          )
+        );
+        console.log(': -------------------------------------');
+        console.log(': refreshBalances -> amount1', amount1);
+        console.log(': -------------------------------------');
+        setTotalUserStakedAmount(amount1);
+
+        let amount2 = e8sToHuman(
+          await getIcrcBalance(CANISTERS_NAME.AEGIS_LEDGER, userBalanceArgs)
+        );
+        console.log(': -------------------------------------');
+        console.log(': refreshBalances -> amount2', amount2);
+        console.log(': -------------------------------------');
+
+        setUserBalance(amount2);
+
+        metricsData[0].value = amount2!;
+        metricsData[1].value = amount1!;
+
+        console.log(
+          ': -----------------------------------------------------------------'
+        );
+        console.log(
+          ': AccountOverview -> totalUserStakedAmount',
+          totalUserStakedAmount
+        );
+        console.log(
+          ': -----------------------------------------------------------------'
+        );
+        console.log(': ---------------------------------------------');
+        console.log(': AccountOverview -> userBalance', userBalance);
+        console.log(': ---------------------------------------------');
+      } catch (error) {
+        console.log(': ---------------------------------');
+        console.log(': refreshBalances -> error', error);
+        console.log(': ---------------------------------');
+      }
+    };
+
+    refreshBalances();
+  }, []);
+
   return (
     <>
-      <div className="flex flex-col gap-10 lg:gap:15  border-black border-8  bg-gray-100 dark:bg-gray-900 items-center">
+      <div className="flex flex-col gap-10 lg:gap:15    bg-gray-100 dark:bg-gray-900 items-center">
         <div className="container max-w-6xl px-5 mx-auto mt-10">
           <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
             {metricsData.map((metrics, index) => (
@@ -128,7 +205,7 @@ export default function AccountOverview() {
               </>
             ))}
           </div>
-        </div> 
+        </div>
         <AccountOverviewChart />
       </div>
     </>

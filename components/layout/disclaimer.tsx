@@ -1,5 +1,5 @@
-import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Dialog, Transition } from '@headlessui/react';
+import { Fragment, useState } from 'react';
 
 export function Disclaimer() {
   let [isOpen, setIsOpen] = useState(true);
@@ -46,24 +46,23 @@ export function Disclaimer() {
                     <ul>
                       <li>
                         <p className="font-serif text-sm text-gray-500">
-                          <b>Beta Application:</b> Aegis Finance is currently in beta
-                          testing. This means that it is still under development
-                          and may contain bugs or errors. We are working hard to
-                          improve the application and fix any issues that arise.
-                          Please use the application at your own risk and be
-                          sure to report any bugs or errors to us.
+                          <b>Beta Application:</b> Aegis Finance is currently in
+                          beta testing. This means that it is still under
+                          development and may contain bugs or errors. We are
+                          working hard to improve the application and fix any
+                          issues that arise. Please use the application at your
+                          own risk and be sure to report any bugs or errors to
+                          us.
                         </p>
                       </li>
                       <br />
-                      {/* <li>
+                      <li>
                         <p className="font-serif text-sm text-gray-500">
-                          <b>Eligibility:</b> InheritX is only available to
-                          French citizens or people who have an INSEE number. If
-                          you are not a French citizen or do not have an INSEE
-                          number, you will not be able to use the application.
-                          We apologize for any inconvenience this may cause.
+                          <b>Testnet:</b> Aegis Finance currently supports
+                          Testnet tokens and as soon as we audit our code we
+                          will switch to mainnet tokens.
                         </p>
-                      </li> */}
+                      </li>
                     </ul>
                   </div>
 

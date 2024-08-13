@@ -16,11 +16,12 @@ export default function HomeNav({ signOut }: HeadProps) {
     { title: 'Options', path: '/options' },
     { title: 'Stake', path: '/stake' },
     { title: 'Account', path: '/account' },
+    { title: 'Feedback', path: '/feedback' },
   ];
 
   return (
     <>
-      <nav className=" sticky top-0 z-20 w-full bg-lavender-blue-300 shadow border-4 border-black">
+      <nav className=" sticky top-0 z-20 w-full bg-lavender-blue-300 shadow ">
         <div className="items-center px-4 max-w-screen-xl mx-auto md:flex md:px-8">
           <div className="flex items-center justify-between py-3 md:py-5 md:block">
             <Link href="/">

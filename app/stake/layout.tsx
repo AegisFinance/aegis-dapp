@@ -9,7 +9,7 @@ function StakeRootLayout({ children }: { children: React.ReactNode }) {
     <>
       <main className="w-full flex flex-col ">
         <StakeNav />
-        <Box className=" flex-1 overflow-y-auto border-2 border-blue-700   ">
+        <Box className=" flex-1 overflow-y-auto   ">
           {children}
         </Box>
       </main>

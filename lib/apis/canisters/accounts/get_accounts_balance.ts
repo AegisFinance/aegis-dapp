@@ -19,6 +19,13 @@ export async function getIcrcBalances(
   principal: Principal,
   provider: Provider
 ): Promise<GetIcrcBalance | undefined> {
+  console.log(': ----------------------------------------------------');
+  console.log(': principal', principal);
+
+  console.log(': ----------------------------------------------------');
+  console.log(': --------------------');
+  console.log(': provider', provider);
+  console.log(': --------------------');
   try {
     if (isAccount) {
       let icpBalance, ckEthBalance, ckBTCBalance;

@@ -72,6 +72,9 @@ export function truncatePrincipal(str?: string, maxLength?: number) {
 }
 
 export function convertMilliSecondsToDateTime(timestamp: bigint): string {
+	console.log(": ----------------------");
+	console.log(": timestamp", timestamp);
+	console.log(": ----------------------");
   const currentTimeInMilliseconds = Number(timestamp);
 
   // Create a new Date object from the milliseconds

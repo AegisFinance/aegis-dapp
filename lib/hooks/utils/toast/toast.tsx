@@ -38,7 +38,9 @@ export function useSimpleToast() {
                   : 'Success'}
             </Box>
             <Box className="">
-              {description && description?.length > 3 ? description : ''}
+              {description && description?.length > 3
+                ? `${title + ': ' + description}`
+                : title}
             </Box>
           </Box>
           <Spacer />

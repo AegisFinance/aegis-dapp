@@ -32,7 +32,7 @@ export function useUnStakeIcrcTokens() {
       if ('Ok' in res) {
         setMessage(``);
         simpleToast({
-          title: 'Amount unStaked Successfully',
+          title: 'Procedure to UnStaked Tokens Start',
           //   description: `${res.Ok}`,
           status: ToastStatus.success,
         });

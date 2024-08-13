@@ -3,7 +3,6 @@ import type { MyStakeNav } from '@/lib/states/types';
 import { Box } from '@chakra-ui/react';
 import * as Tabs from '@radix-ui/react-tabs';
 import { useAtom } from 'jotai';
-import Link from 'next/link';
 import { RiContractLine } from 'react-icons/ri';
 
 export default function StakeNav() {
@@ -44,7 +43,7 @@ export default function StakeNav() {
           {tabItems.map((item, idx) => (
             <Tabs.Trigger
               key={idx}
-              className="group outline-none py-1.5 border-b-2 border-white text-gray-500 data-[state=active]:border-indigo-600 data-[state=active]:text-indigo-600"
+              className="group outline-none py-1.5 border-b-2   text-gray-500 data-[state=active]:border-indigo-600 data-[state=active]:text-indigo-600"
               value={item.name}
             >
               <Box

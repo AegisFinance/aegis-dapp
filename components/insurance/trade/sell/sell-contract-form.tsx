@@ -1,7 +1,17 @@
+import { Spinners } from '@/components/spinners';
 import {
   Insurance,
   SellInsuranceArgs,
 } from '@/declarations/insurance/insurance.did';
+import { convertMilliSecondsToDateTime } from '@/lib/apis/utils';
+import { INSURANCE_PRINCIPAL } from '@/lib/constants/canisters';
+import { useSellInsuranceContract } from '@/lib/hooks/canisters/insurance/sell-insurance-contract';
+import { useIcrcApprove } from '@/lib/hooks/ledgers/icrc/approve';
+import { convertInsuranceAssetToCanisterName } from '@/lib/utils';
+import {
+  convertBigIntToInsuranceAmount,
+  convertInsuranceAmountToBigInt,
+} from '@/lib/utils/convert-inputs';
 import {
   Box,
   Button,
@@ -13,18 +23,8 @@ import {
   NumberInputStepper,
   Spacer,
 } from '@chakra-ui/react';
-import { formatDateInput } from '../issue/issue-contract-form';
-import {
-  convertBigIntToInsuranceAmount,
-  convertInsuranceAmountToBigInt,
-} from '@/lib/utils/convert-inputs';
-import { Spinners } from '@/components/spinners';
-import { useState } from 'react';
-import { usesellInsuranceContract } from '@/lib/hooks/canisters/insurance/sell-insurance-contract';
-import { useIcrcApprove } from '@/lib/hooks/ledgers/icrc/approve';
-import { convertInsuranceAssetToCanisterName } from '@/lib/utils';
 import { ApproveParams } from '@dfinity/ledger-icrc';
-import { INSURANCE_PRINCIPAL } from '@/lib/constants/canisters';
+import { useState } from 'react';
 
 export function SellInsuranceContractForm({
   insuranceId,
@@ -37,7 +37,7 @@ export function SellInsuranceContractForm({
 }) {
   let [shareAmount, setShareAmount] = useState<number | undefined>(undefined);
 
-  let [sellInsuranceApi, loadingSellInsuranceApi] = usesellInsuranceContract();
+  let [sellInsuranceApi, loadingSellInsuranceApi] = useSellInsuranceContract();
   let [approve, loadingApproveApi] = useIcrcApprove();
 
   const handleInputChange = (event: any) => {
@@ -143,7 +143,9 @@ export function SellInsuranceContractForm({
               </Box>
               <Spacer />
               <Box className="  block   text-gray-700  font-mono ">
-                {formatDateInput(insurance?.expiry_date! / 1_000_000n) || '-'}
+                {convertMilliSecondsToDateTime(
+                  insurance?.expiry_date! / 1_000_000n
+                ) || '-'}
               </Box>
             </Box>
             {/*  */}
@@ -233,8 +235,10 @@ export function SellInsuranceContractForm({
                 <Button
                   isLoading={loadingSellInsuranceApi || loadingApproveApi}
                   onClick={sellInsurance}
-                  disabled={!insurance.is_muliple_seller_allowed}
-                  type="button"
+                  isDisabled={
+                    !insurance.is_muliple_seller_allowed ||
+                    shareAmount == undefined
+                  }
                   className="font-sans text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
                 >
                   Sell

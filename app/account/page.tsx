@@ -4,7 +4,6 @@ import { accountNav } from '@/lib/states/jotai';
 import { MyAccountNav } from '@/lib/states/types';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
-import React from 'react';
 
 const AccountEth = dynamic(() => import('@/components/account/account_eth'), {
   // Do not import in server side

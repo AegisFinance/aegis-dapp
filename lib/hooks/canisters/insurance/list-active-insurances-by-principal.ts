@@ -1,3 +1,4 @@
+import { InsuranceBuyersKey } from '@/declarations/insurance/insurance.did';
 import {
   getActiveBuyInsuranceListByPrincipal,
   getActiveSellInsuranceListByPrincipal,
@@ -11,7 +12,6 @@ import { useAtom } from 'jotai';
 import { useState } from 'react';
 import { ToastStatus } from '../../utils/toast/interface';
 import { useSimpleToast } from '../../utils/toast/toast';
-import { InsuranceBuyersKey } from '@/declarations/insurance/insurance.did';
 
 export function useListActiveBuyInsuranceListByPrincipal(): [
   () => Promise<void>,

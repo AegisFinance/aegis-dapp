@@ -1,3 +1,5 @@
+import { UserInsuranceListHistoryKey } from '@/declarations/insurance/insurance.did';
+import { getInsuranceTradeHistoryByPrincipal } from '@/lib/apis/canisters/insurance/trade-history';
 import {
   ProviderAtom,
   insuranceTradeHistoryListAtom,
@@ -6,8 +8,6 @@ import { useAtom } from 'jotai';
 import { useState } from 'react';
 import { ToastStatus } from '../../utils/toast/interface';
 import { useSimpleToast } from '../../utils/toast/toast';
-import { UserInsuranceListHistoryKey } from '@/declarations/insurance/insurance.did';
-import { getInsuranceTradeHistoryByPrincipal } from '@/lib/apis/canisters/insurance/trade-history';
 
 export function useListInsuranceTradeHistory(): [
   () => Promise<void>,

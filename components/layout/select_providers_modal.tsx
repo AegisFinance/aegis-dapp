@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { Provider } from "@/lib/auth/interface";
-import { Box, Button, Center } from "@chakra-ui/react";
-import React from "react";
-import { SpinnerDoubleBorder } from "../spinners";
-import PlugConnectIcon from "@/lib/utils/icons/plug";
-import { ICLogo } from "@/lib/utils/icons/ic";
-import { XTCIcon } from "@/lib/utils/icons/xtc";
+import { Provider } from '@/lib/auth/interface';
+import { Box, Button, Center } from '@chakra-ui/react';
+import React from 'react';
+import { SpinnerDoubleBorder } from '../spinners';
+import PlugConnectIcon from '@/lib/utils/icons/plug';
+import { ICLogo } from '@/lib/utils/icons/ic';
+import { XTCIcon } from '@/lib/utils/icons/xtc';
 
 interface ModalProps {
   isModalOpen?: boolean;
@@ -64,21 +64,23 @@ const SelectProviderModal: React.FC<ModalProps> = ({
                   Plug
                 </Button>
                 <Button
+                  disabled
                   onClick={() => {
-                    alert("Support Comming Soon!");
+                    alert('Support Comming Soon!');
                   }}
                   rightIcon={ICPLogo}
                   // onClick={() => signIn(Provider.II)}
-                  className="disabled hover:text-slate-500 p-3 bg-slate-500 rounded-full text-white w-full font-semibold font-sans"
+                  className="disabled hover:text-white  hover:bg-slate-500 p-3 bg-slate-500 rounded-full text-white w-full font-semibold font-sans"
                 >
                   Internet Identity
                 </Button>
                 <Button
+                  disabled={true}
                   onClick={() => {
-                    alert("Support Comming Soon!");
+                    alert('Support Comming Soon!');
                   }}
                   rightIcon={XTCLogo}
-                  className="hover:text-slate-500 p-3 bg-slate-500 rounded-full text-white w-full font-semibold font-sans"
+                  className="hover:text-white  hover:bg-slate-500 p-3 bg-slate-500 rounded-full text-white w-full font-semibold font-sans"
                 >
                   NFID
                 </Button>

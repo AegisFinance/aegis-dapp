@@ -1,10 +1,7 @@
+import { getCurrentPremiumByInsuranceId } from '@/lib/apis/canisters/insurance/get-current-premium';
 import { ProviderAtom } from '@/lib/states/jotai';
 import { useAtom } from 'jotai';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { useSimpleToast } from '../../utils/toast/toast';
-import { ToastStatus } from '../../utils/toast/interface';
-import { getCurrentPremiumByInsuranceId } from '@/lib/apis/canisters/insurance/get-current-premium';
 
 export function useGetCurrentPremiumByInsuranceId(): [
   (id: number) => Promise<bigint>,

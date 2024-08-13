@@ -28,7 +28,7 @@ function AccountEth() {
 
   return (
     <>
-      {/* <ConnectMetamask /> */}
+      <ConnectMetamask />
       {isConnected ? (
         <ShowEthMenu switchMethod={setSwitchEthMethod} />
       ) : (
