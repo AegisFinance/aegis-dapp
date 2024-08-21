@@ -1,20 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
-import { Box, Button, Heading } from "@chakra-ui/react";
-import { CSSProperties, FunctionComponent, useMemo, useState } from "react";
-import { HeroComponentProps } from ".";
-import SelectProviderModal from "../select_providers_modal";
-import { ButtonShared } from "@/components/shared/button";
-import Link from "next/link";
+import { Box, Button, Heading } from '@chakra-ui/react';
+import { CSSProperties, FunctionComponent, useMemo, useState } from 'react';
+import { HeroComponentProps } from '.';
+import SelectProviderModal from '../select_providers_modal';
+import { ButtonShared } from '@/components/shared/button';
+import Link from 'next/link';
 
 const HeroSectionDesktop: FunctionComponent<HeroComponentProps> = ({
   signIn,
   isSiginLoading,
-  className = " ",
+  className = ' ',
 }: HeroComponentProps) => {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
   const openModal = () => {
-    console.log("click");
+    console.log('click');
     setModalOpen(true);
   };
 
@@ -31,27 +31,31 @@ const HeroSectionDesktop: FunctionComponent<HeroComponentProps> = ({
           onClose={handleCloseModal}
           isSiginLoading={isSiginLoading}
         />
-      )}{" "}
-      <Box className=" w-[max] relative bg-black-black-5 h-[max] overflow-hidden flex flex-col items-center justify-start pt-0 px-0 pb-px box-border text-center text-31xl text-black-black-100 font-button-14">
-        <Box className="w-[1440px] h-20 flex flex-row items-center justify-start py-5 px-[130px] box-border gap-[280px] text-left text-sm">
+      )}{' '}
+      <Box
+        className=" w-[max] relative bg-black-black-5 h-[max] overflow-hidden 
+                       flex flex-col items-center justify-start pt-0 px-0 pb-px box-border text-center 
+                       text-31xl text-black-black-100 font-button-14"
+      >
+        <Box
+          className="w-[1440px] h-20 flex flex-row items-center justify-start 
+                    py-5 px-[130px] box-border gap-[280px] text-left text-sm"
+        >
           <Box className="w-[110px] relative h-4" />
-          <Box className="w-[790px] h-10 overflow-hidden shrink-0 flex flex-row items-center justify-end gap-[186px]">
+          <Box
+            className="w-[790px] h-10 overflow-hidden shrink-0 
+                        flex flex-row items-center justify-end gap-[186px]"
+          >
             <Box className="z-10 flex flex-row items-center justify-center gap-[28px]">
-              <Link href="/" className="relative leading-[100%] font-semibold">
-                Account
-              </Link>
-              <Link href="/" className="relative leading-[100%] font-semibold">
-                Stake
-              </Link>
-              <Link href="/" className="relative leading-[100%] font-semibold">
-                Insurance
-              </Link>
-              <Link href="/" className="relative leading-[100%] font-semibold">
-                Options
-              </Link>
-              <Link href="/about" className="relative leading-[100%] font-semibold">
-                Feedback
-              </Link>
+              <Box>
+                {
+                  //
+                  //
+                  /* Add Any Announcement or Promotional Link here! */
+                  //
+                  //
+                }
+              </Box>
             </Box>
             <Box className="w-[204px] h-10 overflow-hidden shrink-0 flex flex-row items-center justify-start gap-[12px] text-center text-base">
               <Box
@@ -503,11 +507,11 @@ export type InfoBlockType = {
   text?: string;
 
   /** Style props */
-  propLeft?: CSSProperties["left"];
+  propLeft?: CSSProperties['left'];
 };
 
 const InfoBlock: FunctionComponent<InfoBlockType> = ({
-  className = "",
+  className = '',
   img,
   tradeDesk,
   weHaveThousandsOfATMsLoca,
