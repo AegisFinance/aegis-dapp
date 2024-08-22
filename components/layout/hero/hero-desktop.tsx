@@ -1,10 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
+import { ButtonShared } from '@/components/shared/button';
 import { Box, Button, Heading } from '@chakra-ui/react';
 import { CSSProperties, FunctionComponent, useMemo, useState } from 'react';
 import { HeroComponentProps } from '.';
 import SelectProviderModal from '../select_providers_modal';
-import { ButtonShared } from '@/components/shared/button';
-import Link from 'next/link';
 
 const HeroSectionDesktop: FunctionComponent<HeroComponentProps> = ({
   signIn,
