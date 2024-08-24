@@ -92,7 +92,7 @@ function setUpLocalEnvs() {
         # 
         echo "NEXT_PUBLIC_CKBTC_KYT_CANISTER_ID=$CKBTC_KYT_ID_MAINNET"
         echo "NEXT_PUBLIC_CKTEST_BTC_KYT_CANISTER_ID=$CKTEST_BTC_KYT_ID_TESTNET"
-    } >>.env
+    }| tee .env .env.local
 }
 
 function setUpICEnvs() {
@@ -138,7 +138,7 @@ function setUpICEnvs() {
         echo "NEXT_PUBLIC_CKBTC_KYT_CANISTER_ID=$CKTEST_BTC_KYT_ID_TESTNET"
         echo "NEXT_PUBLIC_CKTEST_BTC_KYT_CANISTER_ID=$CKTEST_BTC_KYT_ID_TESTNET"
 
-    } >>.env
+    }| tee .env .env.production
 }
 
 function main() {
@@ -174,10 +174,10 @@ function main() {
 
         setUpLocalEnvs
 
-        pnpm run dev
+        # pnpm run dev
     fi
 
-    dfx deploy  --network="$NETWORK"  aegis_dapp
+    # dfx deploy  --network="$NETWORK"  aegis_dapp
 
     dfx identity use default
 }

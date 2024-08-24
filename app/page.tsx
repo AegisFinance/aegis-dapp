@@ -20,9 +20,9 @@ export default function Home() {
     <>
       <div className="  max-w-screen-xl mx-auto px-4 md:px-8">
         <AccountOverviewHome />
-        <br/>
+        <br />
         <ICRCs />
-      </div>{' '}
+      </div>
     </>
   );
 }

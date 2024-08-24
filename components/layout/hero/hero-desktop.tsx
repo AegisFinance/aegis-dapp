@@ -30,7 +30,7 @@ const HeroSectionDesktop: FunctionComponent<HeroComponentProps> = ({
           onClose={handleCloseModal}
           isSiginLoading={isSiginLoading}
         />
-      )}{' '}
+      )}
       <Box
         className=" w-[max] relative bg-black-black-5 h-[max] overflow-hidden 
                        flex flex-col items-center justify-start pt-0 px-0 pb-px box-border text-center 
