@@ -1,25 +1,26 @@
-import React from "react";
-import Chart from "react-apexcharts";
+import React from 'react';
+import Chart from 'react-apexcharts';
 
 let options = {
   grid: {
     show: false,
   },
   chart: {
-    id: "basic-bar",
+    id: 'basic-bar',
     toolbar: {
       show: false,
     },
   },
   xaxis: {
-    categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
+    categories: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], // 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
   },
 };
 
 let series = [
   {
-    name: "series-1",
-    data: [30, 40, 45, 50, 49, 60, 70, 91],
+    name: 'series-1',
+    data: [0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0],
+    // data: [30, 40, 45, 50, 49, 60, 70, 91],
   },
 ];
 

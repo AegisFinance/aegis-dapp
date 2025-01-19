@@ -1,3 +1,4 @@
+import { IcrcTransferResult } from '@/declarations/accounts/accounts.did';
 import { withdrawFromAccount } from '@/lib/apis/accounts';
 import { humanToE8s } from '@/lib/apis/utils';
 import { ASSETS } from '@/lib/constants';
@@ -55,7 +56,7 @@ export function CkEthAccountWithdraw() {
 
   return (
     <Box>
-      <Box as={'p'} className="max-w-sm mx-auto  font-extrabold">
+      <Box as={'p'} className="max-w-sm mx-auto  font-extrabold mb-2">
         <Center>Enter Amount</Center>
       </Box>
       <Box as={'p'} className="max-w-sm mx-auto relative  ">
@@ -74,8 +75,11 @@ export function CkEthAccountWithdraw() {
             isDisabled={!amount || isPressed}
             isLoading={isPressed}
             onClick={withdraw}
-            className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-          >
+            className=" font-serif border-black dark:border-lavender-blue-400 border-[3px] 
+            transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
+              shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
+               dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
+               active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"                 >
             Withdraw ckETH
           </Button>
         </Center>
@@ -132,7 +136,7 @@ export function CkBtcAccountWithdraw() {
 
   return (
     <Box>
-      <Box as={'p'} className="max-w-sm mx-auto  font-extrabold">
+      <Box as={'p'} className="max-w-sm mx-auto mt-4 font-extrabold">
         <Center>Enter Amount</Center>
       </Box>
       <Box as={'p'} className="max-w-sm mx-auto relative  ">
@@ -151,8 +155,11 @@ export function CkBtcAccountWithdraw() {
             isDisabled={!amount || isPressed}
             isLoading={isPressed}
             onClick={withdraw}
-            className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-          >
+            className=" font-serif border-black dark:border-lavender-blue-400 border-[3px] 
+            transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
+              shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
+               dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
+               active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"          >
             Withdraw ckBTC
           </Button>
         </Center>
@@ -177,7 +184,7 @@ export function IcpAccountWithdraw() {
   const withdraw = async () => {
     if (amount) {
       setPressed(true);
-      const res = await withdrawFromAccount(
+      const res :IcrcTransferResult= await withdrawFromAccount(
         humanToE8s(amount)!,
         {
           ICP: null,
@@ -186,7 +193,7 @@ export function IcpAccountWithdraw() {
       );
       setPressed(false);
       setAmount(undefined);
-      if ('Ok' in res) {
+      if ('TransferSuccess' in res) {
         toast({
           title: 'Amount Withdraw Successfully',
           status: 'success',
@@ -228,8 +235,11 @@ export function IcpAccountWithdraw() {
             isDisabled={!amount || isPressed}
             isLoading={isPressed}
             onClick={withdraw}
-            className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-          >
+            className=" font-serif border-black dark:border-lavender-blue-400 border-[3px] 
+            transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
+              shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
+               dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
+               active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"            >
             Withdraw ICP
           </Button>
         </Center>

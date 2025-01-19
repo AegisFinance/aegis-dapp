@@ -7,7 +7,7 @@ import React from 'react';
 function StakeRootLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <main className="w-full flex flex-col ">
+      <main className="w-full flex flex-col border-transparent">
         <StakeNav />
         <Box className=" flex-1 overflow-y-auto   ">
           {children}

@@ -111,12 +111,13 @@ export function CkEthAccountDeposit() {
           {}
           <Button
             onClick={handleManualDeposit}
-            className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
-          >
-            <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-              Manual Deposit{}
-            </span>
-          </Button>
+            className=" font-serif border-black dark:border-lavender-blue-400 border-[3px] 
+            transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
+              shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
+               dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
+               active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"          >
+               Manual Deposit{}
+           </Button>
           {}
         </Center>
       ) : (
@@ -143,8 +144,11 @@ export function CkEthAccountDeposit() {
               isDisabled={!amount || isPressed}
               isLoading={isLoading}
               onClick={deposit}
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-            >
+              className=" font-serif border-black dark:border-lavender-blue-400 border-[3px] 
+              transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
+                shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
+                 dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
+                 active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"            >
               Deposit ckETH
             </Button>
           </Center>
@@ -253,11 +257,13 @@ export function CkBtcAccountDeposit() {
           {}
           <Button
             onClick={handleManualDeposit}
-            className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
+            className=" font-serif border-black dark:border-lavender-blue-400 border-[3px] 
+            transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
+              shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
+               dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
+               active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"
           >
-            <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-              Manual Deposit{}
-            </span>
+            Manual Deposit
           </Button>
           {}
         </Center>
@@ -285,8 +291,11 @@ export function CkBtcAccountDeposit() {
               isDisabled={!amount || isPressed}
               isLoading={isLoading}
               onClick={deposit}
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-            >
+              className=" font-serif border-black dark:border-lavender-blue-400 border-[3px] 
+              transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
+                shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
+                 dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
+                 active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"            >
               Deposit ckBTC
             </Button>
           </Center>
@@ -395,12 +404,13 @@ export function IcpAccountDeposit() {
           {}
           <Button
             onClick={handleManualDeposit}
-            className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
-          >
-            <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-              Manual Deposit{}
-            </span>
-          </Button>
+            className=" font-serif border-black dark:border-lavender-blue-400 border-[3px] 
+            transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
+              shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
+               dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
+               active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"          >
+               Manual Deposit{}
+           </Button>
           {}
         </Center>
       ) : (
@@ -427,8 +437,11 @@ export function IcpAccountDeposit() {
               isDisabled={!amount || isPressed}
               isLoading={isLoading}
               onClick={deposit}
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-            >
+              className=" font-serif border-black dark:border-lavender-blue-400 border-[3px] 
+              transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
+                shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
+                 dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
+                 active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"            >
               Deposit ICP
             </Button>
           </Center>

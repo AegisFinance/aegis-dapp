@@ -23,6 +23,7 @@ import { ProviderAtom } from '@/lib/states/jotai';
 import { CANISTERS_NAME } from '@/lib/utils';
 import { useAtom, useAtomValue } from 'jotai';
 import { Spinners } from '../spinners';
+import QRCode from 'react-qr-code';
 
 export function CkBtcConvert() {
   const [getIcrcBalance, loadingGetIcrcBalance] = useIcrcBalance();
@@ -106,7 +107,11 @@ export function CkBtcConvert() {
             isDisabled={(!amount && !btcAddress) || isLoading}
             isLoading={isLoading}
             onClick={withdraw}
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            className=" font-serif border-black dark:border-lavender-blue-400 border-[3px] 
+            transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
+              shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
+               dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
+               active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"
           >
             Convert ckBTC
           </Button>
@@ -161,13 +166,17 @@ export function BtcConvert() {
   useEffect(() => {
     const getAddress = async () => {
       setLoading(true);
-      setDespositAddress(
-        await getBitcoinAddress(
-          (await getPrincipal(provider!))!,
-          false,
-          provider!
-        )
+      console.log(': --------------------------------setLoading');
+
+      let address = await getBitcoinAddress(
+        (await getPrincipal(provider!))!,
+        false,
+        provider!
       );
+      console.log(': --------------------------------');
+      console.log(': getAddress -> address', address);
+      console.log(': --------------------------------');
+      setDespositAddress(address);
       await getBalance();
       setLoading(false);
     };
@@ -193,7 +202,21 @@ export function BtcConvert() {
                 }}
               >
                 {depositAddress ? (
-                  <></>
+                  <>
+                    {
+                      <QRCode
+                        size={512}
+                        style={{
+                          height: 'auto',
+                          maxWidth: '100%',
+                          width: '100%',
+                        }}
+                        value={depositAddress!}
+                        viewBox={`0 0 256 256`}
+                        level="L"
+                      />
+                    }
+                  </>
                 ) : (
                   // <QRCode
                   //   size={512}
@@ -242,7 +265,11 @@ export function BtcConvert() {
               isDisabled={isPressed}
               isLoading={isPressed}
               onClick={updateBalance}
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+              className=" font-serif border-black dark:border-lavender-blue-400 border-[3px] 
+              transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
+                shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
+                 dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
+                 active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"
             >
               Update Balance
             </Button>
@@ -315,7 +342,7 @@ export function EthConvert() {
         <Center>Principal</Center>
       </Box>
       <Box as={'p'} className="max-w-sm mx-auto">
-        <Center>{truncatePrincipal(getPrincipalText,6)}</Center>
+        <Center>{truncatePrincipal(getPrincipalText, 6)}</Center>
       </Box>
       <Box as={'p'} className="max-w-sm mx-auto  font-extrabold">
         <Center>Ethereum Address </Center>
@@ -324,7 +351,7 @@ export function EthConvert() {
         <Center> {truncatePrincipal(ethAddress)}</Center>
       </Box>
       <br />
-      <Box as={'p'} className="max-w-sm mx-auto  font-extrabold">
+      <Box as={'p'} className="max-w-sm mx-auto  font-extrabold mb-2">
         <Center>Enter Amount {amount}</Center>
       </Box>
       <Box as={'p'} className="max-w-sm mx-auto">
@@ -353,7 +380,11 @@ export function EthConvert() {
             isDisabled={!amount}
             isLoading={isLoading}
             onClick={despositEther}
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            className=" font-serif border-black dark:border-lavender-blue-400 border-[3px] 
+            transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
+              shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
+               dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
+               active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"
           >
             Convert
           </Button>
@@ -451,7 +482,11 @@ export function CkEthConvert() {
             isDisabled={(!amount && !ethAddress) || isLoading}
             isLoading={isLoading}
             onClick={approve}
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            className=" font-serif border-black dark:border-lavender-blue-400 border-[3px] 
+            transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
+              shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
+               dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
+               active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"
           >
             Approve ckETH
           </Button>
@@ -461,7 +496,11 @@ export function CkEthConvert() {
             isDisabled={(!amount && !ethAddress) || isLoading}
             isLoading={isLoading}
             onClick={withdraw}
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            className=" font-serif border-black dark:border-lavender-blue-400 border-[3px] 
+            transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
+              shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
+               dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
+               active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"
           >
             Convert ckETH
           </Button>

@@ -8,11 +8,11 @@ export default function StakeOverview() {
 
   return (
     <>
-      <section className="  ">
+      <section className="mb-2 border-t-2">
         <Center>
           <Heading
             size="lg"
-            className="font-sans underline underline-offset-8 mb-0"
+            className="font-sans underline underline-offset-8 mb-0 mt-2"
           >
             Staking Stats
           </Heading>

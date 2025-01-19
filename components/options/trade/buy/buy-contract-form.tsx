@@ -1,226 +1,216 @@
 import { Spinners } from '@/components/spinners';
-import {
-  BuyInsuranceArgs,
-  Insurance,
-} from '@/declarations/insurance/insurance.did';
-import { INSURANCE_PRINCIPAL } from '@/lib/constants/canisters';
-import { useBuyInsuranceContract } from '@/lib/hooks/canisters/insurance/buy-insurance-contract';
+import { Options } from '@/declarations/options/options.did';
+import { calculatePremium } from '@/lib/apis/canisters/options/calculate-premium';
+import { OPTIONS_PRINCIPAL } from '@/lib/constants/canisters';
+import { useBuyOptionsContract } from '@/lib/hooks/canisters/options/buy-options-contract';
 import { useIcrcApprove } from '@/lib/hooks/ledgers/icrc/approve';
-import { convertInsuranceAssetToCanisterName } from '@/lib/utils';
+import { ProviderAtom } from '@/lib/states/jotai';
+import { CANISTERS_NAME } from '@/lib/utils';
 import {
-  convertBigIntToInsuranceAmount,
-  convertInsuranceAmountToBigInt,
+  convertBigIntToOptionsAmount,
+  convertXrcToStrikePrice,
 } from '@/lib/utils/convert-inputs';
 import {
-  Box,
-  Button,
-  Heading,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  Spacer,
-} from '@chakra-ui/react';
+  convertOptionsAssetsIntoString,
+  convertOptionsAssetsToOptionsAssetsByNames,
+  convertOptionsAssetsToOptionsAssetsIcrc,
+  convertOptionsContractStateToString,
+  convertOptionsTypeIntoString,
+} from '@/lib/utils/options-asset-conversions';
+import { Box, Button, Heading, Spacer } from '@chakra-ui/react';
 import { ApproveParams } from '@dfinity/ledger-icrc';
-import { useState } from 'react';
-import { formatDateInput } from '../issue/issue-contract-form';
-import { convertMilliSecondsToDateTime } from '@/lib/apis/utils';
+import { useAtom } from 'jotai';
+import { useEffect, useState } from 'react';
+import { parseEther } from 'viem';
+import { formatDateTimeInput } from '../issue/issue-contract-form';
 
-export function BuyInsuranceContractForm({
-  insuranceId,
-  insurance,
+export function BuyOptionsContractForm({
+  optionsId,
+  options,
   currentPremium,
   isLoading,
 }: {
-  insuranceId: number;
-  insurance: Insurance | undefined;
-  currentPremium: bigint;
+  optionsId: bigint;
+  options: Options | undefined;
+  currentPremium: number;
   isLoading: boolean;
 }) {
-  let [buyInsuranceApi, loadingBuyInsuranceApi] = useBuyInsuranceContract();
+  const [provider] = useAtom(ProviderAtom);
+
+  let [buyOptionsApi, loadingBuyOptionsApi] = useBuyOptionsContract();
   let [approve, loadingApproveApi] = useIcrcApprove();
 
   let [premiumAmount, setPremiumAmount] = useState<number | undefined>(
     undefined
   );
 
-  const handleInputChange = (event: any) => {
+  const [refreshPremium, setRefreshPremium] = useState<boolean>(false);
+
+  const buyOptions = async () => {
     try {
-      let amount = event.target.value;
-      console.log(': -------------------------------------');
-      console.log(': handleInputChange -> amount', amount);
-      console.log(': -------------------------------------');
-      setPremiumAmount(parseFloat(amount));
+      if (premiumAmount) {
+        if (
+          await approve(CANISTERS_NAME.CKUSDT_LEDGER, {
+            amount: BigInt(parseEther(String(premiumAmount))) * 2n,
+            spender: {
+              owner: OPTIONS_PRINCIPAL,
+              subaccount: [],
+            },
+          } as ApproveParams)
+        ) {
+          await buyOptionsApi(
+            convertOptionsAssetsToOptionsAssetsIcrc(options!.asset),
+            optionsId
+          );
+        }
+      } else {
+        await queryPremium();
+      }
     } catch (error) {
-      console.log(': -----------------------------------');
-      console.log(': handleInputChange -> error', error);
-      console.log(': -----------------------------------');
+      console.log(': ----------------------------');
+      console.log(': buyOptions -> error', error);
+      console.log(': ----------------------------');
     }
   };
 
-  const buyInsurance = async () => {
-    let amount = convertInsuranceAmountToBigInt(
-      premiumAmount!,
-      insurance?.insurance_asset!
-    )!;
-
-    let args: BuyInsuranceArgs = {
-      insurance_id: insuranceId,
-      premium: amount!,
-    };
-
-    if (
-      await approve(
-        convertInsuranceAssetToCanisterName(insurance?.insurance_asset!)!,
-        {
-          amount: amount + amount,
-          spender: {
-            owner: INSURANCE_PRINCIPAL,
-            subaccount: [],
-          },
-        } as ApproveParams
-      )
-    ) {
-      await buyInsuranceApi(args);
+  const queryPremium = async () => {
+    if (options) {
+      console.log(': ----------------------------------');
+      console.log(': queryPremium -> options', options);
+      console.log(': ----------------------------------');
+      let premium = await calculatePremium(
+        options.strike_price,
+        options.options_type,
+        options.contract_expiry,
+        options.asset,
+        provider!
+      );
+      if ('Ok' in premium) {
+        setPremiumAmount(premium.Ok);
+        setRefreshPremium(true);
+      } else {
+        setPremiumAmount(0.0);
+      }
     }
   };
 
-  if (isLoading && loadingBuyInsuranceApi) {
+  useEffect(() => {
+    if (!premiumAmount || !refreshPremium) {
+      queryPremium();
+    }
+  });
+
+  if ((isLoading && loadingBuyOptionsApi) || !options) {
     return <Spinners sizes="xl" />;
   }
+
   return (
     <>
       <Box className="bg-transparent shadow z-10 w-full max-w-lg font-sans font-thin">
         <Heading
           as="h2"
           size="lg"
-          className="text-center font-sans underline mb-2"
+          className="text-center font-sans underline underline-offset-8 mb-2"
         >
-          Buy Contract
+          Trade Options
         </Heading>
-        {insurance && (
+        {options && (
           <Box className="flex flex-col gap-4 lg:gap-1 p-5">
             <Box className="flex flex-wrap   mb-4 flex-col md:flex-row  ">
               <Box className="pb-3 lg:pb-0 tracking-wide text-gray-700 text-xs font-bold font-sans ">
-                Title
-              </Box>
-              <Spacer />
-              <Box className="  block   text-gray-700  font-mono ">
-                {insurance?.title || '-'}
-              </Box>
-            </Box>
-            {/*  */}
-            <Box className="flex flex-wrap   mb-4 flex-col md:flex-row  ">
-              <Box className=" pb-3 lg:pb-0 tracking-wide text-gray-700 text-xs font-bold font-sans ">
-                Description
-              </Box>
-              <Spacer />
-              <Box className="  block   text-gray-700  font-mono ">
-                {insurance?.description || '-'}
-              </Box>
-            </Box>
-            {/*  */}
-            <Box className="flex flex-wrap   mb-4 flex-col md:flex-row  ">
-              <Box className=" pb-3 lg:pb-0 tracking-wide text-gray-700 text-xs font-bold font-sans ">
                 Asset
               </Box>
               <Spacer />
               <Box className="  block   text-gray-700  font-mono ">
-                {Object.keys(insurance!.insurance_asset)[0] || '-'}
+                {convertOptionsAssetsIntoString(options.asset) || '-'}
               </Box>
             </Box>
             {/*  */}
             <Box className="flex flex-wrap   mb-4 flex-col md:flex-row  ">
               <Box className=" pb-3 lg:pb-0 tracking-wide text-gray-700 text-xs font-bold font-sans ">
-                Contract Category
+                Type
               </Box>
               <Spacer />
               <Box className="  block   text-gray-700  font-mono ">
-                {Object.keys(insurance!.category)[0] || '-'}
+                {convertOptionsTypeIntoString(options.options_type) || '-'}
               </Box>
             </Box>
             {/*  */}
             <Box className="flex flex-wrap   mb-4 flex-col md:flex-row  ">
               <Box className=" pb-3 lg:pb-0 tracking-wide text-gray-700 text-xs font-bold font-sans ">
-                Contract Expiry
+                Offer Ends in
               </Box>
               <Spacer />
               <Box className="  block   text-gray-700  font-mono ">
-                {convertMilliSecondsToDateTime(
-                  insurance?.expiry_date! / 1_000_000n
-                ) || '-'}
+                {formatDateTimeInput(options!.offer_duration / 1_000_000n) ||
+                  '-'}
               </Box>
             </Box>
             {/*  */}
             <Box className="flex flex-wrap   mb-4 flex-col md:flex-row  ">
               <Box className=" pb-3 lg:pb-0 tracking-wide text-gray-700 text-xs font-bold font-sans ">
-                Inflation Target
+                Expiry
               </Box>
               <Spacer />
               <Box className="  block   text-gray-700  font-mono ">
-                {insurance?.category.InflationBasedInsurance.inflation_target?.toFixed(
-                  2
-                ) || '-'}
+                {formatDateTimeInput(options.offer_duration / 1_000_000n) ||
+                  '-'}
               </Box>
             </Box>
             {/*  */}
             <Box className="flex flex-wrap   mb-4 flex-col md:flex-row  ">
               <Box className=" pb-3 lg:pb-0 tracking-wide text-gray-700 text-xs font-bold font-sans ">
-                Premium Amount
+                Created at
               </Box>
               <Spacer />
               <Box className="  block   text-gray-700  font-mono ">
-                {convertBigIntToInsuranceAmount(
-                  insurance?.min_premium_amount!,
-                  insurance?.insurance_asset!
-                )! || '-'}
+                {formatDateTimeInput(options.timestamp / 1_000_000n) || '-'}
               </Box>
             </Box>
             {/*  */}
             <Box className="flex flex-wrap   mb-4 flex-col md:flex-row  ">
               <Box className=" pb-3 lg:pb-0 tracking-wide text-gray-700 text-xs font-bold font-sans ">
-                Max Premium Amount(Curr)
+                Strike Price ($)
               </Box>
               <Spacer />
               <Box className="  block   text-gray-700  font-mono ">
-                {convertBigIntToInsuranceAmount(
-                  currentPremium,
-                  insurance?.insurance_asset!
-                )! || '-'}
+                {convertXrcToStrikePrice(options.strike_price)}
               </Box>
             </Box>
             {/*  */}
             <Box className="flex flex-wrap   mb-4 flex-col md:flex-row  ">
               <Box className=" pb-3 lg:pb-0 tracking-wide text-gray-700 text-xs font-bold font-sans ">
-                Share Amount
+                Collateral
               </Box>
               <Spacer />
               <Box className="  block   text-gray-700  font-mono ">
-                {convertBigIntToInsuranceAmount(
-                  insurance?.min_share_amount[0] ?? 0n,
-                  insurance?.insurance_asset!
-                )! || '-'}
+                {convertBigIntToOptionsAmount(
+                  options.asset_amount,
+                  convertOptionsAssetsToOptionsAssetsByNames(options.asset)
+                )}
               </Box>
             </Box>
             {/*  */}
             <Box className="flex flex-wrap   mb-4 flex-col md:flex-row  ">
               <Box className=" pb-3 lg:pb-0 tracking-wide text-gray-700 text-xs font-bold font-sans ">
-                Seller Participation
+                Premium (USDT)
               </Box>
               <Spacer />
               <Box className="  block   text-gray-700  font-mono ">
-                {insurance?.is_muliple_seller_allowed ? 'YES' : 'NO'}
-              </Box>
-            </Box>
-            {/*  */}
-            <Box className="flex flex-wrap   mb-4 flex-col md:flex-row  ">
-              <Box className=" pb-3 lg:pb-0 tracking-wide text-gray-700 text-xs font-bold font-sans ">
-                Benefit Multiplier
-              </Box>
-              <Spacer />
-              <Box className="  block   text-gray-700  font-mono ">
-                {Object.keys(insurance?.multiplier!)[0].slice(1) || '-'}
+                {premiumAmount! *
+                  convertBigIntToOptionsAmount(
+                    options.asset_amount,
+                    convertOptionsAssetsToOptionsAssetsByNames(options.asset)
+                  ) || '-'}
+                {/* <Button
+                  className="bg-transparent"
+                  onClick={() => {
+                    setPremiumAmount(0.0);
+                    queryPremium();
+                  }}
+                >
+                  ()
+                </Button> */}
               </Box>
             </Box>
             {/*  */}
@@ -230,12 +220,13 @@ export function BuyInsuranceContractForm({
               </Box>
               <Spacer />
               <Box className="  block   text-gray-700  font-mono ">
-                {Object.keys(insurance?.status!)[0] || '-'}
+                {convertOptionsContractStateToString(options.contract_state!) ||
+                  '-'}
               </Box>
             </Box>
             {/*  */}
             <Box className="flex flex-wrap   mb-4 flex-col md:flex-row  ">
-              <Box className=" pb-3 lg:pb-0 tracking-wide text-gray-700 text-xs font-bold font-sans ">
+              {/* <Box className=" pb-3 lg:pb-0 tracking-wide text-gray-700 text-xs font-bold font-sans ">
                 <NumberInput>
                   <NumberInputField
                     onChange={handleInputChange}
@@ -246,18 +237,18 @@ export function BuyInsuranceContractForm({
                     <NumberDecrementStepper />
                   </NumberInputStepper>
                 </NumberInput>
-              </Box>
+              </Box> */}
               <Spacer />
               <Box className="  block   text-gray-700  font-mono ">
                 <Button
-                  isLoading={loadingBuyInsuranceApi || loadingApproveApi}
+                  isLoading={loadingBuyOptionsApi || loadingApproveApi}
                   disabled={premiumAmount == 0 ? true : false}
                   isDisabled={premiumAmount == undefined}
-                  onClick={buyInsurance}
+                  onClick={buyOptions}
                   type="button"
                   className="font-sans text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
-                  Buy
+                  Trade
                   <svg
                     className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
                     aria-hidden="true"

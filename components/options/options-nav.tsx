@@ -1,35 +1,26 @@
-import { insuranceNav } from '@/lib/states/jotai';
-import { MyInsuranceNav } from '@/lib/states/types';
+import { optionsNav } from '@/lib/states/jotai';
+import { MyOptionsNav } from '@/lib/states/types';
 import * as Tabs from '@radix-ui/react-tabs';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
-import { HiArrowTrendingUp } from 'react-icons/hi2';
+import { FiActivity } from 'react-icons/fi';
 import { IoOptionsSharp } from 'react-icons/io5';
-import { RiContractLine, RiHistoryLine } from 'react-icons/ri';
-import { HiArrowTrendingDown } from "react-icons/hi2";
 
-function InsuranceNav() {
-  const [, setInsuranceNav] = useAtom(insuranceNav);
+function OptionsNav() {
+  const [, setOptionsNav] = useAtom(optionsNav);
 
-  const setInsuranceNavHandle = (nav: MyInsuranceNav) => {
-    setInsuranceNav(nav);
+  const setOptionsNavHandle = (nav: MyOptionsNav) => {
+    setOptionsNav(nav);
   };
+
   const tabItems = [
     {
       icon: <IoOptionsSharp className="w-5 h-5" />,
-      name: 'Contracts' as MyInsuranceNav,
+      name: 'Options' as MyOptionsNav,
     },
     {
-      icon: <HiArrowTrendingUp className="w-5 h-5" />,
-      name: 'Buy' as MyInsuranceNav,
-    },
-    {
-      icon: <HiArrowTrendingDown className="w-5 h-5" />,
-      name: 'Sell' as MyInsuranceNav,
-    },
-    {
-      icon: <RiHistoryLine className="w-5 h-5" />,
-      name: 'Closed' as MyInsuranceNav,
+      icon: <FiActivity className="w-5 h-5" />,
+      name: 'Activity' as MyOptionsNav,
     },
   ];
 
@@ -50,9 +41,9 @@ function InsuranceNav() {
               value={item.name}
             >
               <Link
-                href="/insurance"
+                href="/options"
                 onClick={() => {
-                  setInsuranceNavHandle(item.name);
+                  setOptionsNavHandle(item.name);
                 }}
                 className="flex items-center gap-x-2 py-1.5 px-3 rounded-lg duration-150 group-hover:text-indigo-600 group-hover:bg-gray-50 group-active:bg-gray-100 font-medium"
               >
@@ -74,4 +65,4 @@ function InsuranceNav() {
   );
 }
 
-export default InsuranceNav;
+export default OptionsNav;
