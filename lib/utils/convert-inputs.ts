@@ -1,7 +1,13 @@
- import { InsuranceAssets } from '@/declarations/insurance/insurance.did';
+import { InsuranceAssets } from '@/declarations/insurance/insurance.did';
+import {
+  OptionsAssets,
+  OptionsAssetsByNames,
+  OptionsAssetsIcrc,
+} from '@/declarations/options/options.did';
 import { formatEther, parseEther } from 'viem';
 
 const baseOfEight = 100000000;
+export const BASE_OF_XRC = 1_000_000_000;
 
 export function convertInsuranceAmountToBigInt(
   amount: number,
@@ -25,6 +31,62 @@ export function convertInsuranceAmountToBigInt(
   }
 }
 
+export function convertOptionsAmountToBigInt(
+  amount: number,
+  asset: OptionsAssetsIcrc
+): bigint {
+  console.log(': ----------------');
+  console.log(': amount', amount);
+  console.log(': ----------------');
+
+  console.log(': --------------');
+  console.log(': asset', asset);
+  console.log(': --------------');
+  if ('CKBTC' in asset) {
+    return humanToE8s(amount);
+  } else if ('CKETH' in asset) {
+    return humanToE18s(amount)!;
+  } else if ('CKUSDT' in asset) {
+    return humanToE18s(amount)!;
+  } else {
+    throw new Error(`Asset ${JSON.stringify(asset)} Not Found`);
+  }
+}
+export function convertBigIntToOptionsAmount(
+  amount: bigint,
+  asset: OptionsAssetsByNames
+): number {
+  console.log(': ----------------');
+  console.log(': amount', amount);
+  console.log(': ----------------');
+
+  if ('CKBTC' in asset || 'ICP' in asset) {
+    // Use e8sToHuman for CKBTC and ICP
+    const humanReadableAmount = e8sToHuman(amount);
+    if (humanReadableAmount === null) {
+      throw new Error('Failed to parse amount for e8sToHuman.');
+    }
+    console.log(': Using e8sToHuman:', humanReadableAmount);
+    return humanReadableAmount!;
+  } else {
+    // Use e18sToHuman for other assets
+    const parsedAmount = e18sToHuman(amount);
+    if (parsedAmount === null) {
+      throw new Error('Failed to parse amount for e18sToHuman.');
+    }
+    console.log(': Using e18sToHuman:', parsedAmount);
+    return parseFloat(parsedAmount!);
+  }
+}
+
+export function convertStrikePriceToXrc(strikePrice: number): bigint {
+  return BigInt(strikePrice * BASE_OF_XRC);
+}
+
+export function convertXrcToStrikePrice(xrc: bigint): number {
+  return Number(xrc / BigInt(BASE_OF_XRC));
+}
+
 export function convertBigIntToInsuranceAmount(
   amount: bigint,
   asset: InsuranceAssets
@@ -35,7 +97,7 @@ export function convertBigIntToInsuranceAmount(
 
   switch (true) {
     case 'CKETH' in asset:
-       return e18sToHuman(amount);
+      return e18sToHuman(amount);
 
     default:
       return e8sToHuman(amount);

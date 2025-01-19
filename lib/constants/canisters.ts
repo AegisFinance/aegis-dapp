@@ -43,12 +43,20 @@ export const ICP_LEDGER_PRINCIPAL: Principal = Principal.fromText(
   process.env.NEXT_PUBLIC_ICP_LEDGER_ID!
 );
 
+export const CKUSDT_LEDGER_PRINCIPAL: Principal = Principal.fromText(
+  process.env.NEXT_PUBLIC_CKUSDT_LEDGER_ID!
+);
+
 export const ACCOUNTS_PRINCIPAL: Principal = Principal.fromText(
   process.env.NEXT_PUBLIC_ACCOUNTS_CANISTER_ID!
 );
 
 export const INSURANCE_PRINCIPAL: Principal = Principal.fromText(
   process.env.NEXT_PUBLIC_INSURANCE_CANISTER_ID!
+);
+
+export const OPTIONS_PRINCIPAL: Principal = Principal.fromText(
+  process.env.NEXT_PUBLIC_OPTIONS_CANISTER_ID!
 );
 
 export const MAIN_PRINCIPAL: Principal = Principal.fromText(
@@ -78,6 +86,7 @@ export const CANISTER_WHITE_LIST: string[] = [
   ACCOUNTS_PRINCIPAL.toText(),
   MAIN_PRINCIPAL.toText(),
   INSURANCE_PRINCIPAL.toText(),
+  OPTIONS_PRINCIPAL.toText(),
 
   AEGIS_LEDGER_INDEX_PRINCIPAL.toText(),
   AEGIS_LEDGER_PRINCIPAL.toText(),
@@ -86,6 +95,7 @@ export const CANISTER_WHITE_LIST: string[] = [
   CKBTC_MINTER_PRINCIPAL.toText(),
   CKTEST_BTC_LEDGER_PRINCIPAL.toText(),
   CKTEST_BTC_MINTER_PRINCIPAL.toText(),
+  CKUSDT_LEDGER_PRINCIPAL.toText(),
 
   CKETH_LEDGER_PRINCIPAL.toText(),
   CKETH_MINTER_PRINCIPAL.toText(),

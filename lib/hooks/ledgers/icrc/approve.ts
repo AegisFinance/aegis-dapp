@@ -53,7 +53,7 @@ export function useIcrcApprove(): [
 
       simpleToast({
         title: 'Error',
-        description: JSON.stringify(err),
+        // description: JSON.stringify(err),
         status: ToastStatus.error,
       });
 

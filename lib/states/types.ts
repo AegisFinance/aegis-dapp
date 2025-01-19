@@ -15,6 +15,24 @@ export enum MyInsuranceNav {
   Closed = 'Closed',
 }
 
+export enum MyOptionsNav {
+  Options = 'Options',
+  Activity = 'Activity',
+  Buy = 'Buy',
+  Sell = 'Sell',
+  Closed = 'Closed',
+}
+
+export enum OptionsType {
+  Put = 'Put',
+  Call = 'Call',
+}
+
+export enum OptionsAssets {
+  CKBTC = 'CKBTC',
+  CKETH = 'CKETH',
+}
+
 export interface ListAtomInterface {
   [id: number]: Insurance | string;
 }

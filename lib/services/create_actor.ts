@@ -1,4 +1,4 @@
-import { Actor, ActorSubclass, HttpAgent } from '@dfinity/agent';
+import { ActorSubclass } from '@dfinity/agent';
 import {
   ACCOUNTS_PRINCIPAL,
   AEGIS_LEDGER_INDEX_PRINCIPAL,
@@ -8,12 +8,17 @@ import {
   CKBTC_MINTER_PRINCIPAL,
   CKETH_LEDGER_PRINCIPAL,
   CKETH_MINTER_PRINCIPAL,
+  CKUSDT_LEDGER_PRINCIPAL,
   ICP_LEDGER_PRINCIPAL,
   INSURANCE_PRINCIPAL,
   MAIN_PRINCIPAL,
+  OPTIONS_PRINCIPAL,
 } from '../constants/canisters';
 // import { getIdentity } from '../auth';
-import { _SERVICE } from '@/declarations/accounts/accounts.did';
+import { IDL } from '@dfinity/candid';
+import { Principal } from '@dfinity/principal';
+import { Provider } from '../auth/interface';
+import { CANISTERS_NAME } from '../utils';
 import {
   _ACCOUNTS,
   _AEGIS_INDEX,
@@ -26,6 +31,7 @@ import {
   _ICP_LEDGER,
   _INSURANCE,
   _MAIN,
+  _OPTIONS,
   idlFactoryAccounts,
   idlFactoryAegisIndex,
   idlFactoryAegisLedger,
@@ -37,12 +43,12 @@ import {
   idlFactoryIcpLedger,
   idlFactoryInsurance,
   idlFactoryMain,
+  idlFactoryOptions,
   SERVICES,
+  _CKUSDT_LEDGER,
+  idlFactoryCkUsdtLedger,
 } from '../utils/helper_contract';
-import { CANISTER_IDS_MAP, CANISTERS_NAME } from '../utils';
-import { Principal } from '@dfinity/principal';
-import { IDL } from '@dfinity/candid';
-import { Provider } from '../auth/interface';
+import { idlFactory } from '@/declarations/kyt';
 
 // export function createActor(
 //   canisterName: CANISTERS_NAME
@@ -127,6 +133,15 @@ export async function createCanisterActor(
   let idl: IDL.InterfaceFactory;
 
   switch (canisterName) {
+    case CANISTERS_NAME.OPTIONS:
+      canisterId = OPTIONS_PRINCIPAL;
+      idl = idlFactoryOptions;
+      return (await createCanisterActorWithProvider(
+        provider,
+        canisterId,
+        idl
+      )) as ActorSubclass<_OPTIONS>;
+
     case CANISTERS_NAME.INSURANCE:
       canisterId = INSURANCE_PRINCIPAL;
       idl = idlFactoryInsurance;
@@ -225,6 +240,15 @@ export async function createCanisterActor(
         canisterId,
         idl
       )) as ActorSubclass<_ICP_LEDGER>;
+
+    case CANISTERS_NAME.CKUSDT_LEDGER:
+      canisterId = CKUSDT_LEDGER_PRINCIPAL;
+      idl = idlFactoryCkUsdtLedger;
+      return (await createCanisterActorWithProvider(
+        provider,
+        canisterId,
+        idl
+      )) as ActorSubclass<_CKUSDT_LEDGER>;
     //
     //
     //
@@ -277,5 +301,10 @@ export async function createCanisterActor(
         canisterId,
         idl
       )) as ActorSubclass<_ACCOUNTS>;
+
+    default:
+      throw new Error(
+        `Unable to Create Actor as Canister ${canisterName} not Found`
+      );
   }
 }

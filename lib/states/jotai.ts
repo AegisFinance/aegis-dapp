@@ -10,8 +10,17 @@ import {
   ListAtomInterface,
   MyAccountNav,
   MyInsuranceNav,
+  MyOptionsNav,
   MyStakeNav,
+  OptionsAssets,
+  OptionsType,
 } from './types';
+import {
+  OptionsActiveListKey,
+  OptionsContractState,
+  TradedOptionsContractsKey,
+  TradedOptionsContractsValue,
+} from '@/declarations/options/options.did';
 
 // storage
 export const sessionTimeoutAtom = atomWithStorage<number>('sessionTimeout', 0);
@@ -29,6 +38,7 @@ export const isAuthenticatedAtom = atomWithStorage<boolean>(
 // states
 export const accountNav = atom<MyAccountNav>(MyAccountNav.ICRC);
 export const insuranceNav = atom<MyInsuranceNav>(MyInsuranceNav.Buy);
+export const optionsNav = atom<MyOptionsNav>(MyOptionsNav.Options);
 
 export const insuranceListAtom = atom<ListAtomInterface | undefined>(undefined);
 
@@ -49,3 +59,12 @@ export const insuranceTradeHistoryListAtom = atom<
 >(undefined);
 
 export const stakeNav = atom<MyStakeNav>(MyStakeNav.AEGIS);
+
+export const optionsType = atom<OptionsType>(OptionsType.Call);
+export const optionsAssets = atom<OptionsAssets>(OptionsAssets.CKBTC);
+export const optionHistoryStateAtom = atom<OptionsContractState>({ OPEN: null });
+
+export const optionsOfferListAtom = atom<[OptionsActiveListKey, null][]>([]);
+export const optionsActivityListAtom = atom<
+  [TradedOptionsContractsKey, TradedOptionsContractsValue][]
+>([]);
