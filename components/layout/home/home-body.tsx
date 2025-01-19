@@ -11,12 +11,15 @@ import { usePrincipal } from '@/lib/hooks/auth/principal';
 import { useIcrcBalance } from '@/lib/hooks/ledgers/icrc/balance';
 import { ProviderAtom } from '@/lib/states/jotai';
 import { CANISTERS_NAME } from '@/lib/utils';
+import { e18sToHuman } from '@/lib/utils/convert-inputs';
 import { Table, Thead } from '@chakra-ui/react';
 import { Principal } from '@dfinity/principal';
 import { principalToSubAccount } from '@dfinity/utils';
 import { useAtom } from 'jotai';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { FaEthereum } from 'react-icons/fa';
+import { SiBitcoinsv } from 'react-icons/si';
 import { formatEther } from 'viem';
 
 const metricsData = [
@@ -229,7 +232,7 @@ export function AccountOverviewHome() {
 }
 
 type AccountBalances = {
-  avatar: string;
+  avatar: JSX.Element;
   tokenName: string;
   ticker: string;
   inAccount: number;
@@ -274,8 +277,7 @@ export function ICRCsHome() {
       console.log(': -------------------------------------------------------');
 
       let icpBalance: AccountBalances = {
-        avatar:
-          'https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
+        avatar: <FaEthereum className="w-5 h-5 " />,
         tokenName: 'Internet Computer',
         ticker: 'ICP',
         inAccount: e8sToHuman(icrcAccBalances.ICP)! || 0,
@@ -283,8 +285,8 @@ export function ICRCsHome() {
       };
       balances.push(icpBalance);
       let ckBTCBalances: AccountBalances = {
-        avatar:
-          'https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
+        avatar: <SiBitcoinsv
+         className="w-5 h-5 " />,
         tokenName: 'Chain-Key Bitcoin ',
         ticker: 'ckBTC',
         inAccount: e8sToHuman(icrcAccBalances.ckBTC)! || 0,
@@ -293,14 +295,22 @@ export function ICRCsHome() {
       balances.push(ckBTCBalances);
 
       let ckEthBalances: AccountBalances = {
-        avatar:
-          'https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
+        avatar: <FaEthereum className="w-5 h-5 " />,
         tokenName: 'Chain-Key Ethereum ',
         ticker: 'ckETH',
         inAccount: parseFloat(formatEther(icrcAccBalances.ckETH)) || 0,
         inWallet: parseFloat(formatEther(icrcWalletBalances.ckETH)) || 0,
       };
       balances.push(ckEthBalances);
+
+      let ckusdtBalance: AccountBalances = {
+        avatar: <FaEthereum className="w-5 h-5 " />,
+        tokenName: 'Chain Key USDT',
+        ticker: 'ckUSDT',
+        inAccount: Number(e18sToHuman(icrcAccBalances.ckUSDT)!) || 0,
+        inWallet: Number(e18sToHuman(icrcWalletBalances.ckUSDT)!) || 0,
+      };
+      balances.push(ckusdtBalance);
 
       setAccountBalances(balances);
       setLoading(false);
@@ -343,13 +353,14 @@ export function ICRCsHome() {
                 {accountBalances?.map((item, idx) => (
                   <tr key={idx}>
                     <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
-                      <Image
+                      {item.avatar}
+                      {/* <Image
                         src={item.avatar}
                         className="rounded-full"
                         alt={''}
                         width={10}
                         height={10}
-                      />
+                      /> */}
                       <div>
                         <span className="block text-gray-700 text-sm font-medium">
                           {item.tokenName}

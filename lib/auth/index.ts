@@ -60,7 +60,8 @@ export async function signIn(params: SignInParams): Promise<SignInRes> {
       };
     case Provider.Plug:
       let plug = new Plug();
-      return await plug.signIn();
+      // return { Ok: true };
+    return await plug.signIn();
 
     default:
       console.log(`Provider ${params.provider} Not supported For SignIn`);
@@ -78,7 +79,8 @@ export async function isAuthenticated(provider: Provider): Promise<boolean> {
 
     case Provider.Plug:
       let plug = new Plug();
-      return await plug.isAuthenticated();
+      // return true;
+    return await plug.isAuthenticated();
 
     default:
       console.log(`Provider ${provider} Not supported for Authentiation`);

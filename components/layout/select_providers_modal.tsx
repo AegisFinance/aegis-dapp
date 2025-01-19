@@ -33,18 +33,18 @@ const SelectProviderModal: React.FC<ModalProps> = ({
           <Box className="m-8 my-20 max-w-[400px] mx-auto">
             {isSiginLoading ? (
               <Center>
-                <h1 className="mb-4 text-3xl font-extrabold font-sans">
+                <h1 className="mb-4 text-3xl font-extrabold ">
                   Please Wait ...
                 </h1>
               </Center>
             ) : (
               <Box className="mb-8">
                 <Center>
-                  <h1 className="mb-4 text-12xl font-extrabold font-button-14">
+                  <h1 className="mb-4 text-12xl font-serif font-extrabold  ">
                     Wallet
                   </h1>
                 </Center>
-                <p className="text-gray-600">
+                <p className="text-gray-600 text-center">
                   Please select anyone provider to authnenticate yourself.
                 </p>
               </Box>
@@ -59,11 +59,11 @@ const SelectProviderModal: React.FC<ModalProps> = ({
                 <Button
                   rightIcon={PlugLogo}
                   onClick={() => signIn(Provider.Plug)}
-                  className="hover:text-slate-500 p-3 bg-slate-500 rounded-full text-white w-full font-semibold font-sans"
+                  className="hover:text-slate-500 p-3 bg-slate-500 rounded-full text-white w-full font-semibold  text-center "
                 >
                   Plug
                 </Button>
-                <Button
+                {/* <Button
                   disabled
                   onClick={() => {
                     alert('Support Comming Soon!');
@@ -83,10 +83,10 @@ const SelectProviderModal: React.FC<ModalProps> = ({
                   className="hover:text-white  hover:bg-slate-500 p-3 bg-slate-500 rounded-full text-white w-full font-semibold font-sans"
                 >
                   NFID
-                </Button>
+                </Button> */}
                 <Button
                   onClick={onClose}
-                  className="p-3 bg-white border rounded-full w-full font-semibold"
+                  className="p-3 bg-white border rounded-full w-full font-semibold text-center"
                 >
                   Close
                 </Button>

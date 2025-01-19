@@ -21,12 +21,12 @@ export default function HomeNav({ signOut }: HeadProps) {
 
   return (
     <>
-      <nav className=" sticky top-0 z-20 w-full bg-lavender-blue-300 shadow ">
+      <nav className=" sticky top-0 z-20 w-full bg-lavender-blue-200 shadow ">
         <div className="items-center px-4 max-w-screen-xl mx-auto md:flex md:px-8">
           <div className="flex items-center justify-between py-3 md:py-5 md:block">
             <Link href="/">
               <h1 className="  font-bold   xl:text-13xl">
-                <span className="text-indigo-600  font-sans underline underline-offset-8 ">
+                <span className="text-indigo-500  font-sans underline underline-offset-8 ">
                   Aegis Finance
                 </span>
               </h1>
@@ -73,7 +73,7 @@ export default function HomeNav({ signOut }: HeadProps) {
               state ? 'block' : 'hidden'
             }`}
           >
-            <ul className="justify-center items-center space-y-8 md:flex md:space-x-6 md:space-y-0">
+            <ul className="justify-center items-center space-y-8 md:flex md:space-x-6 md:space-y-0 font-bold font-serif">
               {navigation.map((item, idx) => {
                 return (
                   <Box
@@ -103,12 +103,16 @@ export default function HomeNav({ signOut }: HeadProps) {
             </ul>
           </div>
           <div className="hidden md:inline-block">
-            <ButtonShared
-              className="font-light dark:bg-white  dark:text-black border-transparent font-sans"
+            <Button
+              className=" font-serif border-black dark:border-lavender-blue-400 border-[3px] 
+   transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
+     shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
+      dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
+      active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"
               onClick={signOut}
             >
               Sign out
-            </ButtonShared>
+            </Button>
           </div>
         </div>
       </nav>

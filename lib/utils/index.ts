@@ -12,11 +12,14 @@ import {
   CKTEST_BTC_KYT_PRINCIPAL,
   CKTEST_BTC_LEDGER_PRINCIPAL,
   CKTEST_BTC_MINTER_PRINCIPAL,
+  CKUSDT_LEDGER_PRINCIPAL,
   ICP_LEDGER_PRINCIPAL,
   INSURANCE_PRINCIPAL,
   MAIN_PRINCIPAL,
+  OPTIONS_PRINCIPAL,
 } from '../constants/canisters';
 import { InsuranceAssets } from '@/declarations/insurance/insurance.did';
+import { OptionsAssets } from '@/declarations/options/options.did';
 
 export function checkTimeOutExpiry(time: number): boolean {
   if (time == 0) {
@@ -38,6 +41,7 @@ export enum CANISTERS_NAME {
   ACCOUNTS,
   MAIN,
   INSURANCE,
+  OPTIONS,
 
   AEGIS_LEDGER_INDEX,
   AEGIS_LEDGER,
@@ -55,6 +59,8 @@ export enum CANISTERS_NAME {
   CKSEPOLIA_LEDGER,
   CKSEPOLIA_MINTER,
 
+  CKUSDT_LEDGER,
+
   ICP_LEDGER,
 }
 
@@ -65,6 +71,7 @@ export let CANISTER_IDS: (CANISTERS_NAME | Principal)[][] = [
   [CANISTERS_NAME.AEGIS_LEDGER, AEGIS_LEDGER_PRINCIPAL],
   [CANISTERS_NAME.CKTEST_BTC_LEDGER, CKTEST_BTC_LEDGER_PRINCIPAL],
   [CANISTERS_NAME.CKSEPOLIA_LEDGER, CKSEPOLIA_LEDGER_PRINCIPAL],
+  [CANISTERS_NAME.CKUSDT_LEDGER, CKUSDT_LEDGER_PRINCIPAL],
 
   [CANISTERS_NAME.CKBTC_MINTER, CKBTC_MINTER_PRINCIPAL],
   [CANISTERS_NAME.CKETH_MINTER, CKETH_MINTER_PRINCIPAL],
@@ -74,6 +81,7 @@ export let CANISTER_IDS: (CANISTERS_NAME | Principal)[][] = [
   [CANISTERS_NAME.ACCOUNTS, ACCOUNTS_PRINCIPAL],
   [CANISTERS_NAME.INSURANCE, INSURANCE_PRINCIPAL],
   [CANISTERS_NAME.MAIN, MAIN_PRINCIPAL],
+  [CANISTERS_NAME.OPTIONS, OPTIONS_PRINCIPAL],
 
   [CANISTERS_NAME.CKBTC_KYT, CKBTC_KYT_PRINCIPAL],
 
@@ -141,6 +149,22 @@ export function convertInsuranceAssetToCanisterName(
   } else if ('CKETH' in insuranceAsset) {
     return CANISTERS_NAME.CKETH_LEDGER;
   } else {
+    return undefined; // Handle cases where there's no corresponding CANISTERS_NAME
+  }
+}
+
+export function convertOptionsAssetToCanisterName(optionsAsset: OptionsAssets) {
+  if ('BTC' in optionsAsset) {
+    return CANISTERS_NAME.CKBTC_LEDGER;
+  } else if ('ETH' in optionsAsset) {
+    return CANISTERS_NAME.CKETH_LEDGER;
+  } else if ('ICRC' in optionsAsset && 'CKBTC' in optionsAsset.ICRC) {
+    return CANISTERS_NAME.CKBTC_LEDGER;
+  } else if ('ICRC' in optionsAsset && 'CKETH' in optionsAsset.ICRC) {
+    return CANISTERS_NAME.CKETH_LEDGER;
+    // } else if ('ICRC' in optionsAsset && 'CKUSDT' in optionsAsset.ICRC) {
+    //   return CANISTERS_NAME.CKUSDT_LEDGER;
+    } else {
     return undefined; // Handle cases where there's no corresponding CANISTERS_NAME
   }
 }

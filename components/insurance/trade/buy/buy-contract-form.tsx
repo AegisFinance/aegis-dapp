@@ -210,7 +210,7 @@ export function BuyInsuranceContractForm({
               </Box>
               <Spacer />
               <Box className="  block   text-gray-700  font-mono ">
-                {insurance?.is_muliple_seller_allowed ? 'YES' : 'NO' || '-'}
+                {insurance?.is_muliple_seller_allowed ? 'YES' : 'NO'}
               </Box>
             </Box>
             {/*  */}

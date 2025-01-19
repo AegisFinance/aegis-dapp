@@ -1,4 +1,16 @@
 import {
+  _SERVICE as _CKUSDT_LEDGER,
+  idlFactory as idlFactoryCkUsdtLedger,
+  init as initCkUsdtLedger,
+} from '../../declarations/ckusdt_ledger/ckusdt_ledger.did';
+
+import {
+  _SERVICE as _OPTIONS,
+  idlFactory as idlFactoryOptions,
+  init as initOptions,
+} from '../../declarations/options/options.did';
+
+import {
   _SERVICE as _ACCOUNTS,
   idlFactory as idlFactoryAccounts,
   init as initAccounts,
@@ -77,6 +89,8 @@ import {
 //
 //
 export type {
+  _CKUSDT_LEDGER,
+  _OPTIONS,
   _ICP_LEDGER,
   _CKBTC_MINTER,
   _CKETH_LEDGER,
@@ -91,6 +105,7 @@ export type {
   _CKBTC_KYT,
 };
 export {
+  idlFactoryOptions,
   idlFactoryKYT,
   idlFactoryAccounts,
   idlFactoryCkbtcLedger,
@@ -103,9 +118,12 @@ export {
   idlFactoryAegisLedger,
   idlFactoryAegisIndex,
   idlFactoryCkBtcKyt,
+  idlFactoryCkUsdtLedger,
 };
 
 export type SERVICES =
+  | _CKUSDT_LEDGER
+  | _OPTIONS
   | _ICP_LEDGER
   | _CKBTC_MINTER
   | _CKETH_LEDGER
@@ -120,6 +138,8 @@ export type SERVICES =
   | _CKBTC_KYT;
 
 export type IDLS =
+  | typeof idlFactoryCkUsdtLedger
+  | typeof idlFactoryOptions
   | typeof idlFactoryAccounts
   | typeof idlFactoryCkbtcLedger
   | typeof idlFactoryCkbtcMinter
@@ -134,6 +154,7 @@ export type IDLS =
   | typeof idlFactoryCkBtcKyt;
 
 export {
+  initOptions,
   initAccounts,
   initCkBtcLedger,
   initCkBtcMinter,
@@ -145,6 +166,7 @@ export {
   initMain,
   initAegisLedger,
   iniAegisIndex,
+  initCkUsdtLedger,
 };
 
 export type { Account };

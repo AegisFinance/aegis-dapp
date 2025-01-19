@@ -12,6 +12,7 @@ export interface GetIcrcBalance {
   ICP: bigint;
   ckBTC: bigint;
   ckETH: bigint;
+  ckUSDT: bigint;
 }
 
 export async function getIcrcBalances(
@@ -28,7 +29,7 @@ export async function getIcrcBalances(
   console.log(': --------------------');
   try {
     if (isAccount) {
-      let icpBalance, ckEthBalance, ckBTCBalance;
+      let icpBalance, ckEthBalance, ckBTCBalance, ckUsdtBalance;
       const balanceParams: Account = {
         owner: ACCOUNTS_PRINCIPAL,
         subaccount: [principalToSubAccount(principal!)],
@@ -50,13 +51,19 @@ export async function getIcrcBalances(
         balanceParams,
         provider
       );
+      ckUsdtBalance = await getIcrcBalance(
+        CANISTERS_NAME.CKUSDT_LEDGER,
+        balanceParams,
+        provider
+      );
       return {
         ICP: icpBalance,
         ckBTC: ckBTCBalance,
         ckETH: ckEthBalance,
+        ckUSDT: ckUsdtBalance,
       } as GetIcrcBalance;
     } else {
-      let icpBalance, ckEthBalance, ckBTCBalance;
+      let icpBalance, ckEthBalance, ckBTCBalance, ckUsdtBalance;
       const balanceParams: Account = {
         owner: principal,
         subaccount: [],
@@ -78,10 +85,16 @@ export async function getIcrcBalances(
         balanceParams,
         provider
       );
+      ckUsdtBalance = await getIcrcBalance(
+        CANISTERS_NAME.CKUSDT_LEDGER,
+        balanceParams,
+        provider
+      );
       return {
         ICP: icpBalance,
         ckBTC: ckBTCBalance,
         ckETH: ckEthBalance,
+        ckUSDT: ckUsdtBalance,
       } as GetIcrcBalance;
     }
   } catch (error) {

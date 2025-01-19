@@ -11,11 +11,11 @@ export default function StakeNav() {
   const setStakeNavHandle = (nav: MyStakeNav) => {
     setStakeNav(nav);
   };
-  const tabItems = [
-    {
-      icon: <RiContractLine className="w-5 h-5" />,
-      name: 'AEGIS' as MyStakeNav,
-    },
+  const tabItems: any[] = [
+    // {
+    //   icon: <RiContractLine className="w-5 h-5" />,
+    //   name: 'AEGIS' as MyStakeNav,
+    // },
     // {
     //   icon: <RiContractLine className="w-5 h-5" />,
     //   name: 'ICP' as MyStakeNav,
@@ -47,7 +47,7 @@ export default function StakeNav() {
               value={item.name}
             >
               <Box
-                // href="/insurance"
+                // href="/inssurance"
                 onClick={() => {
                   setStakeNavHandle(item.name);
                 }}

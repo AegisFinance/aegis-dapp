@@ -5,18 +5,23 @@ import {
 import { e8sToHuman } from '@/lib/apis/utils';
 import { getPrincipal } from '@/lib/auth';
 import { ProviderAtom } from '@/lib/states/jotai';
+import { e18sToHuman } from '@/lib/utils/convert-inputs';
+import { CkBtcLogo } from '@/lib/utils/icons/ckbtc';
+import { CkEthLogo } from '@/lib/utils/icons/cketh';
+import { CkUsdtLogo } from '@/lib/utils/icons/ckusdt';
+import { ICLogo } from '@/lib/utils/icons/ic';
 import { Button, Table, Thead } from '@chakra-ui/react';
 import { Principal } from '@dfinity/principal';
 import { useAtom } from 'jotai';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { formatEther } from 'viem';
 import { Spinners } from '../spinners';
 import { IcpAccountDeposit } from './account_deposit';
 import { IcpAccountWithdraw } from './account_withdraw';
+// import ICP from '/ICP Token/02 svg/01 ICP Token HEX white.svg';
 
 type AccountBalances = {
-  avatar: string;
+  avatar: JSX.Element;
   tokenName: string;
   ticker: string;
   inAccount: number;
@@ -33,10 +38,13 @@ export default function ICRCs() {
   const [refresh, setRefresh] = useState<boolean>(false);
   const [wPopover, setWPopover] = useState<boolean>(false);
   const [dPopover, setDPopover] = useState<boolean>(false);
+  const [principal, setPrincipal] = useState<Principal | undefined>(undefined);
 
   const [accountBalances, setAccountBalances] = useState<
     AccountBalances[] | undefined
   >();
+
+  // const IcpLogo = <ICLogo />;
 
   const handleDPopover = () => {
     setDPopover(true);
@@ -58,6 +66,8 @@ export default function ICRCs() {
       setLoading(true);
       let balances: AccountBalances[] = [];
       const principal: Principal = (await getPrincipal(provider!))!;
+      setPrincipal(principal);
+
       console.log(': -------------------------------------');
       console.log(': getBalances -> principal', principal);
       console.log(': -------------------------------------');
@@ -81,8 +91,7 @@ export default function ICRCs() {
       console.log(': -------------------------------------------------------');
 
       let icpBalance: AccountBalances = {
-        avatar:
-          'https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
+        avatar: <ICLogo className="w-10 h-10  " />,
         tokenName: 'Internet Computer',
         ticker: 'ICP',
         inAccount: e8sToHuman(icrcAccBalances.ICP)! || 0,
@@ -90,8 +99,7 @@ export default function ICRCs() {
       };
       balances.push(icpBalance);
       let ckBTCBalances: AccountBalances = {
-        avatar:
-          'https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
+        avatar: <CkBtcLogo className="w-10 h-10" />,
         tokenName: 'Chain-Key Bitcoin ',
         ticker: 'ckBTC',
         inAccount: e8sToHuman(icrcAccBalances.ckBTC)! || 0,
@@ -100,14 +108,22 @@ export default function ICRCs() {
       balances.push(ckBTCBalances);
 
       let ckEthBalances: AccountBalances = {
-        avatar:
-          'https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
+        avatar: <CkEthLogo className="w-10 h-10 " />,
         tokenName: 'Chain-Key Ethereum ',
         ticker: 'ckETH',
         inAccount: parseFloat(formatEther(icrcAccBalances.ckETH)) || 0,
         inWallet: parseFloat(formatEther(icrcWalletBalances.ckETH)) || 0,
       };
       balances.push(ckEthBalances);
+
+      let ckusdtBalance: AccountBalances = {
+        avatar: <CkUsdtLogo className="w-10 h-10  " />,
+        tokenName: 'Chain Key USDT',
+        ticker: 'ckUSDT',
+        inAccount: Number(e18sToHuman(icrcAccBalances.ckUSDT)!) || 0,
+        inWallet: Number(e18sToHuman(icrcWalletBalances.ckUSDT)!) || 0,
+      };
+      balances.push(ckusdtBalance);
 
       setAccountBalances(balances);
       setLoading(false);
@@ -135,33 +151,47 @@ export default function ICRCs() {
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8">
-      <div className="items-start justify-between md:flex">
+      <div className="items-end justify-between md:flex">
         <div className="max-w-lg">
-          <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
+          <h3 className="text-gray-800 text-sm font-bold sm:text-2xl">
             {/* Team members */}
+            Principal: {principal?.toText()}
+            {/* {} */}
           </h3>
           <p className="text-gray-600 mt-2">
             {/* Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. */}
           </p>
         </div>
-        <div className="mt-3 md:mt-0">
+        <div className="flex gap-2 mt-3 md:mt-0">
           <Button
             onClick={handleDPopover}
-            className="inline-block px-4 py-2 mr-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"
+            className=" font-serif border-black dark:border-lavender-blue-400 border-[3px] 
+            transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
+              shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
+               dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
+               active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"
           >
             Deposit
           </Button>
           {}
           <Button
             onClick={handleWPopover}
-            className="inline-block px-4 py-2 mr-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"
+            className=" font-serif border-black dark:border-lavender-blue-400 border-[3px] 
+            transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
+              shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
+               dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
+               active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"
           >
             Withdraw
           </Button>
           <Button
             onClick={refreshBalance}
-            className="inline-block px-4 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"
+            className=" font-serif border-black dark:border-lavender-blue-400 border-[3px] 
+            transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
+              shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
+               dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
+               active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"
           >
             Refresh
           </Button>
@@ -178,15 +208,14 @@ export default function ICRCs() {
               <IcpAccountWithdraw />
             </>
           ) : (
-            <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
-              <Table className="w-full table-auto text-sm text-left">
+            <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto text-center items-center">
+              <Table className="w-full table-auto text-sm  ">
                 <Thead className="bg-gray-50 text-gray-600 font-medium border-b">
                   <tr>
-                    <th className="py-3 px-6">Token(s)</th>
+                    {/* <th className="py-3 px-6"></th> */}
+                    <th className="py-3 px-6"></th>
                     <th className="py-3 px-6"> Account Balance</th>
                     <th className="py-3 px-6"> Wallet Balance</th>
-                    {/* <th className="py-3 px-6">Price</th>
-              <th className="py-3 px-6">Deposit</th> */}
                   </tr>
                 </Thead>
                 <tbody className="text-gray-600 divide-y">
@@ -196,22 +225,13 @@ export default function ICRCs() {
                     <>
                       {accountBalances?.map((item, idx) => (
                         <tr key={idx}>
-                          <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
-                            <Image
-                              src={item.avatar}
-                              className="rounded-full"
-                              alt={''}
-                              width={10}
-                              height={10}
-                            />
-                            <div>
-                              <span className="block text-gray-700 text-sm font-medium">
-                                {item.tokenName}
-                              </span>
-                              <span className="block text-gray-700 text-xs">
-                                {item.ticker}
-                              </span>
-                            </div>
+                          <td className="flex items-center gap-x-3 py-6 px-6 whitespace-nowrap">
+                            {item.avatar}
+                            {/* </td> */}
+                            {/* <td className="px-6 py-4 whitespace-nowrap"> */}
+                            <span className="block text-gray-700 text-xs">
+                              {item.ticker}
+                            </span>{' '}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             {item.inAccount}

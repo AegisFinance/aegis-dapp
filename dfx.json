@@ -4,8 +4,11 @@
       "frontend": {
         "entrypoint": "out/index.html"
       },
-      "source": ["out"],
-      "type": "assets"
+      "source": [
+        "out"
+      ],
+      "type": "assets",
+      "gzip": true
     }
   },
   "networks": {

@@ -99,7 +99,9 @@ export function ViewInsuranceContractData({
               </Box>
               <Spacer />
               <Box className="  block   text-gray-700  font-mono ">
-                {convertMilliSecondsToDateTime(insurance?.expiry_date! / 1_000_000n) || '-'}
+                {convertMilliSecondsToDateTime(
+                  insurance?.expiry_date! / 1_000_000n
+                ) || '-'}
               </Box>
             </Box>
             {/*  */}
@@ -147,7 +149,7 @@ export function ViewInsuranceContractData({
               </Box>
               <Spacer />
               <Box className="  block   text-gray-700  font-mono ">
-                {insurance?.is_muliple_seller_allowed ? 'YES' : 'NO' || '-'}
+                {insurance?.is_muliple_seller_allowed ? 'YES' : 'NO'}
               </Box>
             </Box>
             {/*  */}
