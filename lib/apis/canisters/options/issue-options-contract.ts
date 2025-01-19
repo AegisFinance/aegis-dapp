@@ -22,24 +22,24 @@ export async function issueOptionsContract(
   //
   //
   // //
-  // 1. Get the current time in milliseconds
-  const milliseconds = Date.now();
+  // // 1. Get the current time in milliseconds
+  // const milliseconds = Date.now();
 
-  // 2. Convert minutes to milliseconds (1 minute = 60 seconds * 1000 milliseconds/second)
-  const fiveMinutesInMilliseconds = 1 * 60 * 1000;
+  // // 2. Convert minutes to milliseconds (1 minute = 60 seconds * 1000 milliseconds/second)
+  // const fiveMinutesInMilliseconds = 1 * 60 * 1000;
 
-  // 3. Add 5 minutes to the current time
-  const futureTimeInMilliseconds = milliseconds + fiveMinutesInMilliseconds;
+  // // 3. Add 5 minutes to the current time
+  // const futureTimeInMilliseconds = milliseconds + fiveMinutesInMilliseconds;
 
-  // 4. Convert milliseconds to nanoseconds (1 millisecond = 1,000,000 nanoseconds)
-  const futureTimeInNanoseconds = futureTimeInMilliseconds * 1000000;
+  // // 4. Convert milliseconds to nanoseconds (1 millisecond = 1,000,000 nanoseconds)
+  // const futureTimeInNanoseconds = futureTimeInMilliseconds * 1000000;
 
-  args.contract_expiry = BigInt(
-    (milliseconds + fiveMinutesInMilliseconds * 5) * 1000000
-  );
-  args.offer_duration = BigInt(
-    (milliseconds + fiveMinutesInMilliseconds * 3) * 1000000
-  );
+  // args.contract_expiry = BigInt(
+  //   (milliseconds + fiveMinutesInMilliseconds * 5) * 1000000
+  // );
+  // args.offer_duration = BigInt(
+  //   (milliseconds + fiveMinutesInMilliseconds * 3) * 1000000
+  // );
   //
   //
   //   //
