@@ -102,8 +102,8 @@ const HeroSectionDesktop: FunctionComponent<HeroComponentProps> = ({
                   Unlocking financial freedom, block by block.
                 </Box>
                 <Box className="w-[580px] relative text-base leading-[150%] text-black-black-60 inline-block">
-                  Trade and grow your crypto with Aegis Finance,
-                  the platform dedicated to every trader at every level.
+                  Join and grow your wealth with Aegis Finance,
+                  the platform dedicated to every person at every level.
                 </Box>
               </Box>
               <Button

@@ -1,20 +1,28 @@
-"use client";
-import React from "react";
-import { Provider as JotaiProvider } from "jotai";
-import { CacheProvider } from "@chakra-ui/next-js";
-import { ChakraProvider } from "@chakra-ui/react";
-import "@rainbow-me/rainbowkit/styles.css";
-import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { http, WagmiProvider } from "wagmi";
-import { mainnet, sepolia } from "wagmi/chains";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { metaMaskWallet } from "@rainbow-me/rainbowkit/wallets";
+'use client';
+import { CacheProvider } from '@chakra-ui/next-js';
+import { ChakraProvider } from '@chakra-ui/react';
+import { getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import '@rainbow-me/rainbowkit/styles.css';
+import {
+  metaMaskWallet,
+  phantomWallet,
+  trustWallet,
+} from '@rainbow-me/rainbowkit/wallets';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Provider as JotaiProvider } from 'jotai';
+import React from 'react';
+import { http, WagmiProvider } from 'wagmi';
+import { mainnet, sepolia } from 'wagmi/chains';
 
 const config = getDefaultConfig({
   wallets: [
     {
-      groupName: "Recommended",
-      wallets: [metaMaskWallet],
+      groupName: 'Recommended',
+      wallets: [
+        metaMaskWallet,
+        phantomWallet,
+        trustWallet,
+      ],
     },
   ],
   // storage: createStorage({ storage: window.localStorage }),
@@ -23,8 +31,8 @@ const config = getDefaultConfig({
     [mainnet.id]: http(),
     [sepolia.id]: http(),
   },
-  appName: "Aegis_Finance_App",
-  projectId: "Aegis_Finance_App",
+  appName: 'Aegis_Finance_App',
+  projectId: 'Aegis_Finance_App',
   chains: [mainnet, sepolia],
   ssr: false, // If your dApp uses server side rendering (SSR)
   syncConnectedChain: true,

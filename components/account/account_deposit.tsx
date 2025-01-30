@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import QRCode from 'react-qr-code';
-import { Spinners } from '../spinners';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Box, Button, Center, Input, useToast } from '@chakra-ui/react';
-import { desposit_to_account } from '@/lib/apis/get_user_account';
-import { fallback, parseEther } from 'viem';
-import { ASSETS } from '@/lib/constants';
-import { humanToE8s } from '@/lib/apis/utils';
 import { get_icrc_address } from '@/lib/apis/canisters/accounts/get_accounts_balance';
-import { useAtomValue } from 'jotai';
+import { desposit_to_account } from '@/lib/apis/get_user_account';
+import { humanToE8s } from '@/lib/apis/utils';
+import { ASSETS } from '@/lib/constants';
+import { ToastStatus } from '@/lib/hooks/utils/toast/interface';
+import { useSimpleToast } from '@/lib/hooks/utils/toast/toast';
 import { ProviderAtom } from '@/lib/states/jotai';
+import { Box, Button, Center, Input } from '@chakra-ui/react';
+import { useAtomValue } from 'jotai';
+import { useEffect, useState } from 'react';
+import QRCode from 'react-qr-code';
+import { parseEther } from 'viem';
+import { Spinners } from '../spinners';
 
 export function CkEthAccountDeposit() {
   const provider = useAtomValue(ProviderAtom);
@@ -22,7 +22,7 @@ export function CkEthAccountDeposit() {
   const [blockIndex, setBlockInddex] = useState<string | undefined>();
   const [isPressed, setPressed] = useState<boolean>(false);
 
-  const toast = useToast();
+  const [simpleToast] = useSimpleToast();
 
   const handleManualDeposit = () => {
     setManualDesposit(true);
@@ -43,21 +43,15 @@ export function CkEthAccountDeposit() {
       );
       if (index) {
         setBlockInddex(index.toString());
-        toast({
+        simpleToast({
           title: 'ckETH Deposited',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-          position: 'top',
-          description: `${index}`,
+          status: ToastStatus.success,
+          description: `Block Index ${index}`,
         });
       } else {
-        toast({
+        simpleToast({
           title: 'Error Occured',
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-          position: 'top',
+          status: ToastStatus.error,
           description: `${Object.keys(index)}`,
         });
       }
@@ -115,9 +109,10 @@ export function CkEthAccountDeposit() {
             transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
               shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
                dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
-               active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"          >
-               Manual Deposit{}
-           </Button>
+               active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"
+          >
+            Manual Deposit{}
+          </Button>
           {}
         </Center>
       ) : (
@@ -148,7 +143,8 @@ export function CkEthAccountDeposit() {
               transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
                 shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
                  dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
-                 active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"            >
+                 active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"
+            >
               Deposit ckETH
             </Button>
           </Center>
@@ -168,7 +164,7 @@ export function CkBtcAccountDeposit() {
   const [blockIndex, setBlockInddex] = useState<string | undefined>();
   const [isPressed, setPressed] = useState<boolean>(false);
 
-  const toast = useToast();
+  const [simpleToast] = useSimpleToast();
 
   const handleManualDeposit = () => {
     setManualDesposit(true);
@@ -189,21 +185,15 @@ export function CkBtcAccountDeposit() {
       );
       if (index) {
         setBlockInddex(index.toString());
-        toast({
+        simpleToast({
           title: 'ckBTC Deposited',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-          position: 'top',
+          status: ToastStatus.success,
           description: `${index}`,
         });
       } else {
-        toast({
+        simpleToast({
           title: 'Error Occured',
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-          position: 'top',
+          status: ToastStatus.error,
           description: `${Object.keys(index)}`,
         });
       }
@@ -295,7 +285,8 @@ export function CkBtcAccountDeposit() {
               transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
                 shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
                  dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
-                 active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"            >
+                 active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"
+            >
               Deposit ckBTC
             </Button>
           </Center>
@@ -315,7 +306,7 @@ export function IcpAccountDeposit() {
   const [blockIndex, setBlockInddex] = useState<string | undefined>();
   const [isPressed, setPressed] = useState<boolean>(false);
 
-  const toast = useToast();
+  const [simpleToast] = useSimpleToast();
 
   const handleManualDeposit = () => {
     setManualDesposit(true);
@@ -336,21 +327,15 @@ export function IcpAccountDeposit() {
       );
       if (index) {
         setBlockInddex(index.toString());
-        toast({
+        simpleToast({
           title: 'ICP Deposited',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-          position: 'top',
-          description: `${index}`,
+          status: ToastStatus.success,
+          description: `Block Index ${index}`,
         });
       } else {
-        toast({
+        simpleToast({
           title: 'Error Occured',
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-          position: 'top',
+          status: ToastStatus.error,
           description: `${Object.keys(index)}`,
         });
       }
@@ -408,9 +393,10 @@ export function IcpAccountDeposit() {
             transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
               shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
                dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
-               active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"          >
-               Manual Deposit{}
-           </Button>
+               active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"
+          >
+            Manual Deposit{}
+          </Button>
           {}
         </Center>
       ) : (
@@ -441,7 +427,8 @@ export function IcpAccountDeposit() {
               transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
                 shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
                  dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
-                 active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"            >
+                 active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"
+            >
               Deposit ICP
             </Button>
           </Center>

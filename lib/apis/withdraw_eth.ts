@@ -27,7 +27,7 @@ export async function withdrawckEth(
   return result.block_index;
 }
 
-export async function approveCkEth(amount: string, provider: Provider) {
+export async function approveCkEth(amount: string, provider: Provider): Promise<bigint> {
   console.log('🚀 ~ approveCkEth ~ amount:', parseEther(amount));
   const { approve } = IcrcLedgerCanister.create({
     agent: await createAgent(provider!),
@@ -43,7 +43,7 @@ export async function approveCkEth(amount: string, provider: Provider) {
     amount: parseEther(amount)!,
   });
   console.log(approveResult);
-  return;
+  return approveResult;
 }
 
 export async function approveCkBtc(amount: number, provider: Provider) {

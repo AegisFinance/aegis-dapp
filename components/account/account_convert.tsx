@@ -24,6 +24,10 @@ import { CANISTERS_NAME } from '@/lib/utils';
 import { useAtom, useAtomValue } from 'jotai';
 import { Spinners } from '../spinners';
 import QRCode from 'react-qr-code';
+import { uint8ArrayToHexString } from '@dfinity/utils';
+import { principalToBytes32 } from '@/lib/utils/convert_principal_to_bytes';
+import { useSimpleToast } from '@/lib/hooks/utils/toast/toast';
+import { ToastStatus } from '@/lib/hooks/utils/toast/interface';
 
 export function CkBtcConvert() {
   const [getIcrcBalance, loadingGetIcrcBalance] = useIcrcBalance();
@@ -289,6 +293,7 @@ export function EthConvert() {
   const [ethAddress, setEthAddress] = useState<string>('-');
 
   const [amount, setAmount] = useState<string | undefined>();
+  const [isLoadingDeposit, setLoadingDeposit] = useState<boolean>(false);
 
   const { isConnected } = useAccount();
   const {
@@ -302,25 +307,42 @@ export function EthConvert() {
     abi: SEPOLIA_HELPER_SMART_CONTRACT_ABI,
   } as const;
 
+  const defaultSubaccount: Uint8Array = new Uint8Array(32);
+
+  // Optional: Convert the array to a hexadecimal string for representation
+  const hexRepresentation = `0x${Array.from(defaultSubaccount)
+    .map(byte => byte.toString(16).padStart(2, '0'))
+    .join('')}`;
+
   function despositEther() {
+    setLoadingDeposit(true);
     if (isConnected && getPrincipalText && ethAddress) {
       writeContract({
         ...contractConfig,
-        functionName: 'deposit',
-        args: [ethAddress],
+        functionName: 'depositEth',
+        args: [ethAddress, hexRepresentation],
         value: parseEther(amount as string),
       });
     }
+    setAmount('');
+    setLoadingDeposit(false);
   }
 
   useEffect(() => {
     const config = async () => {
       const getPrincipalText = (await getPrincipal(provider!))!.toText();
+      console.log(': ----------------------------------------------');
+      console.log(': config -> getPrincipalText', getPrincipalText);
+      console.log(': ----------------------------------------------');
       setPrincipal(getPrincipalText.toString());
-      // const bytes32Conversion = uint8ArrayToHexString(principal?.toUint8Array()!);
-      setEthAddress(
-        '0x1d0186e12248ea2deae7af519e347d5c219aa86f3789fdd55bfd7aa6d4020000'
-      );
+      const bytes32Conversion = principalToBytes32(getPrincipalText);
+
+      console.log(': ------------------------------------------------');
+      console.log(': config -> bytes32Conversion', bytes32Conversion);
+      console.log(': ------------------------------------------------');
+
+      setEthAddress(bytes32Conversion);
+      // '0x1d0186e12248ea2deae7af519e347d5c219aa86f3789fdd55bfd7aa6d4020000'
     };
     config();
   }, [getPrincipalText]);
@@ -378,7 +400,7 @@ export function EthConvert() {
         <Center>
           <Button
             isDisabled={!amount}
-            isLoading={isLoading}
+            isLoading={isLoading || isLoadingDeposit}
             onClick={despositEther}
             className=" font-serif border-black dark:border-lavender-blue-400 border-[3px] 
             transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
@@ -391,12 +413,22 @@ export function EthConvert() {
         </Center>
       </form>
       {txData ? (
-        <Box className="max-w-sm mx-auto">
-          Tx :
-          <a href={`https://sepolia.etherscan.io/tx/${txData.transactionHash}`}>
-            Transaction Link
-          </a>
-        </Box>
+        <Center>
+          {' '}
+          <Box className="max-w-sm mx-auto items-center justify-center text-blue-500 mt-4">
+            TxHash:
+            <a
+              className="text-blue-500 underline"
+              href={`https://sepolia.etherscan.io/tx/${txData.transactionHash}`}
+            >
+              {` ${txData.transactionHash}`.substring(0, 8)}...
+              {` ${txData.transactionHash}`.substring(
+                `${txData.transactionHash}`.length - 8,
+                `${txData.transactionHash}`.length
+              )}
+            </a>
+          </Box>
+        </Center>
       ) : (
         <></>
       )}
@@ -411,6 +443,7 @@ export function CkEthConvert() {
   const [ethAddress, setEthAddress] = useState<string | undefined>();
   const [blockIndex, setBlockInddex] = useState<string | undefined>();
   const [isLoading, setLoading] = useState<boolean>(false);
+  const [simpleToast] = useSimpleToast();
 
   function handleAmountChange(event: any) {
     const amount = event.target.value;
@@ -422,18 +455,54 @@ export function CkEthConvert() {
   }
 
   const withdraw = async () => {
-    if (ethAddress && amount) {
-      setLoading(true);
-      const index = await withdrawckEth(ethAddress, amount, provider!);
-      setBlockInddex(index.toString());
-      setLoading(false);
+    try {
+      let res = await approve();
+      if (res) {
+        simpleToast({
+          title: 'Approved',
+
+          status: ToastStatus.success,
+        });
+
+        if (ethAddress && amount) {
+          setLoading(true);
+          const index = await withdrawckEth(ethAddress, amount, provider!);
+          if (index) {
+            simpleToast({
+              title: 'Transfer Success',
+              description: `Block Index ${index}`,
+              status: ToastStatus.success,
+            });
+            setBlockInddex(index.toString());
+          } else {
+            simpleToast({
+              title: 'Error While Transfering',
+              status: ToastStatus.error,
+            });
+          }
+          setLoading(false);
+        }
+      } else {
+        simpleToast({
+          title: 'Error While Approving',
+
+          status: ToastStatus.error,
+        });
+      }
+    } catch (error) {
+      simpleToast({
+        title: 'Error While Withdrawing ETH',
+        status: ToastStatus.error,
+      });
     }
   };
-  const approve = async () => {
+  const approve = async (): Promise<bigint | undefined> => {
     if (ethAddress && amount) {
       setLoading(true);
-      await approveCkEth(amount, provider!);
+      let res = await approveCkEth(amount, provider!);
       setLoading(false);
+
+      return res;
     }
   };
   return (
@@ -477,7 +546,7 @@ export function CkEthConvert() {
           </Box>
         </Box>
         <Box className="grid grid-cols-3 gap-4 my-4"></Box>
-        <Center>
+        {/* <Center>
           <Button
             isDisabled={(!amount && !ethAddress) || isLoading}
             isLoading={isLoading}
@@ -490,7 +559,7 @@ export function CkEthConvert() {
           >
             Approve ckETH
           </Button>
-        </Center>
+        </Center> */}
         <Center>
           <Button
             isDisabled={(!amount && !ethAddress) || isLoading}

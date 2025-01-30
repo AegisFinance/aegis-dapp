@@ -33,7 +33,7 @@ export function CkEthAccountWithdraw() {
       );
       setPressed(false);
       setAmount(undefined);
-      if ('Ok' in res) {
+      if ('TransferSuccess' in res) {
         toast({
           title: 'Amount Withdraw Successfully',
           status: 'success',
@@ -113,7 +113,7 @@ export function CkBtcAccountWithdraw() {
       );
       setPressed(false);
       setAmount(undefined);
-      if ('Ok' in res) {
+      if ('TransferSuccess' in res) {
         toast({
           title: 'Amount Withdraw Successfully',
           status: 'success',

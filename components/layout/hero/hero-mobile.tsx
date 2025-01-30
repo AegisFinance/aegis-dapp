@@ -74,8 +74,8 @@ export default function HeroSectionMobile({
             className="text-[10px] relative tracking-[0.04em] leading-[18px] font-semibold
          text-transparent !bg-clip-text [background:linear-gradient(74.31deg,_#85ffc4,_#5cc6ff_45.83%,_#bc85ff_80.73%)] [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]"
           >
-            Trade and grow your crypto with Aegis Finance, the platform
-            dedicated to every trader at every level.
+             Join and grow your wealth with Aegis Finance,
+             the platform dedicated to every person at every level.
           </Box>
         </Box>
 
