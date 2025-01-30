@@ -220,32 +220,38 @@ export default function IssueContractConfirm({
             </Box>
           </Box>
 
-          <div className="md:flex  md:items-center">
-            <div className="md:w-1/3"></div>
-            <div className="md:w-2/3">
+          <div className="md:flex  md:items-center md:gap-4  ">
+             <div className="md:w-1/3"></div>
+            {/* <div className="md:w-2/3">   */}
               <button
                 onClick={() => {
                   setConfirm(undefined);
                 }}
-                className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-              >
+                className=" font-serif border-black dark:border-lavender-blue-400 border-[3px] 
+                transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
+                  shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
+                   dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
+                   active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"              >
                 &nbsp; Cancel&nbsp;
               </button>
-            </div>
-          </div>
-          <div className="md:flex  md:items-center">
-            <div className="md:w-1/3"></div>
-            <div className="md:w-2/3">
+            {/* </div> */}
+          {/* </div>
+          <div className="md:flex  md:items-center"> */}
+            {/* <div className="md:w-1/3"></div>
+            <div className="md:w-2/3"> */}
               <button
                 onClick={() => {
                   handleConfirmation();
                 }}
-                className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-              >
+                className=" font-serif border-black dark:border-lavender-blue-400 border-[3px] 
+                transition-all rounded-sm py-1 px-4 my-2 font-semibold text-black bg-lavender-blue-400 
+                  shadow-[5px_5px_0px_rgba(0,0,0,1)]   ${
+                   dark:hover:text-black active:bg-lavender-blue-400 dark:active:bg-lavender-blue-500 
+                   active:shadow-none active:translate-x-[5px] active:translate-y-[5px]"              >
                 Confirm
               </button>
-            </div>
-          </div>
+            {/* {/* </div> */}
+          </div> 
         </Box>
       </Box>
     </>

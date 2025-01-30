@@ -86,7 +86,7 @@ function setUpLocalEnvs() {
         echo "NEXT_PUBLIC_CKETH_MINTER_ID=$CKETH_MINTER_ID_LOCAL"
         
         echo "NEXT_PUBLIC_CKTEST_BTC_MINTER_ID=$CKBTC_MINTER_ID_LOCAL"
-        echo "NEXT_PUBLIC_CKSEPOPLIA_ETH_MINTER_ID=$CKETH_MINTER_ID_LOCAL"
+        echo "NEXT_PUBLIC_CKSEPOPLIA_ETH_MINTER_ID=$CKSEPOPLIA_ETH_MINTER_ID_TESTNET"
         #
         #
         #
@@ -181,6 +181,9 @@ function main() {
         dfx identity use default
         
         elif [[ $NETWORK == "ic" ]]; then
+        
+        rm -rf .azle/ .dfx .next/ out/
+        rm .env.local
         
         dfx identity use deployer
         

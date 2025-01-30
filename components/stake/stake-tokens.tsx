@@ -72,7 +72,7 @@ export default function StakeTokens() {
     let asset: IcrcAsset = { AEGIS: null };
 
     let args: UnStakeIcrcArgs = {
-      amount: humanToE8s(stakeAmount!)!,
+      amount: humanToE8s(1)!,
       to_account: false,
     };
     await unStakeIcrcTokensApi(asset, args);
