@@ -63,7 +63,7 @@ const SelectProviderModal: React.FC<ModalProps> = ({
                 >
                   Plug
                 </Button>
-                {/* <Button
+                <Button
                   disabled
                   onClick={() => {
                     alert('Support Comming Soon!');
@@ -83,7 +83,7 @@ const SelectProviderModal: React.FC<ModalProps> = ({
                   className="hover:text-white  hover:bg-slate-500 p-3 bg-slate-500 rounded-full text-white w-full font-semibold font-sans"
                 >
                   NFID
-                </Button> */}
+                </Button>
                 <Button
                   onClick={onClose}
                   className="p-3 bg-white border rounded-full w-full font-semibold text-center"
